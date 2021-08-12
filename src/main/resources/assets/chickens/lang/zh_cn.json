@@ -1,0 +1,144 @@
+{
+
+  "itemGroup.chickens": "更多鸡",
+  "jei.chickens.chicken_breeding": "鸡繁殖",
+  "entity.Chicken.name": "原版鸡",
+
+  "item.chickens.egg_white": "骨白鸡蛋",
+  "item.chickens.egg_blue": "蓝鸡蛋",
+  "item.chickens.egg_green": "绿鸡蛋",
+  "item.chickens.egg_red": "红鸡蛋",
+  "item.chickens.egg_black": "黑鸡蛋",
+  "item.chickens.egg_pink": "粉鸡蛋",
+  "item.chickens.egg_purple": "紫鸡蛋",
+  "item.chickens.egg_orange": "橙鸡蛋",
+  "item.chickens.egg_light_blue": "淡蓝鸡蛋",
+  "item.chickens.egg_lime": "黄绿鸡蛋",
+  "item.chickens.egg_gray": "灰鸡蛋",
+  "item.chickens.egg_cyan": "青鸡蛋",
+  "item.chickens.egg_light_gray": "浅灰鸡蛋",
+  "item.chickens.egg_magenta": "品红鸡蛋",
+  "item.chickens.egg_yellow": "黄鸡蛋",
+  "item.chickens.egg_brown": "可可棕鸡蛋",
+
+
+
+  "item.chickens.analyzer": "分析器",
+  "item.chickens.analyzer.tooltip1": "对鸡使用来检测它们的属性。",
+  "item.chickens.analyzer.tooltip2": " -- 鸡最讨厌一星期中的哪一天？星期五！（因为Friday和Fry-Day谐音）！",
+  "item.chickens.chicken_jail": "鸡收纳器",
+  "item.chickens.strong_chicken_jail": "强化鸡收纳器",
+  "item.chickens.egg_water": "水鸡蛋",
+  "item.chickens.egg_lava": "岩浆鸡蛋",
+  "item.chickens.chicken_spawn_egg": "更多鸡刷怪蛋",
+  "item.chickens.catcher": "鸡捕手",
+  "item.chickens.catcher.tooltip1": "右击鸡，将它变成物品",
+  "item.chickens.roost": "鸡舍",
+  "item.chickens.breeder": "繁殖箱",
+  "item.chickens.collector": "收集器",
+
+
+  "block.chickens.oak_chicken_bait": "原木鸡诱饵",
+  "block.chickens.sand_chicken_bait": "沙子鸡诱饵",
+  "block.chickens.flint_chicken_bait": "燧石鸡诱饵",
+  "block.chickens.quartz_chicken_bait": "下届石英鸡诱饵",
+  "block.chickens.soul_sand_chicken_bait": "灵魂沙鸡诱饵",
+  "block.chickens.roost": "鸡舍",
+  "block.chickens.breeder": "繁殖箱",
+  "block.chickens.collector": "收集器",
+  "block.chickens.chicken_nest": "鸡窝",
+
+
+  "container.chickens.roost.progress": "进度：%s",
+  "container.chickens.roost": "鸡舍",
+  "container.chickens.breeder": "繁殖箱",
+  "container.chickens.collector": "收集器",
+  "container.roost.breeder.seedless": "缺少种子",
+
+
+
+
+
+
+
+  "chickens.subtitle.chicken_milk": "鸡饮水的声音",
+
+  "chickens.tooltip.baitCanSpawn": "这个诱饵将在这种环境中工作。你要离开工作范围才不会吓跑这些动物！",
+  "chickens.tooltip.baitNearbyBait": "这里有太多的诱饵，太可疑了。",
+  "chickens.tooltip.baitWrongEnv": "放置更多来自动物原生群系的方块到这里。",
+  "chickens.tooltip.baitNearbyAnimal": "动物们很害羞。这里有太多同类了。",
+  "chickens.tooltip.baitNoWater": "这里没有水或者其他流体。",
+  "chickens.tooltip.baitPlaceInWater": "必须放置在水中。",
+  "chickens.tooltip.baitTooClose": "你靠得太近了。",
+  "chickens.tooltip.baitTooClose2": "动物们都被吓跑了。",
+  
+  "text.chickens.multiplier": "%s x%d",
+  "text.chickens.stat.amount": "基础产出值: %f",
+  "text.chickens.stat.amountRandom": "产出变异值: %f",
+  "text.chickens.stat.time": "生产时间值: %f",
+  "text.chickens.stat.timeRandom": "生产时间变异值: %f",
+  "text.chickens.stat.eggTimer": "距离产出下个鸡蛋: %f 分钟",
+  
+  "text.chickens.empty": "空的",
+  "text.chickens.onetime": "一次性使用的",
+  
+  "text.chickens.breed.painted": "自定义鸡",
+  "text.chickens.breed.sand": "沙子鸡",
+  "text.chickens.breed.oak": "原木鸡",
+  "text.chickens.breed.flint": "燧石鸡",
+  "text.chickens.breed.quartz": "下届石英鸡",
+  "text.chickens.breed.soul_sand": "灵魂沙鸡",
+
+  "text.chickens.breed.clay": "粘土鸡",
+  "text.chickens.breed.leather": "皮革鸡",
+  "text.chickens.breed.string": "线鸡",
+  "text.chickens.breed.slime": "史莱姆鸡",
+  "text.chickens.breed.magma_cream": "岩浆膏鸡",
+
+
+  "text.chickens.breed.dye_white": "骨白鸡",
+  "text.chickens.breed.dye_blue": "青金石蓝鸡",
+  "text.chickens.breed.dye_black": "墨囊黑鸡",
+  "text.chickens.breed.dye_magenta": "品红鸡",
+  "text.chickens.breed.dye_lime": "黄绿鸡",
+  "text.chickens.breed.dye_yellow": "黄鸡",
+  "text.chickens.breed.dye_purple": "紫鸡",
+  "text.chickens.breed.dye_green": "仙人掌绿鸡",
+  "text.chickens.breed.dye_light_gray": "淡灰鸡",
+  "text.chickens.breed.dye_light_blue": "淡蓝鸡",
+  "text.chickens.breed.dye_cyan": "青鸡",
+  "text.chickens.breed.dye_red": "红鸡",
+  "text.chickens.breed.dye_pink": "粉鸡",
+  "text.chickens.breed.dye_orange": "橙鸡",
+  "text.chickens.breed.dye_gray": "灰鸡",
+  "text.chickens.breed.dye_brown": "可可棕鸡",
+
+  "text.chickens.breed.redstone": "红石鸡",
+  "text.chickens.breed.iron": "铁鸡",
+  "text.chickens.breed.glowstone": "萤石鸡",
+  "text.chickens.breed.coal": "煤鸡",
+  "text.chickens.breed.gunpowder": "火药鸡",
+  "text.chickens.breed.snowball": "雪球鸡",
+
+  "text.chickens.breed.glass": "玻璃鸡",
+  "text.chickens.breed.gold": "金鸡",
+  "text.chickens.breed.lava": "岩浆鸡",
+  "text.chickens.breed.water": "水鸡",
+
+  "text.chickens.breed.diamond": "钻石鸡",
+  "text.chickens.breed.wart": "地狱疮鸡",
+  "text.chickens.breed.blaze": "烈焰棒鸡",
+  "text.chickens.breed.obsidian": "黑曜石鸡",
+  "text.chickens.breed.prism_shard": "海晶碎片鸡",
+  "text.chickens.breed.prism_crystals": "海晶沙砾鸡",
+
+  "text.chickens.breed.emerald": "绿宝石鸡",
+  "text.chickens.breed.ender_pearl": "末影珍珠鸡",
+  "text.chickens.breed.ghast_tear": "恶魂之泪鸡"
+
+
+
+
+
+
+}

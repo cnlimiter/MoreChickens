@@ -1,0 +1,136 @@
+{
+  "itemGroup.chickens": "More Chickens",
+  "jei.chickens.chicken_breeding": "Chicken Breeding",
+  "entity.Chicken.name": "Vanilla Chicken",
+
+  "item.chickens.egg_white": "WHITE CHICKEN EGG",
+  "item.chickens.egg_blue": "BLUE CHICKEN EGG",
+  "item.chickens.egg_green": "GREEN CHICKEN EGG",
+  "item.chickens.egg_red": "RED CHICKEN EGG",
+  "item.chickens.egg_black": "BLACK CHICKEN EGG",
+  "item.chickens.egg_pink": "PINK CHICKEN EGG",
+  "item.chickens.egg_purple": "PURPLE CHICKEN EGG",
+  "item.chickens.egg_orange": "ORANGE CHICKEN EGG",
+  "item.chickens.egg_light_blue": "LIGHT_BLUE CHICKEN EGG",
+  "item.chickens.egg_lime": "LIME CHICKEN EGG",
+  "item.chickens.egg_gray": "GRAY CHICKEN EGG",
+  "item.chickens.egg_cyan": "CYAN CHICKEN EGG",
+  "item.chickens.egg_light_gray": "LIGHT GRAY CHICKEN EGG",
+  "item.chickens.egg_magenta": "MAGENTA CHICKEN EGG",
+  "item.chickens.egg_yellow": "YELLOW CHICKEN EGG",
+  "item.chickens.egg_brown": "BROWN CHICKEN EGG",
+
+
+
+  "item.chickens.analyzer": "Chicken Analyzer",
+  "item.chickens.analyzer.tooltip1": "Use it on chickens to determine their stats.",
+  "item.chickens.analyzer.tooltip2": " - Which day of the week do chickens hate most? Fry-day!",
+  "item.chickens.chicken_jail": "Chicken Jail",
+  "item.chickens.strong_chicken_jail": "Reusable Chicken Jail",
+  "item.chickens.egg_water": "Water EGG",
+  "item.chickens.egg_lava": "Lava EGG",
+  "item.chickens.chicken_spawn_egg": "Chicken Spawn Egg",
+  "item.chickens.catcher": "Chicken Catcher",
+  "item.chickens.catcher.tooltip1": "Catch chickens when right click chickens",
+  "item.chickens.roost": "Roost",
+  "item.chickens.breeder": "Breeder",
+  "item.chickens.collector": "Collector",
+
+  "block.chickens.oak_chicken_bait": "Oak Chicken Bait",
+  "block.chickens.sand_chicken_bait": "Sand Chicken Bait",
+  "block.chickens.flint_chicken_bait": "Flint Chicken Bait",
+  "block.chickens.quartz_chicken_bait": "Quartz Chicken Bait",
+  "block.chickens.soul_sand_chicken_bait": "Soul Sand Chicken Bait",
+  "block.chickens.roost": "Roost",
+  "block.chickens.breeder": "Breeder",
+  "block.chickens.collector": "Collector",
+  "block.chickens.chicken_nest": "Chicken Nest",
+
+  "container.chickens.roost.progress": "Progress: %s",
+  "container.chickens.roost": "Roost",
+  "container.chickens.breeder": "Breeder",
+  "container.chickens.collector": "Collector",
+  "container.roost.breeder.seedless": "Seedless",
+
+
+
+
+
+
+
+  "chickens.subtitle.chicken_milk": "Chicken milked",
+
+  "chickens.tooltip.baitCanSpawn": "This bait will work in this environment. Move out of range so you don't scare the animals away!",
+  "chickens.tooltip.baitNearbyBait": "There's too many baits in this area. Way too suspicious.",
+  "chickens.tooltip.baitWrongEnv": "Place more blocks from the animals' home biome here.",
+  "chickens.tooltip.baitNearbyAnimal": "Animals are shy. There's too many of them here.",
+  "chickens.tooltip.baitNoWater": "There's no water or other fluid in this area.",
+  "chickens.tooltip.baitPlaceInWater": "Must be placed in water.",
+  "chickens.tooltip.baitTooClose": "You are too close.",
+  "chickens.tooltip.baitTooClose2": "The animals are scared away.",
+  
+  "text.chickens.multiplier": "%s x%d",
+  "text.chickens.stat.amount": "Base Lay Amount Modifier: %f",
+  "text.chickens.stat.amountRandom": "Lay Amount Modifier Variation: %f",
+  "text.chickens.stat.time": "Lay Timeout Modifier: %f",
+  "text.chickens.stat.timeRandom": "Lay Timeout Modifier Variation: %f",
+  "text.chickens.stat.eggTimer": "Minutes Until Next Egg: %f minutes",
+
+  "text.chickens.empty": "Empty",
+  "text.chickens.onetime": "One-time use",
+  
+  "text.chickens.breed.painted": "Painted Chicken",
+  "text.chickens.breed.sand": "SAND Chicken",
+  "text.chickens.breed.oak": "OAK Chicken",
+  "text.chickens.breed.flint": "FLINT Chicken",
+  "text.chickens.breed.quartz": "QUARTZ Chicken",
+  "text.chickens.breed.soul_sand": "SOUL_SAND Chicken",
+
+  "text.chickens.breed.clay": "CLAY Chicken",
+  "text.chickens.breed.leather": "LEATHER Chicken",
+  "text.chickens.breed.string": "STRING Chicken",
+  "text.chickens.breed.slime": "SLIME Chicken",
+  "text.chickens.breed.magma_cream": "MAGMA_CREAM Chicken",
+
+  
+  "text.chickens.breed.dye_white": "WHITE_DYE Chicken",
+  "text.chickens.breed.dye_blue": "BLUE_DYE Chicken",
+  "text.chickens.breed.dye_black": "BLACK_DYE Chicken",
+  "text.chickens.breed.dye_magenta": "MAGENTA_DYE Chicken",
+  "text.chickens.breed.dye_lime": "LIME_DYE Chicken",
+  "text.chickens.breed.dye_yellow": "YELLOW_DYE Chicken",
+  "text.chickens.breed.dye_purple": "PURPLE_DYE Chicken",
+  "text.chickens.breed.dye_green": "GREEN_DYE Chicken",
+  "text.chickens.breed.dye_light_gray": "LIGHT_GRAY_DYE Chicken",
+  "text.chickens.breed.dye_light_blue": "LIGHT_BLUE_DYE Chicken",
+  "text.chickens.breed.dye_cyan": "CYAN_DYE Chicken",
+  "text.chickens.breed.dye_red": "RED_DYE Chicken",
+  "text.chickens.breed.dye_pink": "PINK_DYE Chicken",
+  "text.chickens.breed.dye_orange": "ORANGE_DYE Chicken",
+  "text.chickens.breed.dye_gray": "GRAY_DYE Chicken",
+  "text.chickens.breed.dye_brown": "BROWN_DYE Chicken",
+  
+  "text.chickens.breed.redstone": "REDSTONE Chicken",
+  "text.chickens.breed.iron": "IRON Chicken",
+  "text.chickens.breed.glowstone": "GLOWSTONE Chicken",
+  "text.chickens.breed.coal": "COAL Chicken",
+  "text.chickens.breed.gunpowder": "GUNPOWDER Chicken",
+  "text.chickens.breed.snowball": "SNOWBALL Chicken",
+  
+  "text.chickens.breed.glass": "GLASS Chicken",
+  "text.chickens.breed.gold": "GOLD Chicken",
+  "text.chickens.breed.lava": "LAVA Chicken",
+  "text.chickens.breed.water": "WATER Chicken",
+  
+  "text.chickens.breed.diamond": "DIAMOND Chicken",
+  "text.chickens.breed.wart": "WART Chicken",
+  "text.chickens.breed.blaze": "BLAZE Chicken",
+  "text.chickens.breed.obsidian": "OBSIDIAN Chicken",
+  "text.chickens.breed.prism_shard": "PRISM_SHARD Chicken",
+  "text.chickens.breed.prism_crystals": "PRISM_CRYSTALS Chicken",
+  
+  "text.chickens.breed.emerald": "EMERALD Chicken",
+  "text.chickens.breed.ender_pearl": "ENDER_PEARL Chicken",
+  "text.chickens.breed.ghast_tear": "GHAST_TEAR Chicken"
+
+}

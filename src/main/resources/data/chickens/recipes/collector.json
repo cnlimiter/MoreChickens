@@ -1,0 +1,27 @@
+
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "wcw",
+    "whw",
+    "wow"
+  ],
+  "key": {
+    "w": {
+      "tag": "minecraft:planks"
+    },
+    "c": {
+      "item": "chickens:chicken"
+    },
+    "h": {
+      "item": "minecraft:hopper"
+    },
+    "o": {
+      "tag": "forge:chests"
+    }
+  },
+  "result": {
+    "item": "chickens:collector"
+  }
+}
+

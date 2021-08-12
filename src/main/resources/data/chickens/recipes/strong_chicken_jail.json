@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WWW",
+    "WXW",
+    "WWW"
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:iron_ingot"
+    },
+    "X": {
+      "item": "chickens:chicken_jail"
+    }
+  },
+  "result": {
+    "item": "chickens:strong_chicken_jail"
+  }
+}

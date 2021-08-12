@@ -1,0 +1,796 @@
+{
+  "forge_marker": 1,
+  "defaults": {
+    "textures": {
+      "particle": "chickens:blocks/plain_face",
+      "wood": "chickens:blocks/plain_face",
+      "front": "chickens:blocks/curtain_side",
+      "hay_side": "chickens:blocks/hay_side",
+      "hay": "chickens:blocks/hay_floor",
+      "chicken": "chickens:blocks/chicken/vanilla"
+    },
+    "model": "chickens:block/roost_box"
+  },
+  "variants": {
+    "facing": {
+      "north": {
+        "y": 0
+      },
+      "east": {
+        "y": 90
+      },
+      "south": {
+        "y": 180
+      },
+      "west": {
+        "y": 270
+      }
+    }
+  },
+  "--chicken": {
+    "empty": {
+      "model": "chickens:roost"
+    },
+    "advancedprocessor": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/advancedprocessor"
+      }
+    },
+    "aluminum": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/aluminum"
+      }
+    },
+    "amber": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/amber"
+      }
+    },
+    "amethyst": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/amethyst"
+      }
+    },
+    "ardite": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/ardite"
+      }
+    },
+    "basalz_rod": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/basalz_rod"
+      }
+    },
+    "basicprocessor": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/basicprocessor"
+      }
+    },
+    "black": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/black"
+      }
+    },
+    "blackquartz": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/blackquartz"
+      }
+    },
+    "blaze": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/blaze"
+      }
+    },
+    "blitz_rod": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/blitz_rod"
+      }
+    },
+    "blizz_rod": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/blizz_rod"
+      }
+    },
+    "blood_slime": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/blood_slime"
+      }
+    },
+    "blue": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/blue"
+      }
+    },
+    "blue_slime": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/blue_slime"
+      }
+    },
+    "blutonium": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/blutonium"
+      }
+    },
+    "boopbeep": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/boopbeep"
+      }
+    },
+    "brass": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/brass"
+      }
+    },
+    "bronze": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/bronze"
+      }
+    },
+    "brown": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/brown"
+      }
+    },
+    "bullet": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/bullet"
+      }
+    },
+    "cable": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/cable"
+      }
+    },
+    "chrome": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/chrome"
+      }
+    },
+    "cinnabar": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/cinnabar"
+      }
+    },
+    "clay": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/clay"
+      }
+    },
+    "coal": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/coal"
+      }
+    },
+    "cobalt": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/cobalt"
+      }
+    },
+    "conductive_iron": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/conductive_iron"
+      }
+    },
+    "constantan": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/constantan"
+      }
+    },
+    "constructioncore": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/constructioncore"
+      }
+    },
+    "copper": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/copper"
+      }
+    },
+    "cupronickel": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/cupronickel"
+      }
+    },
+    "cyan": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/cyan"
+      }
+    },
+    "cyanite": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/cyanite"
+      }
+    },
+    "dark_steel": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/dark_steel"
+      }
+    },
+    "darkgem": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/darkgem"
+      }
+    },
+    "demonmetal": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/demonmetal"
+      }
+    },
+    "destructioncore": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/destructioncore"
+      }
+    },
+    "diamantinecrystal": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/diamantinecrystal"
+      }
+    },
+    "diamond": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/diamond"
+      }
+    },
+    "draconium": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/draconium"
+      }
+    },
+    "draconium_awakened": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/draconium_awakened"
+      }
+    },
+    "electrical_steel": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/electrical_steel"
+      }
+    },
+    "electrum": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/electrum"
+      }
+    },
+    "elementium": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/elementium"
+      }
+    },
+    "emeradiccrystal": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/emeradiccrystal"
+      }
+    },
+    "emerald": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/emerald"
+      }
+    },
+    "ender": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/ender"
+      }
+    },
+    "enderium": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/enderium"
+      }
+    },
+    "energetic_alloy": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/energetic_alloy"
+      }
+    },
+    "enoricrystal": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/enoricrystal"
+      }
+    },
+    "flint": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/flint"
+      }
+    },
+    "funway": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/funway"
+      }
+    },
+    "garnet": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/garnet"
+      }
+    },
+    "ghast": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/ghast"
+      }
+    },
+    "glass": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/glass"
+      }
+    },
+    "glowstone": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/glowstone"
+      }
+    },
+    "gold": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/gold"
+      }
+    },
+    "graphite": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/graphite"
+      }
+    },
+    "gray": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/gray"
+      }
+    },
+    "green": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/green"
+      }
+    },
+    "gunpowder": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/gunpowder"
+      }
+    },
+    "improvedprocessor": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/improvedprocessor"
+      }
+    },
+    "invar": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/invar"
+      }
+    },
+    "iridium": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/iridium"
+      }
+    },
+    "iron": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/iron"
+      }
+    },
+    "knight_slime": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/knight_slime"
+      }
+    },
+    "lava": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/lava"
+      }
+    },
+    "lead": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/lead"
+      }
+    },
+    "leather": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/leather"
+      }
+    },
+    "light_blue": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/light_blue"
+      }
+    },
+    "lime": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/lime"
+      }
+    },
+    "log": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/log"
+      }
+    },
+    "ludicrite": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/ludicrite"
+      }
+    },
+    "lumium": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/lumium"
+      }
+    },
+    "lunarreactivedust": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/lunarreactivedust"
+      }
+    },
+    "magenta": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/magenta"
+      }
+    },
+    "magicalwood": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/magicalwood"
+      }
+    },
+    "magma": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/magma"
+      }
+    },
+    "magma_slime": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/magma_slime"
+      }
+    },
+    "malachite": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/malachite"
+      }
+    },
+    "manasteel": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/manasteel"
+      }
+    },
+    "manyullyn": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/manyullyn"
+      }
+    },
+    "mithril": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/mithril"
+      }
+    },
+    "moonstone": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/moonstone"
+      }
+    },
+    "mramerican": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/mramerican"
+      }
+    },
+    "netherwart": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/netherwart"
+      }
+    },
+    "nickel": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/nickel"
+      }
+    },
+    "obsidian": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/obsidian"
+      }
+    },
+    "orange": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/orange"
+      }
+    },
+    "osmium": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/osmium"
+      }
+    },
+    "osto": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/osto"
+      }
+    },
+    "p_crystal": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/p_crystal"
+      }
+    },
+    "p_shard": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/p_shard"
+      }
+    },
+    "paliscrystal": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/paliscrystal"
+      }
+    },
+    "peridot": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/peridot"
+      }
+    },
+    "pig_iron": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/pig_iron"
+      }
+    },
+    "pink": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/pink"
+      }
+    },
+    "pinkslime": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/pinkslime"
+      }
+    },
+    "platinum": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/platinum"
+      }
+    },
+    "pulsating_iron": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/pulsating_iron"
+      }
+    },
+    "purple": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/purple"
+      }
+    },
+    "purple_slime": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/purple_slime"
+      }
+    },
+    "quartz": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/quartz"
+      }
+    },
+    "quartzenrichediron": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/quartzenrichediron"
+      }
+    },
+    "red": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/red"
+      }
+    },
+    "redstone": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/redstone"
+      }
+    },
+    "redstone_alloy": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/redstone_alloy"
+      }
+    },
+    "redstonecrystal": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/redstonecrystal"
+      }
+    },
+    "refinediron": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/refinediron"
+      }
+    },
+    "restoniacrystal": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/restoniacrystal"
+      }
+    },
+    "rich_slag": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/rich_slag"
+      }
+    },
+    "rubber": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/rubber"
+      }
+    },
+    "ruby": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/ruby"
+      }
+    },
+    "salt": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/salt"
+      }
+    },
+    "saltpeter": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/saltpeter"
+      }
+    },
+    "sand": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/sand"
+      }
+    },
+    "sapphire": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/sapphire"
+      }
+    },
+    "signalum": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/signalum"
+      }
+    },
+    "silicon": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/silicon"
+      }
+    },
+    "silver_dye": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/silver_dye"
+      }
+    },
+    "silverore": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/silverore"
+      }
+    },
+    "slag": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/slag"
+      }
+    },
+    "slime": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/slime"
+      }
+    },
+    "smart": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/smart"
+      }
+    },
+    "snowball": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/snowball"
+      }
+    },
+    "soul_sand": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/soul_sand"
+      }
+    },
+    "soularium": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/soularium"
+      }
+    },
+    "steel": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/steel"
+      }
+    },
+    "stoneburnt": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/stoneburnt"
+      }
+    },
+    "string": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/string"
+      }
+    },
+    "sulfur": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/sulfur"
+      }
+    },
+    "tanzanite": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/tanzanite"
+      }
+    },
+    "terrasteel": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/terrasteel"
+      }
+    },
+    "tin": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/tin"
+      }
+    },
+    "titanium": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/titanium"
+      }
+    },
+    "topaz": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/topaz"
+      }
+    },
+    "tungsten": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/tungsten"
+      }
+    },
+    "tungstensteel": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/tungstensteel"
+      }
+    },
+    "unknown": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/unknown"
+      }
+    },
+    "uranium": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/uranium"
+      }
+    },
+    "vanilla": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/vanilla"
+      }
+    },
+    "vibrant_alloy": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/vibrant_alloy"
+      }
+    },
+    "vinteum": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/vinteum"
+      }
+    },
+    "voidcrystal": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/voidcrystal"
+      }
+    },
+    "water": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/water"
+      }
+    },
+    "white": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/white"
+      }
+    },
+    "xp": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/xp"
+      }
+    },
+    "yellorium": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/yellorium"
+      }
+    },
+    "yellow": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/yellow"
+      }
+    },
+    "yellowgarnet": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/yellowgarnet"
+      }
+    },
+    "zinc": {
+      "textures": {
+        "chicken": "chickens:blocks/chicken/zinc"
+      }
+    }
+  }
+}
+

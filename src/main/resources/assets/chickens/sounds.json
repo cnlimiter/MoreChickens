@@ -1,0 +1,8 @@
+{
+
+  "chicken_milk": {
+    "category": "neutral",
+    "subtitle": "chickens.subtitle.chicken_milk",
+    "sounds": ["minecraft:mob/cow/milk1"]
+  }
+}
