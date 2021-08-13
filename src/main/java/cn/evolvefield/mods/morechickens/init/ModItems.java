@@ -151,12 +151,12 @@ public class ModItems {
                         "dye_brown",
                         "chickens:egg_brown")
                         .setRegistryName("egg_brown"),
-                ITEM_CATCHER = new ItemCatcher(new Item.Properties()
+                ITEM_CATCHER = new CatcherItem(new Item.Properties()
                         .craftRemainder(Items.BUCKET)
                         .stacksTo(1)
                         .tab(ModItemGroups.INSTANCE)
                 ).setRegistryName("catcher"),
-                ITEM_CHICKEN = new ItemChicken(new Item.Properties()
+                ITEM_CHICKEN = new ChickenItem(new Item.Properties()
                         .craftRemainder(Items.BUCKET)
                         .stacksTo(1)
                         .tab(ModItemGroups.INSTANCE)

@@ -1,7 +1,7 @@
 package cn.evolvefield.mods.morechickens.core.block;
 
 
-import cn.evolvefield.mods.morechickens.core.tile.TileEntityCollector;
+import cn.evolvefield.mods.morechickens.core.tile.CollectorTileEntity;
 import cn.evolvefield.mods.morechickens.init.ModBlocks;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -25,8 +25,8 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
-public class BlockCollector extends ContainerBlock {
-    public BlockCollector() {
+public class CollectorBlock extends ContainerBlock {
+    public CollectorBlock() {
         super(Properties.of(Material.WOOD)
                 .sound(SoundType.WOOD)
                 .strength(2.0f,5.0f)
@@ -36,7 +36,7 @@ public class BlockCollector extends ContainerBlock {
 
     @Override
     public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity playerEntity, Hand hand, BlockRayTraceResult result) {
-        TileEntityCollector tileEntity = (TileEntityCollector) world.getBlockEntity(pos);
+        CollectorTileEntity tileEntity = (CollectorTileEntity) world.getBlockEntity(pos);
 
 
         if (!world.isClientSide) {
@@ -70,7 +70,7 @@ public class BlockCollector extends ContainerBlock {
     @Nullable
     @Override
     public TileEntity newBlockEntity(IBlockReader p_196283_1_) {
-        return new TileEntityCollector();
+        return new CollectorTileEntity();
     }
 
     @Override

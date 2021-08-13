@@ -37,8 +37,8 @@ public class AnalyzerItem extends Item {
     @Override
     public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
         super.appendHoverText(stack, world, tooltip, flag);
-        tooltip.add(new TranslationTextComponent("item.chickens.analyzer.tooltip1"));
-        tooltip.add(new TranslationTextComponent("item.chickens.analyzer.tooltip2"));
+        tooltip.add(new TranslationTextComponent("item.chickens.analyzer.json.tooltip1"));
+        tooltip.add(new TranslationTextComponent("item.chickens.analyzer.json.tooltip2"));
     }
 
 

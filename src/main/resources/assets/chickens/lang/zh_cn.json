@@ -46,7 +46,7 @@
   "block.chickens.roost": "鸡舍",
   "block.chickens.breeder": "繁殖箱",
   "block.chickens.collector": "收集器",
-  "block.chickens.chicken_nest": "鸡窝",
+  "block.chickens.nest": "鸡窝",
 
 
   "container.chickens.roost.progress": "进度：%s",
@@ -134,10 +134,19 @@
 
   "text.chickens.breed.emerald": "绿宝石鸡",
   "text.chickens.breed.ender_pearl": "末影珍珠鸡",
-  "text.chickens.breed.ghast_tear": "恶魂之泪鸡"
+  "text.chickens.breed.ghast_tear": "恶魂之泪鸡",
 
 
-
+  "advancements.chickens.root.title": "更多鸡",
+  "advancements.chickens.root.description": "鸡你太美",
+  "advancements.chickens.get_eggs.title": "鸡飞蛋打",
+  "advancements.chickens.get_eggs.description": "加油！获得更多的🥚",
+  "advancements.chickens.dye_eggs.title": "五彩斑斓",
+  "advancements.chickens.dye_eggs.description": "这是染色？",
+  "advancements.chickens.catcher.title": "尽入吾毂",
+  "advancements.chickens.catcher.description": "天下群鸡尽入吾毂中矣",
+  "advancements.chickens.analyze.title": "分析大师",
+  "advancements.chickens.analyze.description": "属性觉醒？"
 
 
 

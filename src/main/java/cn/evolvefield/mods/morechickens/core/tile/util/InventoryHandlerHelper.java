@@ -1,4 +1,4 @@
-package cn.evolvefield.mods.morechickens.core.tile;
+package cn.evolvefield.mods.morechickens.core.tile.util;
 
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;

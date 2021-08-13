@@ -2,7 +2,7 @@ package cn.evolvefield.mods.morechickens.client.gui;
 
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.core.container.ContainerRoost;
+import cn.evolvefield.mods.morechickens.core.container.RoostContainer;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -17,9 +17,9 @@ import net.minecraftforge.fml.client.gui.GuiUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScreenRoost extends ContainerScreen<ContainerRoost> {
+public class ScreenRoost extends ContainerScreen<RoostContainer> {
 
-    public ScreenRoost(ContainerRoost container, PlayerInventory inventory, ITextComponent textComponent) {
+    public ScreenRoost(RoostContainer container, PlayerInventory inventory, ITextComponent textComponent) {
         super(container,inventory,textComponent);
         this.imageWidth = 176;
         this.imageHeight = 133;

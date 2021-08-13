@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "item": "chickens:catcher"
+    },
+    "title": {
+      "translate": "advancements.chickens.catcher.title"
+    },
+    "description": {
+      "translate": "advancements.chickens.catcher.description"
+    }
+  },
+  "parent": "chickens:chickens/get_eggs",
+  "criteria": {
+    "catcher": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": "chickens:catcher"
+      }
+    }
+  },
+  "requirements":[
+    "catcher"
+  ]
+}

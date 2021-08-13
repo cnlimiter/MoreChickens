@@ -1,7 +1,7 @@
 package cn.evolvefield.mods.morechickens.core.block;
 
 
-import cn.evolvefield.mods.morechickens.core.tile.TileEntityRoost;
+import cn.evolvefield.mods.morechickens.core.tile.RoostTileEntity;
 import cn.evolvefield.mods.morechickens.init.ModBlocks;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
@@ -27,7 +27,7 @@ import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Optional;
 
-public class BlockRoost extends ContainerBlock {
+public class RoostBlock extends ContainerBlock {
     public static class ChickenTypeProperty extends Property<String> {
         private final String name;
 
@@ -52,7 +52,7 @@ public class BlockRoost extends ContainerBlock {
     public static final DirectionProperty FACING = HorizontalBlock.FACING;
     public static final ChickenTypeProperty CHICKEN = new ChickenTypeProperty("chicken");
 
-    public BlockRoost() {
+    public RoostBlock() {
         super(Properties.of(Material.WOOD)
             .sound(SoundType.WOOD)
                 .strength(2.0f,5.0f)
@@ -130,7 +130,7 @@ public class BlockRoost extends ContainerBlock {
         if (world.isClientSide) {
             return ActionResultType.FAIL;
         }
-        TileEntityRoost tileEntity = (TileEntityRoost) world.getBlockEntity(pos);
+        RoostTileEntity tileEntity = (RoostTileEntity) world.getBlockEntity(pos);
         if (tileEntity == null) {
             return ActionResultType.FAIL;
         }
@@ -158,7 +158,7 @@ public class BlockRoost extends ContainerBlock {
     @Override
     public void destroy(IWorld world, BlockPos blockPos, BlockState state) {
         TileEntity tileEntity =world.getBlockEntity(blockPos);
-        if (tileEntity instanceof TileEntityRoost) {
+        if (tileEntity instanceof RoostTileEntity) {
             InventoryHelper.dropItemStack((World) world, blockPos.getX(),blockPos.getY(),blockPos.getZ(), ModBlocks.BLOCK_ROOST.asItem().getDefaultInstance());
         }
         super.destroy(world, blockPos, state);
@@ -174,7 +174,7 @@ public class BlockRoost extends ContainerBlock {
     @Nullable
     @Override
     public TileEntity newBlockEntity(IBlockReader blockReader) {
-        return new TileEntityRoost();
+        return new RoostTileEntity();
     }
 
     @Override

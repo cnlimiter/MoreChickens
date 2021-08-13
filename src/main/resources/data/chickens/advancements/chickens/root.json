@@ -1,0 +1,22 @@
+{
+  "display": {
+    "icon": {
+      "item": "chickens:chicken"
+    },
+    "title": {
+      "translate": "advancements.chickens.root.title"
+    },
+    "description": {
+      "translate": "advancements.chickens.root.description"
+    },
+    "background": "chickens:textures/items/chicken.png",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden" : false
+  },
+  "criteria": {
+    "tick": {
+      "trigger": "minecraft:tick"
+    }
+  }
+}

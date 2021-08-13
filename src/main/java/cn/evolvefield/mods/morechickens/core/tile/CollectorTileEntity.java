@@ -3,7 +3,7 @@ package cn.evolvefield.mods.morechickens.core.tile;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
 
-import cn.evolvefield.mods.morechickens.core.container.ContainerCollector;
+import cn.evolvefield.mods.morechickens.core.container.CollectorContainer;
 import cn.evolvefield.mods.morechickens.init.ModTileEntities;
 import cn.evolvefield.mods.morechickens.init.util.InventoryUtil;
 import net.minecraft.block.BlockState;
@@ -32,12 +32,12 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class TileEntityCollector extends TileEntity implements ISidedInventory, ITickableTileEntity, INamedContainerProvider, IIntArray {
+public class CollectorTileEntity extends TileEntity implements ISidedInventory, ITickableTileEntity, INamedContainerProvider, IIntArray {
 
     private NonNullList<ItemStack> inventory = NonNullList.<ItemStack>withSize(getContainerSize(), ItemStack.EMPTY);
     private int searchOffset = 0;
 
-    public TileEntityCollector() {
+    public CollectorTileEntity() {
         super(ModTileEntities.TILE_COLLECTOR);
     }
 
@@ -54,7 +54,7 @@ public class TileEntityCollector extends TileEntity implements ISidedInventory, 
     @Nullable
     @Override
     public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity player) {
-        return new ContainerCollector(id,playerInventory,this);
+        return new CollectorContainer(id,playerInventory,this);
     }
 
     @Override
@@ -208,18 +208,18 @@ public class TileEntityCollector extends TileEntity implements ISidedInventory, 
 
     private void gatherItemAtPos(BlockPos pos) {
         TileEntity tileEntity = getLevel().getBlockEntity(pos);
-        if (!(tileEntity instanceof TileEntityRoost)) return;
+        if (!(tileEntity instanceof RoostTileEntity)) return;
 
-        TileEntityRoost tileEntityRoost = (TileEntityRoost) getLevel().getBlockEntity(pos);
+        RoostTileEntity roostTileEntity = (RoostTileEntity) getLevel().getBlockEntity(pos);
 
-        int[] slots = tileEntityRoost.getSlotsForFace(null);
+        int[] slots = roostTileEntity.getSlotsForFace(null);
 
         for (int i : slots) {
-            if (pullItemFromSlot(tileEntityRoost, i)) return;
+            if (pullItemFromSlot(roostTileEntity, i)) return;
         }
     }
 
-    private boolean pullItemFromSlot(TileEntityRoost tileRoost, int index) {
+    private boolean pullItemFromSlot(RoostTileEntity tileRoost, int index) {
         ItemStack itemStack = tileRoost.getItem(index);
 
         if (!itemStack.isEmpty() && tileRoost.canTakeItemThroughFace(index, itemStack, null)) {

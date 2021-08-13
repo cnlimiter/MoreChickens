@@ -23,7 +23,7 @@ public class MoreChickens {
 
     public static final String MODID = "chickens";
     public static final Logger LOGGER = LogManager.getLogger(MODID);
-    public static final Random rand = new Random();
+
 
     public MoreChickens() {
 
@@ -33,8 +33,7 @@ public class MoreChickens {
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         ModDefaultEntities.ENTITIES.register(modEventBus);
-        //ModDefaultItems.ITEMS.register(modEventBus);
-        //ModTileEntities.TILE_ENTITIES.register(modEventBus);
+
         //config
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, cn.evolvefield.mods.morechickens.init.ModConfig.CONFIG_SPEC, "more_chickens.toml");
 
@@ -46,7 +45,6 @@ public class MoreChickens {
             //Entity attribute assignments
             GlobalEntityTypeAttributes.put(ModDefaultEntities.BASE_CHICKEN.get(), BaseChickenEntity.setAttributes().build());
             ChickenType.matchConfig();
-            //ModItems.matchConfig();
             ModDefaultEntities.registerPlacements();
 
         });

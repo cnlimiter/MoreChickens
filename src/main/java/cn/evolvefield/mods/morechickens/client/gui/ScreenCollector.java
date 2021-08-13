@@ -1,7 +1,7 @@
 package cn.evolvefield.mods.morechickens.client.gui;
 
 
-import cn.evolvefield.mods.morechickens.core.container.ContainerCollector;
+import cn.evolvefield.mods.morechickens.core.container.CollectorContainer;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -9,10 +9,10 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.text.ITextComponent;
 
-public class ScreenCollector extends ContainerScreen<ContainerCollector> {
+public class ScreenCollector extends ContainerScreen<CollectorContainer> {
     private static final ResourceLocation CONTAINER_BACKGROUND = new ResourceLocation("textures/gui/container/generic_54.png");
 
-    public ScreenCollector(ContainerCollector p_i51105_1_, PlayerInventory p_i51105_2_, ITextComponent p_i51105_3_) {
+    public ScreenCollector(CollectorContainer p_i51105_1_, PlayerInventory p_i51105_2_, ITextComponent p_i51105_3_) {
         super(p_i51105_1_, p_i51105_2_, p_i51105_3_);
         this.imageHeight = 114 + 3 * 18;
         this.inventoryLabelY = this.imageHeight - 94;

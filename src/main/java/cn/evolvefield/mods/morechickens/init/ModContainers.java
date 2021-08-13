@@ -2,9 +2,9 @@ package cn.evolvefield.mods.morechickens.init;
 
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.core.container.ContainerBreeder;
-import cn.evolvefield.mods.morechickens.core.container.ContainerCollector;
-import cn.evolvefield.mods.morechickens.core.container.ContainerRoost;
+import cn.evolvefield.mods.morechickens.core.container.BreederContainer;
+import cn.evolvefield.mods.morechickens.core.container.CollectorContainer;
+import cn.evolvefield.mods.morechickens.core.container.RoostContainer;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraftforge.event.RegistryEvent;
@@ -18,22 +18,22 @@ import net.minecraftforge.registries.IForgeRegistry;
 public class ModContainers
 {
 
-    public static ContainerType<ContainerRoost> CONTAINER_ROOST;
-    public static ContainerType<ContainerBreeder> CONTAINER_BREEDER;
-    public static ContainerType<ContainerCollector> CONTAINER_COLLECTOR;
+    public static ContainerType<RoostContainer> CONTAINER_ROOST;
+    public static ContainerType<BreederContainer> CONTAINER_BREEDER;
+    public static ContainerType<CollectorContainer> CONTAINER_COLLECTOR;
 
 
     @SubscribeEvent
     public static void registerContainers(RegistryEvent.Register<ContainerType<?>> event) {
         final IForgeRegistry<ContainerType<?>> registry = event.getRegistry();
         registry.register(
-                CONTAINER_ROOST = register("roost", ContainerRoost::new));
+                CONTAINER_ROOST = register("roost", RoostContainer::new));
 
         registry.register(
-                CONTAINER_BREEDER = register("breeder", ContainerBreeder::new));
+                CONTAINER_BREEDER = register("breeder", BreederContainer::new));
 
         registry.register(
-                CONTAINER_COLLECTOR = register("collector", ContainerCollector::new));
+                CONTAINER_COLLECTOR = register("collector", CollectorContainer::new));
 
 
     }

@@ -6,11 +6,8 @@ import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
-import net.minecraft.util.datafix.TypeReferences;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -23,9 +20,9 @@ public class ModTileEntities {
 
     public static TileEntityType<BaitTileEntity> BAIT;
     public static TileEntityType<NestTileEntity> CHICKEN_NEST;
-    public static TileEntityType<TileEntityRoost> TILE_ROOST;
-    public static TileEntityType<TileEntityBreeder> TILE_BREEDER;
-    public static TileEntityType<TileEntityCollector> TILE_COLLECTOR;
+    public static TileEntityType<RoostTileEntity> TILE_ROOST;
+    public static TileEntityType<BreederTileEntity> TILE_BREEDER;
+    public static TileEntityType<CollectorTileEntity> TILE_COLLECTOR;
 
     @SubscribeEvent
     public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) {
@@ -34,9 +31,9 @@ public class ModTileEntities {
 
                 BAIT = build(BaitTileEntity::new, new ResourceLocation(MoreChickens.MODID, "bait"), ModBlocks.BAITS),
                 CHICKEN_NEST = build(NestTileEntity::new,"chicken_nest",ModBlocks.BLOCK_NEST),
-                TILE_ROOST = build(TileEntityRoost::new,"roost",ModBlocks.BLOCK_ROOST),
-                TILE_BREEDER = build(TileEntityBreeder::new,"breeder",ModBlocks.BLOCK_BREEDER),
-                TILE_COLLECTOR = build(TileEntityCollector::new,"collector",ModBlocks.BLOCK_COLLECTOR)
+                TILE_ROOST = build(RoostTileEntity::new,"roost",ModBlocks.BLOCK_ROOST),
+                TILE_BREEDER = build(BreederTileEntity::new,"breeder",ModBlocks.BLOCK_BREEDER),
+                TILE_COLLECTOR = build(CollectorTileEntity::new,"collector",ModBlocks.BLOCK_COLLECTOR)
 
         );
     }

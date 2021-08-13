@@ -2,7 +2,7 @@ package cn.evolvefield.mods.morechickens.client.gui;
 
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.core.container.ContainerBreeder;
+import cn.evolvefield.mods.morechickens.core.container.BreederContainer;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;
@@ -17,12 +17,12 @@ import net.minecraftforge.fml.client.gui.GuiUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScreenBreeder extends ContainerScreen<ContainerBreeder> {
+public class ScreenBreeder extends ContainerScreen<BreederContainer> {
 
     private static final ResourceLocation BREEDER_GUI_TEXTURES = new ResourceLocation(MoreChickens.MODID, "textures/gui/breeder.png");
 
 
-    public ScreenBreeder(ContainerBreeder container, PlayerInventory playerInventory, ITextComponent textComponent) {
+    public ScreenBreeder(BreederContainer container, PlayerInventory playerInventory, ITextComponent textComponent) {
         super(container,playerInventory,textComponent);
         this.imageWidth = 176;
         this.imageHeight = 133;

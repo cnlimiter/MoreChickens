@@ -1,6 +1,6 @@
 package cn.evolvefield.mods.morechickens.core.container.slot;
 
-import cn.evolvefield.mods.morechickens.core.tile.InventoryHandlerHelper;
+import cn.evolvefield.mods.morechickens.core.tile.util.InventoryHandlerHelper;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.items.SlotItemHandler;

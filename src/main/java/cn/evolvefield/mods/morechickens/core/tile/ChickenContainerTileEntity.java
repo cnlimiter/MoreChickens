@@ -30,7 +30,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.text.DecimalFormat;
 
-public abstract class TileEntityChickenContainer extends TileEntity implements ISidedInventory, ITickableTileEntity, IInventory, IIntArray {
+public abstract class ChickenContainerTileEntity extends TileEntity implements ISidedInventory, ITickableTileEntity, IInventory, IIntArray {
     private static final DecimalFormat FORMATTER = new DecimalFormat("0.0%");
 
     private NonNullList<ItemStack> inventory = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
@@ -46,7 +46,7 @@ public abstract class TileEntityChickenContainer extends TileEntity implements I
 
 
 
-    public TileEntityChickenContainer(TileEntityType<?> type) {
+    public ChickenContainerTileEntity(TileEntityType<?> type) {
         super(type);
     }
 

@@ -1,0 +1,27 @@
+
+{
+  "display": {
+    "icon": {
+      "item": "minecraft:egg"
+    },
+    "title": {
+      "translate": "advancements.chickens.get_eggs.title"
+    },
+    "description": {
+      "translate": "advancements.chickens.get_eggs.description"
+    }
+  },
+  "parent": "chickens:chickens/root",
+  "criteria": {
+    "get_eggs": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": "minecraft:egg"
+      }
+    }
+
+  },
+  "requirements":[
+    "get_eggs"
+  ]
+}

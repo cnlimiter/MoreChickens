@@ -2,9 +2,8 @@ package cn.evolvefield.mods.morechickens.core.block;
 
 
 
-import cn.evolvefield.mods.morechickens.core.tile.TileEntityBreeder;
+import cn.evolvefield.mods.morechickens.core.tile.BreederTileEntity;
 import cn.evolvefield.mods.morechickens.init.ModBlocks;
-import cn.evolvefield.mods.morechickens.init.ModItems;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
@@ -28,12 +27,12 @@ import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
-public class BlockBreeder extends ContainerBlock {
+public class BreederBlock extends ContainerBlock {
 
     public static final BooleanProperty IS_BREEDING = BooleanProperty.create("is_breeding");
     public static final BooleanProperty HAS_SEEDS = BooleanProperty.create("has_seeds");
 
-    public BlockBreeder() {
+    public BreederBlock() {
         super(Properties.of(Material.WOOD)
                 .sound(SoundType.WOOD)
                 .strength(2.0f,5.0f)
@@ -61,9 +60,9 @@ public class BlockBreeder extends ContainerBlock {
         TileEntity tileEntity = world instanceof Chunk ? ((Chunk) world).getBlockEntity(pos, Chunk.CreateEntityType.CHECK)
                 : world.getBlockEntity(pos);
 
-        if (tileEntity instanceof TileEntityBreeder) {
-            TileEntityBreeder tileEntityBreeder = (TileEntityBreeder) tileEntity;
-            return state.setValue(IS_BREEDING, tileEntityBreeder.isFullOfChickens()).setValue(HAS_SEEDS, tileEntityBreeder.isFullOfSeeds());
+        if (tileEntity instanceof BreederTileEntity) {
+            BreederTileEntity breederTileEntity = (BreederTileEntity) tileEntity;
+            return state.setValue(IS_BREEDING, breederTileEntity.isFullOfChickens()).setValue(HAS_SEEDS, breederTileEntity.isFullOfSeeds());
         }
         return state;
     }
@@ -77,7 +76,7 @@ public class BlockBreeder extends ContainerBlock {
             return ActionResultType.SUCCESS;
         }
 
-        TileEntityBreeder tileEntity = (TileEntityBreeder) world.getBlockEntity(pos);
+        BreederTileEntity tileEntity = (BreederTileEntity) world.getBlockEntity(pos);
 
         if (tileEntity == null) {
             return ActionResultType.FAIL;
@@ -96,7 +95,7 @@ public class BlockBreeder extends ContainerBlock {
     public void destroy(IWorld world, BlockPos pos, BlockState state) {
         TileEntity tileEntity = world.getBlockEntity(pos);
 
-        if (tileEntity instanceof TileEntityBreeder) {
+        if (tileEntity instanceof BreederTileEntity) {
             InventoryHelper.dropItemStack((World) world, pos.getX(),pos.getY(),pos.getZ(), ModBlocks.BLOCK_BREEDER.asItem().getDefaultInstance());
         }
 
@@ -111,7 +110,7 @@ public class BlockBreeder extends ContainerBlock {
     @Nullable
     @Override
     public TileEntity newBlockEntity(IBlockReader p_196283_1_) {
-        return new TileEntityBreeder();
+        return new BreederTileEntity();
     }
 
 

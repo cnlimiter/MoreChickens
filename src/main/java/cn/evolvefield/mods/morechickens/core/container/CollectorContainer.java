@@ -1,7 +1,7 @@
 package cn.evolvefield.mods.morechickens.core.container;
 
 
-import cn.evolvefield.mods.morechickens.core.tile.TileEntityCollector;
+import cn.evolvefield.mods.morechickens.core.tile.CollectorTileEntity;
 import cn.evolvefield.mods.morechickens.init.ModContainers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -15,20 +15,20 @@ import net.minecraft.tileentity.TileEntity;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-public class ContainerCollector extends Container {
+public class CollectorContainer extends Container {
 
-    public final TileEntityCollector tileCollector;
+    public final CollectorTileEntity tileCollector;
 
-    public ContainerCollector(final int windowId, final PlayerInventory playerInventory, final PacketBuffer data) {
+    public CollectorContainer(final int windowId, final PlayerInventory playerInventory, final PacketBuffer data) {
         this(windowId, playerInventory, getTileEntity(playerInventory, data));
     }
 
-    public ContainerCollector(final int windowId, final PlayerInventory playerInventory, final TileEntityCollector tileEntity) {
+    public CollectorContainer(final int windowId, final PlayerInventory playerInventory, final CollectorTileEntity tileEntity) {
         this(ModContainers.CONTAINER_COLLECTOR, windowId, playerInventory, tileEntity);
     }
 
 
-    public ContainerCollector(@Nullable ContainerType<?> type, final int windowId, final PlayerInventory playerInventory, final TileEntityCollector tileEntity)
+    public CollectorContainer(@Nullable ContainerType<?> type, final int windowId, final PlayerInventory playerInventory, final CollectorTileEntity tileEntity)
     {
         super(type, windowId);
         this.tileCollector = tileEntity;
@@ -49,12 +49,12 @@ public class ContainerCollector extends Container {
         }
     }
 
-    private static TileEntityCollector getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
+    private static CollectorTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
         Objects.requireNonNull(data, "data cannot be null!");
         final TileEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
-        if (tileAtPos instanceof TileEntityCollector) {
-            return (TileEntityCollector) tileAtPos;
+        if (tileAtPos instanceof CollectorTileEntity) {
+            return (CollectorTileEntity) tileAtPos;
         }
         throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
     }

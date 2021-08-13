@@ -44,7 +44,7 @@
   "block.chickens.roost": "Roost",
   "block.chickens.breeder": "Breeder",
   "block.chickens.collector": "Collector",
-  "block.chickens.chicken_nest": "Chicken Nest",
+  "block.chickens.nest": "Chicken Nest",
 
   "container.chickens.roost.progress": "Progress: %s",
   "container.chickens.roost": "Roost",
@@ -131,6 +131,17 @@
   
   "text.chickens.breed.emerald": "EMERALD Chicken",
   "text.chickens.breed.ender_pearl": "ENDER_PEARL Chicken",
-  "text.chickens.breed.ghast_tear": "GHAST_TEAR Chicken"
+  "text.chickens.breed.ghast_tear": "GHAST_TEAR Chicken",
 
+
+  "advancements.chickens.root.title": "Chickens",
+  "advancements.chickens.root.description": "Happy Chickens",
+  "advancements.chickens.get_eggs.title": "Egg Time",
+  "advancements.chickens.get_eggs.description": "Get more eggs",
+  "advancements.chickens.dye_eggs.title": "Colorful",
+  "advancements.chickens.dye_eggs.description": "",
+  "advancements.chickens.catcher.title": "All Mine",
+  "advancements.chickens.catcher.description": "Catch them,make them work for me",
+  "advancements.chickens.analyze.title": "Analyze them",
+  "advancements.chickens.analyze.description": "Use it on chickens to determine their stats"
 }

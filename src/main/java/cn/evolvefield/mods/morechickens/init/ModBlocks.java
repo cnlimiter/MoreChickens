@@ -34,10 +34,10 @@ public class ModBlocks {
         BAITS = registerEnumBlock(registry, BaitType.values(), it -> it + BaitBlock.nameSuffix, BaitBlock::new);
 
         registry.registerAll(
-                BLOCK_NEST = new NestBlock().setRegistryName("chicken_nest"),
-                BLOCK_ROOST = new BlockRoost().setRegistryName("roost"),
-                BLOCK_BREEDER = new BlockBreeder().setRegistryName("breeder"),
-                BLOCK_COLLECTOR = new BlockCollector().setRegistryName("collector")
+                BLOCK_NEST = new NestBlock().setRegistryName("nest"),
+                BLOCK_ROOST = new RoostBlock().setRegistryName("roost"),
+                BLOCK_BREEDER = new BreederBlock().setRegistryName("breeder"),
+                BLOCK_COLLECTOR = new CollectorBlock().setRegistryName("collector")
                   //evolvedOrechid = BotaniaCompat.createOrechidBlock().setRegistryName(new ResourceLocation(ExCompressum.MOD_ID, "evolved_orechid"))
         );
 

@@ -23,8 +23,8 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
 
-public class ItemCatcher extends Item {
-    public ItemCatcher(Properties properties) {
+public class CatcherItem extends Item {
+    public CatcherItem(Properties properties) {
         super(properties
                 .stacksTo(1)
                 .durability(238)

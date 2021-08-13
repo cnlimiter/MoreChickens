@@ -3,11 +3,10 @@ package cn.evolvefield.mods.morechickens.core.tile;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
 
-import cn.evolvefield.mods.morechickens.core.container.ContainerBreeder;
+import cn.evolvefield.mods.morechickens.core.container.BreederContainer;
 import cn.evolvefield.mods.morechickens.core.data.DataChicken;
 import cn.evolvefield.mods.morechickens.init.ModConfig;
 import cn.evolvefield.mods.morechickens.init.ModTileEntities;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
@@ -24,14 +23,14 @@ import net.minecraft.world.server.ServerWorld;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TileEntityBreeder extends TileEntityChickenContainer implements INamedContainerProvider {
+public class BreederTileEntity extends ChickenContainerTileEntity implements INamedContainerProvider {
 
     private static final String CHICKEN_0_KEY = "Chicken0";
     private static final String CHICKEN_1_KEY = "Chicken1";
     private static final String COMPLETE_KEY = "Complete";
     private static final String HAS_SEEDS_KEY = "HasSeeds";
 
-    public TileEntityBreeder() {
+    public BreederTileEntity() {
         super(ModTileEntities.TILE_BREEDER);
     }
 
@@ -127,6 +126,6 @@ public class TileEntityBreeder extends TileEntityChickenContainer implements INa
     @Nullable
     @Override
     public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity player) {
-        return new ContainerBreeder(id,playerInventory,this);
+        return new BreederContainer(id,playerInventory,this);
     }
 }

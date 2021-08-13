@@ -2,7 +2,7 @@ package cn.evolvefield.mods.morechickens.core.container;
 
 import cn.evolvefield.mods.morechickens.core.container.slot.ManualSlotItemHandler;
 import cn.evolvefield.mods.morechickens.core.item.UpgradeItem;
-import cn.evolvefield.mods.morechickens.core.tile.InventoryHandlerHelper;
+import cn.evolvefield.mods.morechickens.core.tile.util.InventoryHandlerHelper;
 import cn.evolvefield.mods.morechickens.core.tile.UpgradeableTileEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;

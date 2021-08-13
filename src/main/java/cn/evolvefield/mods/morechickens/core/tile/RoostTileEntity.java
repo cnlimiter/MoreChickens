@@ -2,7 +2,7 @@ package cn.evolvefield.mods.morechickens.core.tile;
 
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.core.container.ContainerRoost;
+import cn.evolvefield.mods.morechickens.core.container.RoostContainer;
 import cn.evolvefield.mods.morechickens.core.data.DataChicken;
 import cn.evolvefield.mods.morechickens.init.ModConfig;
 import cn.evolvefield.mods.morechickens.init.ModTileEntities;
@@ -21,14 +21,14 @@ import net.minecraft.util.text.TranslationTextComponent;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class TileEntityRoost extends TileEntityChickenContainer implements INamedContainerProvider {
+public class RoostTileEntity extends ChickenContainerTileEntity implements INamedContainerProvider {
 
     private static final String CHICKEN_KEY = "Chicken";
     private static final String COMPLETE_KEY = "Complete";
     private static int CHICKEN_SLOT = 0;
     private Inventory inventory = new Inventory(5);
 
-    public TileEntityRoost() {
+    public RoostTileEntity() {
         super(ModTileEntities.TILE_ROOST);
     }
 
@@ -125,7 +125,7 @@ public class TileEntityRoost extends TileEntityChickenContainer implements IName
     @Nullable
     @Override
     public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity player) {
-        return new ContainerRoost(id,playerInventory,this);
+        return new RoostContainer(id,playerInventory,this);
     }
 
     @Override

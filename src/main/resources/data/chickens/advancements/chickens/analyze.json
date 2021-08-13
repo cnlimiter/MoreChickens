@@ -1,0 +1,25 @@
+{
+  "display": {
+    "icon": {
+      "item": "chickens:analyzer"
+    },
+    "title": {
+      "translate": "advancements.chickens.analyze.title"
+    },
+    "description": {
+      "translate": "advancements.chickens.analyze.description"
+    }
+  },
+  "parent": "chickens:chickens/get_eggs",
+  "criteria": {
+    "analyze": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": "chickens:analyzer"
+      }
+    }
+  },
+  "requirements":[
+    "analyze"
+  ]
+}

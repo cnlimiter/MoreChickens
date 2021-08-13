@@ -1,7 +1,7 @@
 package cn.evolvefield.mods.morechickens.core.container.slot;
 
 
-import cn.evolvefield.mods.morechickens.core.tile.TileEntityChickenContainer;
+import cn.evolvefield.mods.morechickens.core.tile.ChickenContainerTileEntity;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
@@ -14,14 +14,14 @@ public class SlotSeeds extends Slot {
     @Override
     public void setChanged() {
         super.setChanged();
-        if (this.container instanceof TileEntityChickenContainer) {
-            ((TileEntityChickenContainer) this.container).willNeedToUpdateChickenInfo();
+        if (this.container instanceof ChickenContainerTileEntity) {
+            ((ChickenContainerTileEntity) this.container).willNeedToUpdateChickenInfo();
         }
     }
 
     @Override //isItemValid
     public boolean mayPlace(ItemStack stack) {
-        return TileEntityChickenContainer.isSeed(stack);
+        return ChickenContainerTileEntity.isSeed(stack);
     }
 
 }

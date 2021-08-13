@@ -2,7 +2,7 @@ package cn.evolvefield.mods.morechickens.core.item;
 
 
 import cn.evolvefield.mods.morechickens.core.data.DataChicken;
-import cn.evolvefield.mods.morechickens.core.tile.TileEntityRoost;
+import cn.evolvefield.mods.morechickens.core.tile.RoostTileEntity;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,11 +22,11 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class ItemChicken extends Item {
+public class ChickenItem extends Item {
 
     private static String I18N_NAME = "entity.Chicken.name";
 
-    public ItemChicken(Properties properties) {
+    public ChickenItem(Properties properties) {
         super(properties
             .stacksTo(16)
         );
@@ -68,8 +68,8 @@ public class ItemChicken extends Item {
         if (!world.isClientSide) {
             TileEntity tileEntity = world.getBlockEntity(pos);
 
-            if (tileEntity != null && tileEntity instanceof TileEntityRoost) {
-                putChickenIn(player.getItemInHand(hand), (TileEntityRoost) tileEntity);
+            if (tileEntity != null && tileEntity instanceof RoostTileEntity) {
+                putChickenIn(player.getItemInHand(hand), (RoostTileEntity) tileEntity);
             } else {
                 spawnChicken(player.getItemInHand(hand), player, world, pos);
             }
@@ -81,7 +81,7 @@ public class ItemChicken extends Item {
 
 
 
-    private void putChickenIn(ItemStack stack, TileEntityRoost tileEntity) {
+    private void putChickenIn(ItemStack stack, RoostTileEntity tileEntity) {
         tileEntity.putChickenIn(stack);
     }
 

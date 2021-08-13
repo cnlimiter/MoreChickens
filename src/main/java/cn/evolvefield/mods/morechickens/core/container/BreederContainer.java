@@ -1,10 +1,10 @@
 package cn.evolvefield.mods.morechickens.core.container;
 
 
-import cn.evolvefield.mods.morechickens.core.block.BlockRoost;
 import cn.evolvefield.mods.morechickens.core.container.slot.SlotChicken;
 import cn.evolvefield.mods.morechickens.core.container.slot.SlotReadOnly;
-import cn.evolvefield.mods.morechickens.core.tile.TileEntityRoost;
+import cn.evolvefield.mods.morechickens.core.container.slot.SlotSeeds;
+import cn.evolvefield.mods.morechickens.core.tile.BreederTileEntity;
 import cn.evolvefield.mods.morechickens.init.ModContainers;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -22,31 +22,33 @@ import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
 
-public class ContainerRoost extends Container {
-    public final TileEntityRoost tileRoost;
+public class BreederContainer extends Container {
+
+    public final BreederTileEntity tileBreeder;
     private int progress;
     public final IWorldPosCallable canInteractWithCallable;
 
-
-    public ContainerRoost(final int windowId, final PlayerInventory playerInventory, final PacketBuffer data) {
+    public BreederContainer(final int windowId, final PlayerInventory playerInventory, final PacketBuffer data) {
         this(windowId, playerInventory, getTileEntity(playerInventory, data));
     }
 
-    public ContainerRoost(final int windowId, final PlayerInventory playerInventory, final TileEntityRoost tileEntity) {
-        this(ModContainers.CONTAINER_ROOST, windowId, playerInventory, tileEntity);
+    public BreederContainer(final int windowId, final PlayerInventory playerInventory, final BreederTileEntity tileEntity) {
+        this(ModContainers.CONTAINER_BREEDER, windowId, playerInventory, tileEntity);
     }
 
 
-    public ContainerRoost(@Nullable ContainerType<?> type, final int windowId, final PlayerInventory playerInventory, final TileEntityRoost tileEntity)
+    public BreederContainer(@Nullable ContainerType<?> type, final int windowId, final PlayerInventory playerInventory, final BreederTileEntity tileEntity)
     {
         super(type, windowId);
-        this.tileRoost = tileEntity;
+        this.tileBreeder = tileEntity;
         this.canInteractWithCallable = IWorldPosCallable.create(tileEntity.getLevel(), tileEntity.getBlockPos());
 
-        addSlot(new SlotChicken(tileEntity, 0, 26, 20));
+        addSlot(new SlotChicken(tileEntity, 0, 44, 20));
+        addSlot(new SlotChicken(tileEntity, 1, 62, 20));
+        addSlot(new SlotSeeds(tileEntity, 2, 8, 20));
 
-        for (int i = 0; i < 4; ++i) {
-            addSlot(new SlotReadOnly(tileEntity, i + 1, 80 + i * 18, 20));
+        for (int i = 0; i < 3; ++i) {
+            addSlot(new SlotReadOnly(tileEntity, i + 3, 116 + i * 18, 20));
         }
 
         for (int i = 0; i < 3; ++i) {
@@ -60,61 +62,55 @@ public class ContainerRoost extends Container {
         }
     }
 
-
-    private static TileEntityRoost getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
+    private static BreederTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
         Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
         Objects.requireNonNull(data, "data cannot be null!");
         final TileEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
-        if (tileAtPos instanceof TileEntityRoost) {
-            return (TileEntityRoost) tileAtPos;
+        if (tileAtPos instanceof BreederTileEntity) {
+            return (BreederTileEntity) tileAtPos;
         }
         throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
     }
 
 
     public TileEntity getTileEntity() {
-        return tileRoost;
+        return tileBreeder;
     }
+
 
     @Override//canInteractWith
-    public boolean stillValid(PlayerEntity playerEntity) {
-        return canInteractWithCallable.evaluate(
-                (world, pos) -> world.getBlockState(pos).getBlock() instanceof BlockRoost
-                        && playerEntity.distanceToSqr((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
+    public boolean stillValid(PlayerEntity player) {
+        return tileBreeder.stillValid(player);
     }
-
-
-
 
     @Override
     public void addSlotListener(IContainerListener listener) {
         super.addSlotListener(listener);
-
-        //listener.refreshContainer(this, tileRoost);
+        //listener.sendAllWindowProperties(this, this.breederInventory);
     }
 
-
-    @Override
+    @Override//detectAndSendChanges
     public void broadcastChanges() {
+        super.broadcastChanges();
         List<IContainerListener> containerListeners = ObfuscationReflectionHelper.getPrivateValue(Container.class,null,"field_75149_d");
         for (int i = 0; i < containerListeners.size(); ++i) {
             IContainerListener listener = containerListeners.get(i);
-            if (progress != tileRoost.get(0)) {
-                listener.setContainerData(this, 0, tileRoost.get(0));
+
+            if (progress != tileBreeder.get(0)) {
+                listener.setContainerData(this, 0, tileBreeder.get(0));
             }
         }
 
-        progress = tileRoost.get(0);
+        progress = tileBreeder.get(0);
     }
 
-
-    @Override
+    @Override//updateProgressBar
     public void setData(int id, int data) {
-        tileRoost.set(id, data);
+        tileBreeder.set(id, data);
     }
 
     @Override
-    public ItemStack quickMoveStack(PlayerEntity playerEntity, int fromSlot) {
+    public ItemStack quickMoveStack(PlayerEntity player, int fromSlot) {
         ItemStack previous = ItemStack.EMPTY;
         Slot slot = slots.get(fromSlot);
 
@@ -122,11 +118,11 @@ public class ContainerRoost extends Container {
             ItemStack current = slot.getItem();
             previous = current.copy();
 
-            if (fromSlot < tileRoost.getContainerSize()) {
-                if (!moveItemStackTo(current, tileRoost.getContainerSize(), slots.size(), true)) {
+            if (fromSlot < tileBreeder.getContainerSize()) {
+                if (!moveItemStackTo(current, tileBreeder.getContainerSize(), slots.size(), true)) {
                     return ItemStack.EMPTY;
                 }
-            } else if (!moveItemStackTo(current, 0, 1, false)) {
+            } else if (!moveItemStackTo(current, 0, 3, false)) {
                 return ItemStack.EMPTY;
             }
 
