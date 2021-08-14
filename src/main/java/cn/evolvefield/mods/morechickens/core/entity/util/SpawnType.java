@@ -1,7 +1,7 @@
 package cn.evolvefield.mods.morechickens.core.entity.util;
 
-import net.minecraft.world.biome.Biome;
-import net.minecraft.world.biome.Biomes;
+
+import net.minecraft.world.level.biome.Biome;
 
 /**
  * Created by setyc on 28.02.2016.
@@ -21,11 +21,11 @@ public enum SpawnType {
     }
 
     public static SpawnType getSpawnType(Biome biome) {
-        if (biome.getBiomeCategory() == Biome.Category.NETHER) {
+        if (biome.getBiomeCategory() == Biome.BiomeCategory.NETHER) {
             return SpawnType.HELL;
         }
 
-        if (biome.getBiomeCategory() == Biome.Category.EXTREME_HILLS || biome.getPrecipitation() == Biome.RainType.SNOW) {
+        if (biome.getBiomeCategory() == Biome.BiomeCategory.EXTREME_HILLS || biome.getPrecipitation() == Biome.Precipitation.SNOW) {
             return SpawnType.SNOW;
         }
 

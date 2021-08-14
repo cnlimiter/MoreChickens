@@ -2,27 +2,28 @@ package cn.evolvefield.mods.morechickens.client.gui;
 
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.core.container.RoostContainer;
-import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.platform.GlStateManager;
-import net.minecraft.client.gui.screen.inventory.ContainerScreen;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.util.IReorderingProcessor;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraftforge.fml.client.gui.GuiUtils;
+import cn.evolvefield.mods.morechickens.core.container.ContainerRoost;
+import com.mojang.blaze3d.systems.RenderSystem;
+import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.FormattedCharSequence;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraftforge.fmlclient.gui.GuiUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class ScreenRoost extends ContainerScreen<RoostContainer> {
+public class ScreenRoost extends AbstractContainerScreen<ContainerRoost> {
 
-    public ScreenRoost(RoostContainer container, PlayerInventory inventory, ITextComponent textComponent) {
+    public ScreenRoost(ContainerRoost container, Inventory inventory, Component textComponent) {
         super(container,inventory,textComponent);
         this.imageWidth = 176;
         this.imageHeight = 133;
+
     }
 
 
@@ -33,7 +34,7 @@ public class ScreenRoost extends ContainerScreen<RoostContainer> {
 
 
     @Override
-    public void render(MatrixStack matrixStack, int mouseX, int mouseY, float partialTicks) {
+    public void render(PoseStack matrixStack, int mouseX, int mouseY, float partialTicks) {
         this.renderBackground(matrixStack);
         super.render(matrixStack, mouseX, mouseY, partialTicks);
         this.renderTooltip(matrixStack,mouseX,mouseY);
@@ -41,24 +42,24 @@ public class ScreenRoost extends ContainerScreen<RoostContainer> {
 
 
     @Override
-    protected void renderLabels(MatrixStack matrixStack, int mouseX, int mouseY) {
+    protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
         font.draw(matrixStack,this.menu.tileRoost.getDisplayName().getString(), 8, 6, 4210752);
-        font.draw(matrixStack, new TranslationTextComponent("container.inventory"), 8, this.getYSize() - 96 + 2, 4210752);
+        font.draw(matrixStack, new TranslatableComponent("container.inventory"), 8, this.getYSize() - 96 + 2, 4210752);
         int x = getGuiLeft();
         int y = (height - getYSize()) / 2;
 
         if (mouseX > x + 48 && mouseX < x + 74 && mouseY > y + 20 && mouseY < y + 36) {
-            List<IReorderingProcessor> tooltip = new ArrayList<IReorderingProcessor>();;
-            tooltip.add(new StringTextComponent(this.menu.tileRoost.getFormattedProgress()).getVisualOrderText());
+            List<FormattedCharSequence> tooltip = new ArrayList<>();;
+            tooltip.add(new TextComponent(this.menu.tileRoost.getFormattedProgress()).getVisualOrderText());
             renderTooltip(matrixStack, tooltip, mouseX - x, mouseY - y);
         }
 
     }
 
     @Override
-    protected void renderBg(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
-        GlStateManager._color4f(1.0F, 1.0F, 1.0F, 1.0F);
-        minecraft.getTextureManager().bind(ROOST_GUI_TEXTURES);
+    protected void renderBg(PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+        RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
+        minecraft.getTextureManager().bindForSetup(ROOST_GUI_TEXTURES);
         int x = getGuiLeft();
         int y = (height - getYSize()) / 2;
 

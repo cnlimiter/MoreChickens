@@ -1,12 +1,13 @@
 package cn.evolvefield.mods.morechickens.core.entity;
 
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.world.World;
 
-public abstract class ModAnimalEntity extends AnimalEntity {
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.level.Level;
 
-    protected ModAnimalEntity(EntityType<? extends AnimalEntity> type, World worldIn) {
+public abstract class ModAnimalEntity extends Animal {
+
+    protected ModAnimalEntity(EntityType<? extends Animal> type, Level worldIn) {
         super(type, worldIn);
     }
 

@@ -2,10 +2,11 @@ package cn.evolvefield.mods.morechickens.init;
 
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
 
-public class ModItemGroups extends ItemGroup {
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+
+public class ModItemGroups extends CreativeModeTab {
     public ModItemGroups() {
         super(MoreChickens.MODID);
     }

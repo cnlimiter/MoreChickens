@@ -2,12 +2,14 @@ package cn.evolvefield.mods.morechickens.client.render.entity;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
+import net.minecraft.client.model.ChickenModel;
+import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.entity.MobRenderer;
-import net.minecraft.client.renderer.entity.model.ChickenModel;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.MathHelper;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.util.Mth;
+
 
 import javax.annotation.Nullable;
 
@@ -15,8 +17,8 @@ public class BaseChickenEntityRender extends MobRenderer<BaseChickenEntity, Chic
     protected static final String TEXTURE_TEMPLATE = "textures/entity/chicken/%s.png";
 
 
-    public BaseChickenEntityRender(EntityRendererManager manager) {
-        super(manager,new ChickenModel<>(),0.3f);
+    public BaseChickenEntityRender(EntityRendererProvider.Context manager) {
+        super(manager,new ChickenModel<>(manager.bakeLayer(ModelLayers.CHICKEN)),0.3f);
     }
 
     @Override
@@ -32,8 +34,8 @@ public class BaseChickenEntityRender extends MobRenderer<BaseChickenEntity, Chic
 
     @Override
     protected float getBob(BaseChickenEntity livingBase, float partialTicks) {
-        float f = MathHelper.lerp(partialTicks, livingBase.oFlap, livingBase.wingRotation);
-        float f1 = MathHelper.lerp(partialTicks, livingBase.oFlapSpeed, livingBase.destPos);
-        return (MathHelper.sin(f) + 1.0F) * f1;
+        float f = Mth.lerp(partialTicks, livingBase.oFlap, livingBase.wingRotation);
+        float f1 = Mth.lerp(partialTicks, livingBase.oFlapSpeed, livingBase.destPos);
+        return (Mth.sin(f) + 1.0F) * f1;
     }
 }

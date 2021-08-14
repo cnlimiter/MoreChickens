@@ -6,6 +6,7 @@ import com.electronwill.nightconfig.core.Config;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.event.config.ModConfigEvent;
 import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.ArrayList;
@@ -197,12 +198,12 @@ public class ModConfig {
     }
 
     @SubscribeEvent
-    public static void onLoad(net.minecraftforge.fml.config.ModConfig.Loading event){
+    public static void onLoad(ModConfigEvent.Loading event){
 
     }
 
     @SubscribeEvent
-    public static void onFileChanged(net.minecraftforge.fml.config.ModConfig.Reloading event){
+    public static void onFileChanged(ModConfigEvent.Reloading event){
 
     }
 

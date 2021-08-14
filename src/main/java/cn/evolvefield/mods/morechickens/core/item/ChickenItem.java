@@ -3,19 +3,20 @@ package cn.evolvefield.mods.morechickens.core.item;
 
 import cn.evolvefield.mods.morechickens.core.data.DataChicken;
 import cn.evolvefield.mods.morechickens.core.tile.RoostTileEntity;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
+
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.context.UseOnContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
@@ -34,16 +35,16 @@ public class ChickenItem extends Item {
 
 
     @Override
-    public void appendHoverText(ItemStack itemStack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
+    public void appendHoverText(ItemStack itemStack, @Nullable Level world, List<Component> tooltip, TooltipFlag flag) {
         DataChicken data = DataChicken.getDataFromStack(itemStack);
         if (data != null) {
             data.addInfoToTooltip(tooltip);
         } else {
-            CompoundNBT tag = itemStack.getTag();
+            CompoundTag tag = itemStack.getTag();
             if (tag != null) {
                 String chicken = tag.getString(DataChicken.CHICKEN_ID_KEY);
                 if (chicken.length() > 0) {
-                    tooltip.add(ITextComponent.nullToEmpty("Broken chicken, id = \"" + chicken + "\""));
+                    tooltip.add(Component.nullToEmpty("Broken chicken, id = \"" + chicken + "\""));
                 }
             }
         }
@@ -52,21 +53,21 @@ public class ChickenItem extends Item {
 
     @Override
     @OnlyIn(Dist.CLIENT)
-    public ITextComponent getName(ItemStack stack) {
+    public Component getName(ItemStack stack) {
         DataChicken data = DataChicken.getDataFromStack(stack);
-        if (data == null) return ITextComponent.nullToEmpty(I18n.get(I18N_NAME));
-        return ITextComponent.nullToEmpty(data.getDisplayName());
+        if (data == null) return Component.nullToEmpty(I18n.get(I18N_NAME));
+        return Component.nullToEmpty(data.getDisplayName());
     }
 
 
     @Override
-    public ActionResultType useOn(ItemUseContext context) {
-        PlayerEntity player = context.getPlayer();
-        World world = context.getLevel();
-        Hand hand = context.getHand();
+    public InteractionResult useOn(UseOnContext context) {
+        Player player = context.getPlayer();
+        Level world = context.getLevel();
+        InteractionHand hand = context.getHand();
         BlockPos pos = context.getClickedPos().above();
         if (!world.isClientSide) {
-            TileEntity tileEntity = world.getBlockEntity(pos);
+            BlockEntity tileEntity = world.getBlockEntity(pos);
 
             if (tileEntity != null && tileEntity instanceof RoostTileEntity) {
                 putChickenIn(player.getItemInHand(hand), (RoostTileEntity) tileEntity);
@@ -75,7 +76,7 @@ public class ChickenItem extends Item {
             }
         }
 
-        return ActionResultType.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
 
@@ -85,7 +86,7 @@ public class ChickenItem extends Item {
         tileEntity.putChickenIn(stack);
     }
 
-    private void spawnChicken(ItemStack stack, PlayerEntity player, World worldIn, BlockPos pos) {
+    private void spawnChicken(ItemStack stack, Player player, Level worldIn, BlockPos pos) {
         DataChicken chickenData = DataChicken.getDataFromStack(stack);
         if (chickenData == null) return;
         chickenData.spawnEntity(worldIn, pos);

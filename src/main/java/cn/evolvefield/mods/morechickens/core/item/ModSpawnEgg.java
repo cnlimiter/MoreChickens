@@ -1,17 +1,19 @@
 package cn.evolvefield.mods.morechickens.core.item;
 
-import net.minecraft.block.DispenserBlock;
-import net.minecraft.dispenser.DefaultDispenseItemBehavior;
-import net.minecraft.dispenser.IBlockSource;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.SpawnEggItem;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.Direction;
+
+import net.minecraft.core.BlockSource;
+import net.minecraft.core.Direction;
+import net.minecraft.core.dispenser.DefaultDispenseItemBehavior;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.level.block.DispenserBlock;
 import net.minecraftforge.common.util.Lazy;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
+import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
+import net.minecraftforge.fmllegacy.RegistryObject;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +24,7 @@ public class ModSpawnEgg extends SpawnEggItem {
     private static final List<ModSpawnEgg> QUEUE = new ArrayList<>();
     private final Lazy<? extends EntityType<?>> entityTypeSupplier;
 
-    public ModSpawnEgg( RegistryObject<? extends EntityType<?>> entityType, int fg, int bg, Properties properties) {
+    public ModSpawnEgg(RegistryObject<? extends EntityType<?>> entityType, int fg, int bg, Properties properties) {
         super(null, fg, bg, properties);
         this.entityTypeSupplier = Lazy.of(entityType);
         QUEUE.add(this);
@@ -33,10 +35,10 @@ public class ModSpawnEgg extends SpawnEggItem {
             Map<EntityType<?>, SpawnEggItem> EGGS = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, null, "field_195987_b");
             DefaultDispenseItemBehavior behavior = new DefaultDispenseItemBehavior(){
                 @Override
-                protected ItemStack execute(IBlockSource source, ItemStack stack) {
+                protected ItemStack execute(BlockSource source, ItemStack stack) {
                     Direction dir = source.getBlockState().getValue(DispenserBlock.FACING);
                     EntityType<?> type = ((ModSpawnEgg)stack.getItem()).getType(stack.getTag());
-                    type.spawn(source.getLevel(), stack, null, source.getPos().relative(dir), SpawnReason.DISPENSER, dir != Direction.UP, false);
+                    type.spawn(source.getLevel(), stack, null, source.getPos().relative(dir), MobSpawnType.DISPENSER, dir != Direction.UP, false);
                     stack.shrink(1);
                     return stack;
                 }
@@ -50,7 +52,7 @@ public class ModSpawnEgg extends SpawnEggItem {
         }
     }
 
-    public EntityType<?> getType(CompoundNBT nbt){
+    public EntityType<?> getType(CompoundTag nbt){
         return entityTypeSupplier.get();
     }
 }

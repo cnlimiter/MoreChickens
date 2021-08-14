@@ -2,34 +2,37 @@ package cn.evolvefield.mods.morechickens.core.tile;
 
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.core.container.RoostContainer;
+import cn.evolvefield.mods.morechickens.core.container.ContainerRoost;
 import cn.evolvefield.mods.morechickens.core.data.DataChicken;
 import cn.evolvefield.mods.morechickens.init.ModConfig;
 import cn.evolvefield.mods.morechickens.init.ModTileEntities;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.SimpleContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class RoostTileEntity extends ChickenContainerTileEntity implements INamedContainerProvider {
+public class RoostTileEntity extends ChickenContainerTileEntity implements MenuProvider {
 
     private static final String CHICKEN_KEY = "Chicken";
     private static final String COMPLETE_KEY = "Complete";
     private static int CHICKEN_SLOT = 0;
-    private Inventory inventory = new Inventory(5);
+    private SimpleContainer inventory = new SimpleContainer(5);
 
-    public RoostTileEntity() {
-        super(ModTileEntities.TILE_ROOST);
+    public RoostTileEntity(BlockPos pos, BlockState state) {
+        super(ModTileEntities.TILE_ROOST,pos,state);
     }
 
 
@@ -66,14 +69,14 @@ public class RoostTileEntity extends ChickenContainerTileEntity implements IName
         return false;
     }
 
-    public boolean pullChickenOut(PlayerEntity playerIn) {
+    public boolean pullChickenOut(Player playerIn) {
         ItemStack spawnStack = getItem(CHICKEN_SLOT);
 
         if (spawnStack.isEmpty()) {
             return false;
         }
 
-        playerIn.inventory.add(spawnStack);
+        playerIn.getInventory().add(spawnStack);
         setItem(CHICKEN_SLOT, ItemStack.EMPTY);
 
         setChanged();
@@ -83,32 +86,32 @@ public class RoostTileEntity extends ChickenContainerTileEntity implements IName
     }
 
     private void playPutChickenInSound() {
-        getLevel().playSound(null, getBlockPos(), SoundEvents.ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        getLevel().playSound(null, getBlockPos(), SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 
     private void playPullChickenOutSound() {
-        getLevel().playSound(null, getBlockPos(), SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        getLevel().playSound(null, getBlockPos(), SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 
-    public void addInfoToTooltip(List<String> tooltip, CompoundNBT tag) {
+    public void addInfoToTooltip(List<String> tooltip, CompoundTag tag) {
         if (tag.contains(CHICKEN_KEY)) {
             DataChicken chicken = DataChicken.getDataFromTooltipNBT(tag.getCompound(CHICKEN_KEY));
             tooltip.add(chicken.getDisplaySummary());
         }
 
         if (tag.contains(COMPLETE_KEY)) {
-            tooltip.add(new TranslationTextComponent("container.chickens.roost.progress", formatProgress(tag.getDouble(COMPLETE_KEY))).getString());
+            tooltip.add(new TranslatableComponent("container.chickens.roost.progress", formatProgress(tag.getDouble(COMPLETE_KEY))).getString());
         }
     }
 
-    public void storeInfoForTooltip(CompoundNBT tag) {
+    public void storeInfoForTooltip(CompoundTag tag) {
         DataChicken chicken = getChickenData(CHICKEN_SLOT);
         if (chicken == null) return;
         tag.put(CHICKEN_KEY, chicken.buildTooltipNBT());
         tag.putDouble(COMPLETE_KEY, getProgress());
     }
 
-    public Inventory getInventory() {
+    public SimpleContainer getInventory() {
         return inventory;
     }
 
@@ -118,14 +121,14 @@ public class RoostTileEntity extends ChickenContainerTileEntity implements IName
     }
 
     @Override
-    public ITextComponent getDisplayName() {
-        return new TranslationTextComponent(getName());
+    public Component getDisplayName() {
+        return new TranslatableComponent(getName());
     }
 
     @Nullable
     @Override
-    public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity player) {
-        return new RoostContainer(id,playerInventory,this);
+    public AbstractContainerMenu createMenu(int id, Inventory playerInventory, Player player) {
+        return new ContainerRoost(id,playerInventory,this);
     }
 
     @Override

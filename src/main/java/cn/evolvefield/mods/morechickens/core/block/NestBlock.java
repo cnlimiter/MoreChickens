@@ -1,35 +1,35 @@
 package cn.evolvefield.mods.morechickens.core.block;
 
 import cn.evolvefield.mods.morechickens.core.tile.NestTileEntity;
-import net.minecraft.block.BlockRenderType;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.ContainerBlock;
-import net.minecraft.block.SoundType;
-import net.minecraft.block.material.Material;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.boss.WitherEntity;
-import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.item.TNTEntity;
-import net.minecraft.entity.item.minecart.TNTMinecartEntity;
-import net.minecraft.entity.monster.CreeperEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.projectile.WitherSkullEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.loot.LootContext;
-import net.minecraft.loot.LootParameters;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.GameRules;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.World;
+
+import net.minecraft.core.BlockPos;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.boss.wither.WitherBoss;
+import net.minecraft.world.entity.item.ItemEntity;
+import net.minecraft.world.entity.monster.Creeper;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.projectile.WitherSkull;
+import net.minecraft.world.entity.vehicle.MinecartTNT;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
+import net.minecraft.world.level.GameRules;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.BaseEntityBlock;
+import net.minecraft.world.level.block.RenderShape;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.level.storage.loot.LootContext;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 
 import javax.annotation.Nullable;
 import java.util.List;
 
-public class NestBlock extends ContainerBlock {
+public class NestBlock extends BaseEntityBlock {
     public NestBlock() {
         super(Properties.of(Material.WOOD)
                 .strength(3.0f,4.0f)
@@ -39,13 +39,13 @@ public class NestBlock extends ContainerBlock {
 
     @Nullable
     @Override
-    public TileEntity newBlockEntity(IBlockReader p_196283_1_) {
-        return new NestTileEntity();
+    public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
+        return new NestTileEntity(pos, state);
     }
 
     @Override
-    public BlockRenderType getRenderShape(BlockState p_149645_1_) {
-        return BlockRenderType.MODEL;
+    public RenderShape getRenderShape(BlockState p_149645_1_) {
+        return RenderShape.MODEL;
     }
 
     @Override
@@ -54,8 +54,8 @@ public class NestBlock extends ContainerBlock {
     }
 
     @Override
-    public int getAnalogOutputSignal(BlockState state, World world, BlockPos pos) {
-        TileEntity tileEntity = world.getBlockEntity(pos);
+    public int getAnalogOutputSignal(BlockState state, Level world, BlockPos pos) {
+        BlockEntity tileEntity = world.getBlockEntity(pos);
         if(tileEntity instanceof NestTileEntity){
             NestTileEntity nest = (NestTileEntity)tileEntity;
             return Math.min(15, nest.numChickens());
@@ -63,8 +63,9 @@ public class NestBlock extends ContainerBlock {
         return 0;
     }
 
+
     @Override
-    public void playerDestroy(World worldIn, PlayerEntity player, BlockPos pos, BlockState state, TileEntity te, ItemStack stack) {
+    public void playerDestroy(Level worldIn, Player player, BlockPos pos, BlockState state, @Nullable BlockEntity te, ItemStack stack) {
         super.playerDestroy(worldIn, player, pos, state, te, stack);
         if (!worldIn.isClientSide && te instanceof NestTileEntity) {
             NestTileEntity nestTileEntity = (NestTileEntity) te;
@@ -76,9 +77,9 @@ public class NestBlock extends ContainerBlock {
     }
 
     @Override
-    public void playerWillDestroy(World worldIn, BlockPos pos, BlockState state, PlayerEntity player) {
+    public void playerWillDestroy(Level worldIn, BlockPos pos, BlockState state, Player player) {
         if (!worldIn.isClientSide && player.isCreative() && worldIn.getGameRules().getBoolean(GameRules.RULE_DOBLOCKDROPS)) {
-            TileEntity tileentity = worldIn.getBlockEntity(pos);
+            BlockEntity tileentity = worldIn.getBlockEntity(pos);
             if (tileentity instanceof NestTileEntity) {
                 NestTileEntity nestTileEntity = (NestTileEntity) tileentity;
                 ItemStack itemstack = new ItemStack(this);
@@ -87,7 +88,7 @@ public class NestBlock extends ContainerBlock {
                     return;
                 }
 
-                CompoundNBT compoundnbt = new CompoundNBT();
+                CompoundTag compoundnbt = new CompoundTag();
                 compoundnbt.put("Chickens", nestTileEntity.getChickens());
                 itemstack.addTagElement("BlockEntityTag", compoundnbt);
 
@@ -102,9 +103,9 @@ public class NestBlock extends ContainerBlock {
 
     @Override
     public List<ItemStack> getDrops(BlockState state, LootContext.Builder builder) {
-        Entity entity = builder.getOptionalParameter(LootParameters.THIS_ENTITY);
-        if (entity instanceof TNTEntity || entity instanceof CreeperEntity || entity instanceof WitherSkullEntity || entity instanceof WitherEntity || entity instanceof TNTMinecartEntity) {
-            TileEntity tileentity = builder.getOptionalParameter(LootParameters.BLOCK_ENTITY);
+        Entity entity = builder.getOptionalParameter(LootContextParams.THIS_ENTITY);
+        if (entity instanceof MinecartTNT || entity instanceof Creeper || entity instanceof WitherSkull || entity instanceof WitherBoss ) {
+            BlockEntity tileentity = builder.getOptionalParameter(LootContextParams.BLOCK_ENTITY);
             if (tileentity instanceof NestTileEntity) {
                 NestTileEntity nestTileEntity = (NestTileEntity)tileentity;
                 nestTileEntity.spawnChickens(builder.getLevel());

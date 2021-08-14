@@ -1,7 +1,8 @@
 package cn.evolvefield.mods.morechickens.core.tile;
 
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.IItemHandlerModifiable;
 

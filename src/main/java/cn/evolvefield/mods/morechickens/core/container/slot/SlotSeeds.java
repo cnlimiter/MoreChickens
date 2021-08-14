@@ -2,12 +2,13 @@ package cn.evolvefield.mods.morechickens.core.container.slot;
 
 
 import cn.evolvefield.mods.morechickens.core.tile.ChickenContainerTileEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
+
+import net.minecraft.world.Container;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
 
 public class SlotSeeds extends Slot {
-    public SlotSeeds(IInventory inventoryIn, int index, int xPosition, int yPosition) {
+    public SlotSeeds(Container inventoryIn, int index, int xPosition, int yPosition) {
         super(inventoryIn, index, xPosition, yPosition);
     }
 

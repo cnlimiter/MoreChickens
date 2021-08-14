@@ -3,17 +3,17 @@ package cn.evolvefield.mods.morechickens.core.data;
 
 import cn.evolvefield.mods.morechickens.init.ModItems;
 import com.google.common.base.CaseFormat;
-import net.minecraft.client.resources.I18n;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+
+import net.minecraft.client.resources.language.I18n;
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -32,7 +32,7 @@ public class DataChicken {
         return chickens;
     }
 
-    public static DataChicken getDataFromTooltipNBT(CompoundNBT tag) {
+    public static DataChicken getDataFromTooltipNBT(CompoundTag tag) {
         if (tag == null) return null;
 
         DataChicken data = null;
@@ -82,7 +82,7 @@ public class DataChicken {
         return data;
     }
 
-    public static void getItemChickenSubItems(ItemGroup tab, List<ItemStack> subItems) {
+    public static void getItemChickenSubItems(CreativeModeTab tab, List<ItemStack> subItems) {
         for (DataChicken chicken : getAllChickens()) {
             subItems.add(chicken.buildChickenStack());
         }
@@ -105,7 +105,7 @@ public class DataChicken {
         this.i18nName = i18nName;
     }
 
-    public void addInfoToTooltip(List<ITextComponent> tooltip) {
+    public void addInfoToTooltip(List<Component> tooltip) {
     }
 
     public boolean hasParents() {
@@ -124,15 +124,15 @@ public class DataChicken {
         return ItemStack.EMPTY;
     }
 
-    public AnimalEntity buildEntity(World world) {
+    public Animal buildEntity(Level world) {
         return null;
     }
 
-    public CompoundNBT buildTooltipNBT() {
+    public CompoundTag buildTooltipNBT() {
         return null;
     }
 
-    public void spawnEntity(World world, BlockPos pos) {
+    public void spawnEntity(Level world, BlockPos pos) {
     }
 
     public String getChickenType() {
@@ -143,17 +143,17 @@ public class DataChicken {
         return null;
     }
 
-    private static ItemStack createChildStack(DataChicken chickenA, DataChicken chickenB, World world) {
+    private static ItemStack createChildStack(DataChicken chickenA, DataChicken chickenB, Level world) {
         if (chickenA.getClass() != chickenB.getClass()) return chickenA.buildChickenStack();
-        AnimalEntity parentA = chickenA.buildEntity(world);
-        AnimalEntity parentB = chickenB.buildEntity(world);
+        Animal parentA = chickenA.buildEntity(world);
+        Animal parentB = chickenB.buildEntity(world);
         if (parentA == null || parentB == null) return ItemStack.EMPTY;
-        DataChicken childData = DataChicken.getDataFromEntity(parentA.getBreedOffspring((ServerWorld) world,parentB));
+        DataChicken childData = DataChicken.getDataFromEntity(parentA.getBreedOffspring((ServerLevel) world,parentB));
         if (childData == null) return ItemStack.EMPTY;
         return childData.buildChickenStack();
     }
 
-    public ItemStack createChildStack(DataChicken other, World world) {
+    public ItemStack createChildStack(DataChicken other, Level world) {
         if (rand.nextBoolean()) return createChildStack(this, other, world);
         return createChildStack(other, this, world);
     }

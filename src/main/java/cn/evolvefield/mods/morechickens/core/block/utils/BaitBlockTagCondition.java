@@ -1,8 +1,9 @@
 package cn.evolvefield.mods.morechickens.core.block.utils;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.fluid.FluidState;
-import net.minecraft.util.ResourceLocation;
+
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.FluidState;
 
 public class BaitBlockTagCondition implements BaitEnvironmentCondition{
     private final ResourceLocation tag;

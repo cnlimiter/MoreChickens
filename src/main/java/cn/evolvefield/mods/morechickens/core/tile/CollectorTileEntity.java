@@ -3,26 +3,27 @@ package cn.evolvefield.mods.morechickens.core.tile;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
 
-import cn.evolvefield.mods.morechickens.core.container.CollectorContainer;
+import cn.evolvefield.mods.morechickens.core.container.ContainerCollector;
 import cn.evolvefield.mods.morechickens.init.ModTileEntities;
 import cn.evolvefield.mods.morechickens.init.util.InventoryUtil;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.MenuProvider;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -32,13 +33,13 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class CollectorTileEntity extends TileEntity implements ISidedInventory, ITickableTileEntity, INamedContainerProvider, IIntArray {
+public class CollectorTileEntity extends BlockEntity implements WorldlyContainer, BlockEntityTicker, MenuProvider {
 
     private NonNullList<ItemStack> inventory = NonNullList.<ItemStack>withSize(getContainerSize(), ItemStack.EMPTY);
     private int searchOffset = 0;
 
-    public CollectorTileEntity() {
-        super(ModTileEntities.TILE_COLLECTOR);
+    public CollectorTileEntity(BlockPos pos, BlockState state) {
+        super(ModTileEntities.TILE_COLLECTOR,pos,state);
     }
 
 
@@ -47,14 +48,17 @@ public class CollectorTileEntity extends TileEntity implements ISidedInventory, 
     }
 
     @Override
-    public ITextComponent getDisplayName() {
-        return new TranslationTextComponent(getName());
+    public Component getDisplayName() {
+        return new TranslatableComponent(getName());
     }
 
+    
+    
+    
     @Nullable
     @Override
-    public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity player) {
-        return new CollectorContainer(id,playerInventory,this);
+    public AbstractContainerMenu createMenu(int id, Inventory playerInventory, Player player) {
+        return new ContainerCollector(id,playerInventory,this);
     }
 
     @Override
@@ -77,12 +81,12 @@ public class CollectorTileEntity extends TileEntity implements ISidedInventory, 
 
     @Override
     public ItemStack removeItem(int index, int count) {
-        return ItemStackHelper.removeItem(inventory, index, count);
+        return ContainerHelper.removeItem(inventory, index, count);
     }
 
     @Override
     public ItemStack removeItemNoUpdate(int index) {
-        return ItemStackHelper.takeItem(inventory, index);
+        return ContainerHelper.takeItem(inventory, index);
     }
 
     @Override
@@ -101,7 +105,7 @@ public class CollectorTileEntity extends TileEntity implements ISidedInventory, 
     }
 
     @Override
-    public boolean stillValid(PlayerEntity player) {
+    public boolean stillValid(Player player) {
         if (getLevel().getBlockEntity(getBlockPos()) != this) {
             return false;
         } else {
@@ -110,11 +114,11 @@ public class CollectorTileEntity extends TileEntity implements ISidedInventory, 
     }
 
     @Override
-    public void startOpen(PlayerEntity p_174889_1_) {
+    public void startOpen(Player p_174889_1_) {
     }
 
     @Override
-    public void stopOpen(PlayerEntity p_174886_1_) {
+    public void stopOpen(Player p_174886_1_) {
     }
 
     @Override
@@ -137,19 +141,9 @@ public class CollectorTileEntity extends TileEntity implements ISidedInventory, 
         inventory.clear();
     }
 
-    @Override
-    public int get(int p_221476_1_) {
-        return 0;
-    }
 
-    @Override
-    public void set(int p_221477_1_, int p_221477_2_) {
-    }
 
-    @Override
-    public int getCount() {
-        return 0;
-    }
+
 
     @Override
     public int[] getSlotsForFace(Direction direction) {
@@ -161,7 +155,7 @@ public class CollectorTileEntity extends TileEntity implements ISidedInventory, 
     }
 
     @Override
-    public void tick() {
+    public void tick(Level level, BlockPos pos, BlockState state, BlockEntity entity) {
         if (!getLevel().isClientSide) {
             updateSearchOffset();
             gatherItems();
@@ -170,15 +164,15 @@ public class CollectorTileEntity extends TileEntity implements ISidedInventory, 
 
 
     @Override
-    public void load(BlockState state, CompoundNBT nbt) {
-        super.load(state, nbt);
+    public void load( CompoundTag nbt) {
+        super.load( nbt);
         //ItemStackHelper.loadAllItems(nbt, inventory);
     }
 
     @Override
-    public CompoundNBT save(CompoundNBT nbt) {
+    public CompoundTag save(CompoundTag nbt) {
         super.save(nbt);
-        ItemStackHelper.saveAllItems(nbt, inventory);
+        ContainerHelper.saveAllItems(nbt, inventory);
         return nbt;
     }
 
@@ -207,15 +201,15 @@ public class CollectorTileEntity extends TileEntity implements ISidedInventory, 
     }
 
     private void gatherItemAtPos(BlockPos pos) {
-        TileEntity tileEntity = getLevel().getBlockEntity(pos);
+        BlockEntity tileEntity = getLevel().getBlockEntity(pos);
         if (!(tileEntity instanceof RoostTileEntity)) return;
 
-        RoostTileEntity roostTileEntity = (RoostTileEntity) getLevel().getBlockEntity(pos);
+        RoostTileEntity tileEntityRoost = (RoostTileEntity) getLevel().getBlockEntity(pos);
 
-        int[] slots = roostTileEntity.getSlotsForFace(null);
+        int[] slots = tileEntityRoost.getSlotsForFace(null);
 
         for (int i : slots) {
-            if (pullItemFromSlot(roostTileEntity, i)) return;
+            if (pullItemFromSlot(tileEntityRoost, i)) return;
         }
     }
 
@@ -238,7 +232,6 @@ public class CollectorTileEntity extends TileEntity implements ISidedInventory, 
 
         return false;
     }
-
 
 
 }

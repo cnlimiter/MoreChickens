@@ -3,31 +3,34 @@ package cn.evolvefield.mods.morechickens.core.block;
 
 import cn.evolvefield.mods.morechickens.core.tile.RoostTileEntity;
 import cn.evolvefield.mods.morechickens.init.ModBlocks;
-import net.minecraft.block.*;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
-import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.Property;
-import net.minecraft.state.StateContainer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.*;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.network.FriendlyByteBuf;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Containers;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.context.BlockPlaceContext;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.*;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.DirectionProperty;
+import net.minecraft.world.level.block.state.properties.Property;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.BlockHitResult;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
+
 
 import javax.annotation.Nullable;
 import java.util.Collection;
 import java.util.Optional;
 
-public class RoostBlock extends ContainerBlock {
+public class BlockRoost extends BaseEntityBlock {
     public static class ChickenTypeProperty extends Property<String> {
         private final String name;
 
@@ -49,10 +52,10 @@ public class RoostBlock extends ContainerBlock {
         }
     }
 
-    public static final DirectionProperty FACING = HorizontalBlock.FACING;
+    public static final DirectionProperty FACING = HorizontalDirectionalBlock.FACING;
     public static final ChickenTypeProperty CHICKEN = new ChickenTypeProperty("chicken");
 
-    public RoostBlock() {
+    public BlockRoost() {
         super(Properties.of(Material.WOOD)
             .sound(SoundType.WOOD)
                 .strength(2.0f,5.0f)
@@ -64,16 +67,17 @@ public class RoostBlock extends ContainerBlock {
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
         builder.add(FACING);
     }
 
 
+
     @Nullable
     @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
+    public BlockState getStateForPlacement(BlockPlaceContext context) {
         BlockState blockstate = this.defaultBlockState();
-        IWorldReader iworldreader = context.getLevel();
+        LevelAccessor iworldreader = context.getLevel();
         BlockPos blockpos = context.getClickedPos();
         Direction[] adirection = context.getNearestLookingDirections();
 
@@ -126,60 +130,55 @@ public class RoostBlock extends ContainerBlock {
 //    }
 
     @Override
-    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity playerEntity, Hand hand, BlockRayTraceResult result) {
+    public InteractionResult use(BlockState state, Level world, BlockPos pos, Player playerEntity, InteractionHand hand, BlockHitResult result) {
         if (world.isClientSide) {
-            return ActionResultType.FAIL;
+            return InteractionResult.FAIL;
         }
         RoostTileEntity tileEntity = (RoostTileEntity) world.getBlockEntity(pos);
         if (tileEntity == null) {
-            return ActionResultType.FAIL;
+            return InteractionResult.FAIL;
         }
         if (playerEntity.isCrouching() && tileEntity.pullChickenOut(playerEntity)) {
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
 
         if (tileEntity.putChickenIn(playerEntity.getItemInHand(hand))) {
-            return ActionResultType.SUCCESS;
+            return InteractionResult.SUCCESS;
         }
 
-        NetworkHooks.openGui((ServerPlayerEntity) playerEntity, tileEntity
+        NetworkHooks.openGui((ServerPlayer) playerEntity, tileEntity
                 ,
-                (PacketBuffer packerBuffer) -> {
+                (FriendlyByteBuf packerBuffer) -> {
             packerBuffer.writeBlockPos(tileEntity.getBlockPos());
         }
         );
 
 
-        return ActionResultType.SUCCESS;
+        return InteractionResult.SUCCESS;
     }
 
 
 
     @Override
-    public void destroy(IWorld world, BlockPos blockPos, BlockState state) {
-        TileEntity tileEntity =world.getBlockEntity(blockPos);
+    public void destroy(LevelAccessor world, BlockPos blockPos, BlockState state) {
+        BlockEntity tileEntity =world.getBlockEntity(blockPos);
         if (tileEntity instanceof RoostTileEntity) {
-            InventoryHelper.dropItemStack((World) world, blockPos.getX(),blockPos.getY(),blockPos.getZ(), ModBlocks.BLOCK_ROOST.asItem().getDefaultInstance());
+            Containers.dropItemStack((Level) world, blockPos.getX(),blockPos.getY(),blockPos.getZ(), ModBlocks.BLOCK_ROOST.asItem().getDefaultInstance());
         }
         super.destroy(world, blockPos, state);
     }
 
     @Override
-    public BlockRenderType getRenderShape(BlockState state) {
-        return BlockRenderType.MODEL;
+    public RenderShape getRenderShape(BlockState state) {
+        return RenderShape.MODEL;
     }
 
 
 
     @Nullable
     @Override
-    public TileEntity newBlockEntity(IBlockReader blockReader) {
-        return new RoostTileEntity();
-    }
-
-    @Override
-    public boolean hasTileEntity(BlockState state) {
-        return true;
+    public BlockEntity newBlockEntity(BlockPos pos,BlockState state) {
+        return new RoostTileEntity(pos, state);
     }
 
 

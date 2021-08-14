@@ -1,8 +1,9 @@
 package cn.evolvefield.mods.morechickens.core.tile.util;
 
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.TileEntity;
+
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -65,8 +66,8 @@ public class InventoryHandlerHelper {
 
     public static boolean areItemStackTagsEqual(ItemStack stackA, ItemStack stackB) {
         if (!stackA.isEmpty() && !stackB.isEmpty()) {
-            CompoundNBT tagA = stackA.getTag();
-            CompoundNBT tagB = stackB.getTag();
+            CompoundTag tagA = stackA.getTag();
+            CompoundTag tagB = stackB.getTag();
             if ((tagA == null || tagA.isEmpty()) && tagB != null && !tagB.isEmpty()) {
                 return false;
             } else {
@@ -79,13 +80,13 @@ public class InventoryHandlerHelper {
 
     public static class ItemHandler extends ItemStackHandler
     {
-        protected TileEntity tileEntity;
+        protected BlockEntity tileEntity;
 
         public ItemHandler(int size) {
             this(size, null);
         }
 
-        public ItemHandler(int size, @Nullable TileEntity tileEntity) {
+        public ItemHandler(int size, @Nullable BlockEntity tileEntity) {
             super(size);
             this.tileEntity = tileEntity;
         }
@@ -173,7 +174,7 @@ public class InventoryHandlerHelper {
         }
 
         @Override
-        public void deserializeNBT(CompoundNBT nbt) {
+        public void deserializeNBT(CompoundTag nbt) {
             int size = nbt.contains("Size", Constants.NBT.TAG_INT) ? nbt.getInt("Size") : stacks.size();
             if (size < stacks.size()) {
                 nbt.putInt("Size", stacks.size());
@@ -186,7 +187,7 @@ public class InventoryHandlerHelper {
     public static class UpgradeHandler extends ItemHandler
     {
 
-        public UpgradeHandler(int size, TileEntity tileEntity) {
+        public UpgradeHandler(int size, BlockEntity tileEntity) {
             super(size, tileEntity);
         }
 

@@ -3,10 +3,11 @@ package cn.evolvefield.mods.morechickens.init;
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.core.block.*;
 import cn.evolvefield.mods.morechickens.core.block.utils.BaitType;
-import net.minecraft.block.Block;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.util.IStringSerializable;
+
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModList;
@@ -34,10 +35,10 @@ public class ModBlocks {
         BAITS = registerEnumBlock(registry, BaitType.values(), it -> it + BaitBlock.nameSuffix, BaitBlock::new);
 
         registry.registerAll(
-                BLOCK_NEST = new NestBlock().setRegistryName("nest"),
-                BLOCK_ROOST = new RoostBlock().setRegistryName("roost"),
-                BLOCK_BREEDER = new BreederBlock().setRegistryName("breeder"),
-                BLOCK_COLLECTOR = new CollectorBlock().setRegistryName("collector")
+                BLOCK_NEST = new NestBlock().setRegistryName("chicken_nest"),
+                BLOCK_ROOST = new BlockRoost().setRegistryName("roost"),
+                BLOCK_BREEDER = new BlockBreeder().setRegistryName("breeder"),
+                BLOCK_COLLECTOR = new BlockCollector().setRegistryName("collector")
                   //evolvedOrechid = BotaniaCompat.createOrechidBlock().setRegistryName(new ResourceLocation(ExCompressum.MOD_ID, "evolved_orechid"))
         );
 
@@ -63,7 +64,7 @@ public class ModBlocks {
 
 
 
-    private static <T extends Enum<T> & IStringSerializable> Block[] registerEnumBlock(IForgeRegistry<Block> registry, T[] types, Function<String, String> nameFactory, Function<T, Block> factory) {
+    private static <T extends Enum<T> & StringRepresentable> Block[] registerEnumBlock(IForgeRegistry<Block> registry, T[] types, Function<String, String> nameFactory, Function<T, Block> factory) {
         Block[] blocks = new Block[types.length];
         for (T type : types) {
             blocks[type.ordinal()] = factory.apply(type).setRegistryName(nameFactory.apply(type.getSerializedName()));

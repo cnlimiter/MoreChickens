@@ -1,8 +1,9 @@
 package cn.evolvefield.mods.morechickens.core.block.utils;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.fluid.Fluid;
-import net.minecraft.fluid.FluidState;
+
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Fluid;
+import net.minecraft.world.level.material.FluidState;
 
 public class BaitFluidCondition implements BaitEnvironmentCondition{
     private final Fluid fluid;

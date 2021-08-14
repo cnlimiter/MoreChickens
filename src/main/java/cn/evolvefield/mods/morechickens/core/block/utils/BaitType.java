@@ -2,18 +2,22 @@ package cn.evolvefield.mods.morechickens.core.block.utils;
 
 import cn.evolvefield.mods.morechickens.init.ModConfig;
 import com.google.common.collect.Lists;
-import net.minecraft.block.Blocks;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.ICommandSource;
-import net.minecraft.fluid.Fluids;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.util.IStringSerializable;
-import net.minecraft.util.math.vector.Vector2f;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+
+import net.minecraft.commands.CommandSource;
+import net.minecraft.commands.CommandSourceStack;
+
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.server.level.ServerLevel;
+
+
+import net.minecraft.util.StringRepresentable;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.material.Fluids;
+import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
 
 import javax.annotation.Nullable;
 import java.util.Collection;
@@ -22,7 +26,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-public enum BaitType implements IStringSerializable {
+public enum BaitType implements StringRepresentable {
 
     OAK_CHICKEN(new ItemStack(Items.WHEAT_SEEDS), new ItemStack(Items.WHEAT_SEEDS), "oak", ModConfig.COMMON.oakChance::get),
     SAND_CHICKEN(new ItemStack(Items.WHEAT_SEEDS), new ItemStack(Items.WHEAT_SEEDS), "sand", ModConfig.COMMON.sandChance::get),
@@ -52,9 +56,9 @@ public enum BaitType implements IStringSerializable {
 
 
     @Nullable
-    public void createEntity(World world,double x,double y,double z) {
-        world.getServer().getCommands().performCommand(new CommandSource(ICommandSource.NULL, new Vector3d(x,y,z), Vector2f.ZERO,(ServerWorld) world,4, "",
-                new StringTextComponent(""), Objects.requireNonNull(world.getServer()), null),"summon chickens:base_chicken ~ ~ ~ {Breed:'"+ entityType +"'}");
+    public void createEntity(Level world, double x, double y, double z) {
+        world.getServer().getCommands().performCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(x,y,z), Vec2.ZERO,(ServerLevel) world,4, "",
+                new TextComponent(""), Objects.requireNonNull(world.getServer()), null),"summon chickens:base_chicken ~ ~ ~ {Breed:'"+ entityType +"'}");
 
     }
 

@@ -2,39 +2,41 @@ package cn.evolvefield.mods.morechickens.core.entity;
 
 import cn.evolvefield.mods.morechickens.core.entity.util.ChickenType;
 import cn.evolvefield.mods.morechickens.init.ModDefaultEntities;
-import cn.evolvefield.mods.morechickens.init.ModEntities;
-import net.minecraft.command.CommandSource;
-import net.minecraft.command.ICommandSource;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.projectile.ProjectileItemEntity;
-import net.minecraft.item.Item;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
-import net.minecraft.network.datasync.DataParameter;
-import net.minecraft.network.datasync.DataSerializers;
-import net.minecraft.network.datasync.EntityDataManager;
-import net.minecraft.particles.ItemParticleData;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.math.EntityRayTraceResult;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.vector.Vector2f;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.text.StringTextComponent;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+
+import net.minecraft.commands.CommandSource;
+import net.minecraft.commands.CommandSourceStack;
+import net.minecraft.core.particles.ItemParticleOption;
+import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.protocol.Packet;
+import net.minecraft.network.syncher.EntityDataAccessor;
+
+import net.minecraft.network.syncher.EntityDataSerializers;
+import net.minecraft.network.syncher.SynchedEntityData;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
+import net.minecraft.world.phys.HitResult;
+import net.minecraft.world.phys.Vec2;
+import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
+
+import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
+import net.minecraftforge.fmllegacy.network.NetworkHooks;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Objects;
 
-public class ColorEggEntity extends ProjectileItemEntity {
-    private static final DataParameter<String> ITEM_ID = EntityDataManager.defineId(ColorEggEntity.class, DataSerializers.STRING);
+public class ColorEggEntity extends ThrowableItemProjectile {
+    private static final EntityDataAccessor<String> ITEM_ID = SynchedEntityData.defineId(ColorEggEntity.class, EntityDataSerializers.STRING);
 
 
     private int spawnChance;
@@ -42,10 +44,10 @@ public class ColorEggEntity extends ProjectileItemEntity {
     private String animal;
     private ChickenType breed;
 
-    public ColorEggEntity(EntityType<? extends ColorEggEntity> type, World world) {
+    public ColorEggEntity(EntityType<? extends ColorEggEntity> type, net.minecraft.world.level.Level world) {
         super(type,world);
     }
-    public ColorEggEntity(FMLPlayMessages.SpawnEntity packet, World worldIn){
+    public ColorEggEntity(FMLPlayMessages.SpawnEntity packet, Level worldIn){
         super(ModDefaultEntities.COLOR_EGG.get(), worldIn);
     }
 
@@ -83,7 +85,8 @@ public class ColorEggEntity extends ProjectileItemEntity {
     public void handleStatusUpdate(byte id) {
         if (id == 3) {
             for(int i = 0; i < 8; ++i) {
-                this.level.addParticle(new ItemParticleData(ParticleTypes.ITEM, this.getItem()), this.getX(), this.getY(), this.getZ(), ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D);
+                this.level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, this.getItem()) {
+                }, this.getX(), this.getY(), this.getZ(), ((double) this.random.nextFloat() - 0.5D) * 0.08D, ((double) this.random.nextFloat() - 0.5D) * 0.08D, ((double) this.random.nextFloat() - 0.5D) * 0.08D);
             }
         }
     }
@@ -93,7 +96,7 @@ public class ColorEggEntity extends ProjectileItemEntity {
      * Damage hit entity
      */
     @Override
-    protected void onHitEntity(EntityRayTraceResult p_213868_1_) {
+    protected void onHitEntity(EntityHitResult p_213868_1_) {
         super.onHitEntity(p_213868_1_);
         p_213868_1_.getEntity().hurt(DamageSource.thrown(this, this.getOwner()), 0.0F);
 
@@ -108,7 +111,7 @@ public class ColorEggEntity extends ProjectileItemEntity {
 
 
     @Override
-    protected void onHit(RayTraceResult result) {
+    protected void onHit(HitResult result) {
         super.onHit(result);
         if (!this.level.isClientSide) {
             if (this.random.nextInt(Math.max(spawnChance, 1)) == 0) {
@@ -123,20 +126,20 @@ public class ColorEggEntity extends ProjectileItemEntity {
                     //assert animalEntity != null;
                     //animalEntity.ageUp(-24000);
                     //animalEntity.moveTo(this.getX(), this.getY(), this.getZ(), this.yRot, 0.0F);
-                    this.level.getServer().getCommands().performCommand(new CommandSource(ICommandSource.NULL, new Vector3d(getX(),getY(),getZ()), Vector2f.ZERO,(ServerWorld) level,4, "",
-                            new StringTextComponent(""), Objects.requireNonNull(level.getServer()), null),"summon chickens:base_chicken ~ ~ ~ {Breed:'"+ animal +"'}");
+                    this.level.getServer().getCommands().performCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(getX(),getY(),getZ()),  Vec2.ZERO,(ServerLevel) level,4, "",
+                            new TextComponent(""), Objects.requireNonNull(level.getServer()), null),"summon chickens:base_chicken ~ ~ ~ {Breed:'"+ animal +"'}");
                     //this.level.addFreshEntity(animalEntity);
                 }
             }
 
             this.level.broadcastEntityEvent(this, (byte)3);
-            this.remove();
+            this.remove(Entity.RemovalReason.KILLED);
         }
     }
 
 
     @Override
-    public void readAdditionalSaveData(CompoundNBT nbt) {
+    public void readAdditionalSaveData(CompoundTag nbt) {
         super.readAdditionalSaveData(nbt);
         if(nbt.contains("Spawn"))
             spawnChance = nbt.getInt("Spawn");
@@ -150,7 +153,7 @@ public class ColorEggEntity extends ProjectileItemEntity {
 
 
     @Override
-    public void addAdditionalSaveData(CompoundNBT nbt) {
+    public void addAdditionalSaveData(CompoundTag nbt) {
         super.addAdditionalSaveData(nbt);
         nbt.putInt("Chance", spawnChance);
         nbt.putInt("Extra", manySpawnChance);
@@ -160,7 +163,7 @@ public class ColorEggEntity extends ProjectileItemEntity {
 
 
 
-    public IPacket<?> createSpawnPacket(){
+    public Packet<?> createSpawnPacket(){
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 }

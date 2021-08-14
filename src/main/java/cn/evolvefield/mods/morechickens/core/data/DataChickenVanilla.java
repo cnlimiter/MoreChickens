@@ -3,15 +3,16 @@ package cn.evolvefield.mods.morechickens.core.data;
 
 import cn.evolvefield.mods.morechickens.init.ModConfig;
 import cn.evolvefield.mods.morechickens.init.ModItems;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.ChickenEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.animal.Chicken;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 
 import java.util.Arrays;
 import java.util.List;
@@ -25,18 +26,18 @@ public class DataChickenVanilla extends DataChicken {
     private static final String VANILLA_TYPE = "minecraft:chicken";
 
     public static DataChicken getDataFromStack(ItemStack stack) {
-        CompoundNBT tagCompound = stack.getTag();
+        CompoundTag tagCompound = stack.getTag();
         if (tagCompound == null || !tagCompound.getString(CHICKEN_ID_KEY).equals(VANILLA_TYPE)) return null;
         return new DataChickenVanilla();
     }
 
-    public static DataChicken getDataFromTooltipNBT(CompoundNBT tagCompound) {
+    public static DataChicken getDataFromTooltipNBT(CompoundTag tagCompound) {
         if (tagCompound == null || !tagCompound.getString(CHICKEN_ID_KEY).equals(VANILLA_TYPE)) return null;
         return new DataChickenVanilla();
     }
 
     public static DataChicken getDataFromEntity(Entity entity) {
-        if (entity instanceof ChickenEntity) return new DataChickenVanilla();
+        if (entity instanceof Chicken) return new DataChickenVanilla();
         return null;
     }
 
@@ -63,13 +64,13 @@ public class DataChickenVanilla extends DataChicken {
     }
 
     @Override
-    public ChickenEntity buildEntity(World world) {
-        return new ChickenEntity(EntityType.CHICKEN,world);
+    public Chicken buildEntity(Level world) {
+        return new Chicken(EntityType.CHICKEN,world);
     }
 
     @Override
-    public void spawnEntity(World world, BlockPos pos) {
-        ChickenEntity chicken = new ChickenEntity(EntityType.CHICKEN,world);
+    public void spawnEntity(Level world, BlockPos pos) {
+        Chicken chicken = new Chicken(EntityType.CHICKEN,world);
         chicken.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
         chicken.finalizeSpawn(world.getServer().overworld(),world.getCurrentDifficultyAt(pos), null,null,null);
         chicken.setAge(getLayTime());
@@ -79,15 +80,15 @@ public class DataChickenVanilla extends DataChicken {
     @Override
     public ItemStack buildChickenStack() {
         ItemStack stack = new ItemStack(ModItems.ITEM_CHICKEN);
-        CompoundNBT tagCompound = new CompoundNBT();
+        CompoundTag tagCompound = new CompoundTag();
         tagCompound.putString(CHICKEN_ID_KEY, VANILLA_TYPE);
         stack.setTag(tagCompound);
         return stack;
     }
 
     @Override
-    public CompoundNBT buildTooltipNBT() {
-        CompoundNBT tagCompound = new CompoundNBT();
+    public CompoundTag buildTooltipNBT() {
+        CompoundTag tagCompound = new CompoundTag();
         tagCompound.putString(CHICKEN_ID_KEY, VANILLA_TYPE);
         return tagCompound;
     }

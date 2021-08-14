@@ -2,28 +2,30 @@ package cn.evolvefield.mods.morechickens.core.tile;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
-import cn.evolvefield.mods.morechickens.core.entity.util.ChickenType;
 import cn.evolvefield.mods.morechickens.core.entity.util.VirtualChicken;
 import cn.evolvefield.mods.morechickens.init.*;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Util;
-import net.minecraft.util.text.TranslationTextComponent;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
+
+import net.minecraft.Util;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.nbt.CompoundTag;
+
+import net.minecraft.nbt.ListTag;
+import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.state.BlockState;
 
 import javax.annotation.Nullable;
 import java.util.*;
 
-public class NestTileEntity extends TileEntity implements ITickableTileEntity, ISidedInventory {
+public class NestTileEntity extends BlockEntity implements WorldlyContainer, BlockEntityTicker {
 
 
 
@@ -33,27 +35,27 @@ public class NestTileEntity extends TileEntity implements ITickableTileEntity, I
     private final Random rand;
 
 
-    public NestTileEntity() {
-        super(ModTileEntities.CHICKEN_NEST);
+    public NestTileEntity(BlockPos pos, BlockState state) {
+        super(ModTileEntities.CHICKEN_NEST,pos,state);
         chickens = new Stack<>();
         //inventory = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
         inventory = new ArrayDeque<>();
         rand = new Random();
     }
 
-    public void putChicken(CompoundNBT nbt){
+    public void putChicken(CompoundTag nbt){
         chickens.add(new VirtualChicken(nbt));
     }
 
-    public CompoundNBT getChicken(){
+    public CompoundTag getChicken(){
         if(chickens.isEmpty())
             return null;
         VirtualChicken head = chickens.pop();
         return head.writeToTag();
     }
 
-    public ListNBT getChickens(){
-        ListNBT nbt = new ListNBT();
+    public ListTag getChickens(){
+        ListTag nbt = new ListTag();
         for(VirtualChicken chicken : chickens){
             nbt.add(chicken.writeToTag());
         }
@@ -62,7 +64,7 @@ public class NestTileEntity extends TileEntity implements ITickableTileEntity, I
 
 
     @Override
-    public void tick() {
+    public void tick(Level level, BlockPos pos, BlockState state, BlockEntity entity) {
         for(VirtualChicken chicken : chickens){
             chicken.layTimer -= ModConfig.COMMON.nestTickRate.get();
             if(chicken.layTimer <= 0){
@@ -136,7 +138,7 @@ public class NestTileEntity extends TileEntity implements ITickableTileEntity, I
     }
 
     @Override
-    public boolean stillValid(PlayerEntity player) {
+    public boolean stillValid(Player player) {
         return false;
     }
 
@@ -146,9 +148,9 @@ public class NestTileEntity extends TileEntity implements ITickableTileEntity, I
     }
 
     @Override
-    public CompoundNBT save(CompoundNBT compound) {
+    public CompoundTag save(CompoundTag compound) {
         super.save(compound);
-        ListNBT nbt = new ListNBT();
+        ListTag nbt = new ListTag();
         for(VirtualChicken chicken : chickens){
             nbt.add(chicken.writeToTag());
         }
@@ -156,34 +158,35 @@ public class NestTileEntity extends TileEntity implements ITickableTileEntity, I
         return compound;
     }
 
+
     @Override
-    public void load(BlockState state, CompoundNBT nbt) {
-        super.load(state, nbt);
-        ListNBT listNBT = nbt.getList("Chickens", 10);
+    public void load(CompoundTag nbt) {
+        super.load( nbt);
+        ListTag listNBT = nbt.getList("Chickens", 10);
         for(int i = 0; i < listNBT.size(); i++){
-            CompoundNBT chickenTag = listNBT.getCompound(i);
+            CompoundTag chickenTag = listNBT.getCompound(i);
             VirtualChicken chicken = new VirtualChicken(chickenTag);
             chickens.add(chicken);
         }
     }
 
-    public void spawnChickens(World world){
+    public void spawnChickens(Level world){
         for(VirtualChicken chicken : chickens){
-            CompoundNBT nbt = chicken.writeToTag();
-            BaseChickenEntity entity = (BaseChickenEntity) ModDefaultEntities.BASE_CHICKEN.get().spawn((ServerWorld)world, null, null, getBlockPos(), SpawnReason.TRIGGERED, true, false);
+            CompoundTag nbt = chicken.writeToTag();
+            BaseChickenEntity entity = (BaseChickenEntity) ModDefaultEntities.BASE_CHICKEN.get().spawn((ServerLevel)world, null, null, getBlockPos(), MobSpawnType.TRIGGERED, true, false);
             if(entity != null)
                 entity.load(nbt);
         }
     }
 
-    public void printChickens(PlayerEntity player){
+    public void printChickens(Player player){
         Map<String, Integer> breeds = new HashMap<>();
         for(VirtualChicken chicken : chickens){
             breeds.put(chicken.breed.name, breeds.getOrDefault(chicken.breed.name, 0) + 1);
         }
         for(Map.Entry<String, Integer> breed : breeds.entrySet()){
-            player.sendMessage(new TranslationTextComponent("text." + MoreChickens.MODID + ".multiplier",
-                            new TranslationTextComponent("text." + MoreChickens.MODID + ".breed." + breed.getKey()),
+            player.sendMessage(new TranslatableComponent("text." + MoreChickens.MODID + ".multiplier",
+                            new TranslatableComponent("text." + MoreChickens.MODID + ".breed." + breed.getKey()),
                             breed.getValue()),
                     Util.NIL_UUID);
         }

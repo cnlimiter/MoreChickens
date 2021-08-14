@@ -1,33 +1,33 @@
-modLoader = "javafml" #mandatory
-loaderVersion = "[36,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
-# The license for you mod. This is mandatory metadata and allows for easier comprehension of your redistributive properties.
-# Review your options at https://choosealicense.com/. All rights reserved is the default copyright stance, and is thus the default here.
-license = "GNU GPLv3"
 
+modLoader="javafml" #mandatory
+loaderVersion="[37,)" #mandatory This is typically bumped every Minecraft version by Forge. See our download page for lists of versions.
+license="GNU GPLv3"
 
 [[mods]] #mandatory
-modId = "chickens" #mandatory
-version = "${file.jarVersion}" #mandatory
-displayName = "MoreChickens" #mandatory
-logoFile="chickens_logo.png" #optional
 
-authors = "cnlimiter" #optional
-description = '''
+modId="chickens" #mandatory
+version="${file.jarVersion}" #mandatory
+
+displayName="MoreChickens" #mandatory
+
+#updateJSONURL="http://myurl.me/" #optional
+#displayURL="http://example.com/" #optional
+logoFile="chickens_logo.png" #optional
+#credits="Thanks for this example mod goes to Java" #optional
+authors="cnlimiter" #optional
+description='''
 A mod extend Chickens
 '''
-
-
 [[dependencies.chickens]] #optional
-# the modid of the dependency
-modId = "forge" #mandatory
-mandatory = true #mandatory
-versionRange = "[36,)" #mandatory
-ordering = "NONE"
-side = "BOTH"
-
+   modId="forge" #mandatory
+   mandatory=true #mandatory
+   versionRange="[37,)" #mandatory
+   ordering="NONE"
+   side="BOTH"
+# Here's another dependency
 [[dependencies.chickens]]
-modId = "minecraft"
-mandatory = true
-versionRange = "[1.16.5,1.17)"
-ordering = "NONE"
-side = "BOTH"
+   modId="minecraft"
+   mandatory=true
+   versionRange="[1.17.1,1.18)"
+   ordering="NONE"
+   side="BOTH"

@@ -1,4 +1,4 @@
-//package cn.evolvefield.mods.morechickens.core.data;
+package cn.evolvefield.mods.morechickens.core.data;//package cn.evolvefield.mods.morechickens.core.data;
 //
 //import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
 //import cn.evolvefield.mods.morechickens.core.entity.util.ChickenType;

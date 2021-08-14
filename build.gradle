@@ -4,38 +4,35 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
-    }
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true    }
 }
 
 apply plugin: 'net.minecraftforge.gradle'
-apply plugin: 'java'
-apply plugin: 'idea'
-apply plugin: 'maven-publish'
 
 group = 'cn.evolvefield.mods'
-version = '1.0-SNAPSHOT'
+version = "${version}"
 archivesBaseName = 'MoreChickens'
 
-java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
-
+//java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
+java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 minecraft {
+    mappings channel: 'official', version: '1.17.1'
+    // makeObfSourceJar = false // an Srg named sources jar is made by default. uncomment this to disable.
 
-    mappings channel: 'official', version: '1.16.5'
+    // accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
-    //accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-
-
+    // Default run configurations.
+    // These can be tweaked, removed, or duplicated as needed.
     runs {
         client {
             workingDirectory project.file('run')
 
-            property 'forge.logging.markers', 'REGISTRIES'
 
+            property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                chickens {
+                morechickens {
                     source sourceSets.main
                 }
             }
@@ -45,11 +42,10 @@ minecraft {
             workingDirectory project.file('run')
 
             property 'forge.logging.markers', 'REGISTRIES'
-
             property 'forge.logging.console.level', 'debug'
 
             mods {
-                chickens {
+                morechickens {
                     source sourceSets.main
                 }
             }
@@ -59,13 +55,12 @@ minecraft {
             workingDirectory project.file('run')
 
             property 'forge.logging.markers', 'REGISTRIES'
-
             property 'forge.logging.console.level', 'debug'
 
-            args '--mod', 'chickens', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            args '--mod', 'morechickens', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
 
             mods {
-                chickens {
+                morechickens {
                     source sourceSets.main
                 }
             }
@@ -73,40 +68,15 @@ minecraft {
     }
 }
 
+
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
-repositories {
-
-
-    maven {
-        name = "JEI Maven"
-        url "http://dvs1.progwml6.com/files/maven"
-    }
-
-
-}
-
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.1.65'
+    minecraft 'net.minecraftforge:forge:1.17.1-37.0.33'
 
-    compileOnly fg.deobf("mezz.jei:jei-1.16.4:7.6.1.71:api")
-    // at runtime, use the full JEI jar
-    runtimeOnly fg.deobf("mezz.jei:jei-1.16.4:7.6.1.71")
+ }
 
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact jar
-        }
-    }
-    repositories {
-        maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
-        }
-    }
-}
+// Example for how to get properties into the manifest for reading by the runtime..
 jar {
     manifest {
         attributes([

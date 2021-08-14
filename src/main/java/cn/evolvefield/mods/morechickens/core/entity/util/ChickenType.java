@@ -3,13 +3,15 @@ package cn.evolvefield.mods.morechickens.core.entity.util;
 import cn.evolvefield.mods.morechickens.init.ModConfig;
 import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
 import com.electronwill.nightconfig.core.Config;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.tags.ITag;
+
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.util.ResourceLocation;
+
+import net.minecraft.tags.Tag;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.registries.ForgeRegistries;
 
@@ -100,7 +102,7 @@ public class ChickenType {
     public static Item getItem(String id, Random rand){
         Item item;
         if("#@".contains(id.substring(0, 1))){
-            ITag<Item> tag = ItemTags.getAllTags().getTag(new ResourceLocation(id.substring(1)));
+            Tag<Item> tag = ItemTags.getAllTags().getTag(new ResourceLocation(id.substring(1)));
             if(tag == null)
                 return null;
             List<Item> items = tag.getValues();

@@ -2,24 +2,25 @@ package cn.evolvefield.mods.morechickens.core.tile;
 
 
 import cn.evolvefield.mods.morechickens.core.data.DataChicken;
-import net.minecraft.block.BlockState;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.inventory.ItemStackHelper;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.NetworkManager;
-import net.minecraft.network.play.server.SUpdateTileEntityPacket;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.IIntArray;
-import net.minecraft.util.NonNullList;
-import net.minecraft.world.chunk.Chunk;
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.core.NonNullList;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.Connection;
+import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.world.ContainerHelper;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.ContainerData;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
+import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
 import net.minecraftforge.items.CapabilityItemHandler;
@@ -30,7 +31,7 @@ import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 import java.text.DecimalFormat;
 
-public abstract class ChickenContainerTileEntity extends TileEntity implements ISidedInventory, ITickableTileEntity, IInventory, IIntArray {
+public abstract class ChickenContainerTileEntity extends BlockEntity implements  WorldlyContainer, BlockEntityTicker, ContainerData {
     private static final DecimalFormat FORMATTER = new DecimalFormat("0.0%");
 
     private NonNullList<ItemStack> inventory = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
@@ -46,8 +47,8 @@ public abstract class ChickenContainerTileEntity extends TileEntity implements I
 
 
 
-    public ChickenContainerTileEntity(TileEntityType<?> type) {
-        super(type);
+    public ChickenContainerTileEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
+        super(type,pos,state);
     }
 
     public void willNeedToUpdateChickenInfo() {
@@ -56,7 +57,7 @@ public abstract class ChickenContainerTileEntity extends TileEntity implements I
 
     private void notifyBlockUpdate() {
         final BlockState state = getLevel().getBlockState(getBlockPos());
-        getLevel().markAndNotifyBlock(getBlockPos(), (Chunk) getLevel().getChunk(getBlockPos()),state, state, 2,2);
+        getLevel().markAndNotifyBlock(getBlockPos(), (LevelChunk) getLevel().getChunk(getBlockPos()),state, state, 2,2);
     }
 
     private void updateChickenInfoIfNeeded() {
@@ -261,7 +262,7 @@ public abstract class ChickenContainerTileEntity extends TileEntity implements I
     @Override
     public ItemStack removeItem(int i, int count) {
         if (i < getOutputStackIndex()) willNeedToUpdateChickenInfo();
-        return ItemStackHelper.removeItem(inventory, i, count);
+        return ContainerHelper.removeItem(inventory, i, count);
     }
 
 
@@ -281,7 +282,7 @@ public abstract class ChickenContainerTileEntity extends TileEntity implements I
     }
 
     @Override//isUsableByPlayer
-    public boolean stillValid(PlayerEntity playerEntity) {
+    public boolean stillValid(Player playerEntity) {
         if (getLevel().getBlockEntity(getBlockPos()) != this) {
             return false;
         } else {
@@ -290,11 +291,11 @@ public abstract class ChickenContainerTileEntity extends TileEntity implements I
     }
 
     @Override
-    public void startOpen(PlayerEntity playerEntity) {
+    public void startOpen(Player playerEntity) {
     }
 
     @Override
-    public void stopOpen(PlayerEntity playerEntity) {
+    public void stopOpen(Player playerEntity) {
     }
 
     @Override//canInsertItem
@@ -325,10 +326,9 @@ public abstract class ChickenContainerTileEntity extends TileEntity implements I
     }
 
     @Override
-    public int countItem(Item p_213901_1_) {
-        return ISidedInventory.super.countItem(p_213901_1_);
+    public int countItem(Item p_18948_) {
+        return WorldlyContainer.super.countItem(p_18948_);
     }
-
 
     @Override
     public int get(int id) {
@@ -375,35 +375,37 @@ public abstract class ChickenContainerTileEntity extends TileEntity implements I
 
     @Nullable
     @Override
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(getBlockPos(), 0, getUpdateTag());
+    public ClientboundBlockEntityDataPacket getUpdatePacket() {
+        return new ClientboundBlockEntityDataPacket(getBlockPos(), 0, getUpdateTag());
     }
 
     @Override
-    public CompoundNBT getUpdateTag() {
-        return save(new CompoundNBT());
+    public CompoundTag getUpdateTag() {
+        return save(new CompoundTag());
     }
 
+
+
     @Override
-    public void onDataPacket(NetworkManager net, SUpdateTileEntityPacket pkt) {
-        load(getBlockState(),pkt.getTag());
+    public void onDataPacket(Connection net, ClientboundBlockEntityDataPacket pkt) {
+        load(pkt.getTag());
         notifyBlockUpdate();
     }
 
     @Override
-    public void load(BlockState state, CompoundNBT nbt) {
-        super.load(state, nbt);
+    public void load(CompoundTag nbt) {
+        super.load(nbt);
         clearContent();
-        ItemStackHelper.loadAllItems(nbt, inventory);
+        ContainerHelper.loadAllItems(nbt, inventory);
         timeUntilNextDrop = nbt.getInt("TimeUntilNextChild");
         timeElapsed = nbt.getInt("TimeElapsed");
         skipNextTimerReset = true;
     }
 
     @Override
-    public CompoundNBT save(CompoundNBT nbt) {
+    public CompoundTag save(CompoundTag nbt) {
         super.save(nbt);
-        ItemStackHelper.saveAllItems(nbt, inventory);
+        ContainerHelper.saveAllItems(nbt, inventory);
         nbt.putInt("TimeUntilNextChild", timeUntilNextDrop);
         nbt.putInt("TimeElapsed", timeElapsed);
         return nbt;
@@ -425,7 +427,7 @@ public abstract class ChickenContainerTileEntity extends TileEntity implements I
 
 
     @Override
-    public void tick() {
+    public void tick(Level level, BlockPos pos, BlockState state, BlockEntity entity) {
         if (!level.isClientSide) {
             updateChickenInfoIfNeeded();
             updateTimerIfNeeded();

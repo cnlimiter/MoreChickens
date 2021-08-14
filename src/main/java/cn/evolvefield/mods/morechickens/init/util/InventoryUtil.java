@@ -1,11 +1,12 @@
 package cn.evolvefield.mods.morechickens.init.util;
 
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.HopperTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.Direction;
+import net.minecraft.core.Direction;
+
+import net.minecraft.world.Container;
+import net.minecraft.world.WorldlyContainer;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.HopperBlockEntity;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemHandlerHelper;
 
@@ -24,7 +25,7 @@ public class InventoryUtil {
         }
         return true;
     }
-    private static boolean canInsertItemInSlot(IInventory inventoryIn, ItemStack stack, int index, Direction side)
+    private static boolean canInsertItemInSlot(Container inventoryIn, ItemStack stack, int index, Direction side)
     {
         if (!inventoryIn.canPlaceItem(index, stack))
         {
@@ -32,7 +33,7 @@ public class InventoryUtil {
         }
         else
         {
-            return !(inventoryIn instanceof ISidedInventory) || ((ISidedInventory)inventoryIn).canPlaceItemThroughFace(index, stack, side);
+            return !(inventoryIn instanceof WorldlyContainer) || ((WorldlyContainer)inventoryIn).canPlaceItemThroughFace(index, stack, side);
         }
     }
 
@@ -52,7 +53,7 @@ public class InventoryUtil {
         }
     }
 
-    private static ItemStack insertStack(TileEntity source, IInventory destination, ItemStack stack, int index, Direction direction)
+    private static ItemStack insertStack(BlockEntity source, Container destination, ItemStack stack, int index, Direction direction)
     {
         ItemStack itemstack = destination.getItem(index);
 
@@ -78,17 +79,17 @@ public class InventoryUtil {
 
             if (flag)
             {
-                if (flag1 && destination instanceof HopperTileEntity)
+                if (flag1 && destination instanceof HopperBlockEntity)
                 {
-                    HopperTileEntity tileentityhopper1 = (HopperTileEntity)destination;
+                    HopperBlockEntity tileentityhopper1 = (HopperBlockEntity)destination;
 
                     if (!tileentityhopper1.isOnCustomCooldown())
                     {
                         int k = 0;
 
-                        if (source != null && source instanceof HopperTileEntity)
+                        if (source != null && source instanceof HopperBlockEntity)
                         {
-                            HopperTileEntity tileentityhopper = (HopperTileEntity)source;
+                            HopperBlockEntity tileentityhopper = (HopperBlockEntity)source;
 
                             if (tileentityhopper1.getLastUpdateTime() >= tileentityhopper.getLastUpdateTime())
                             {
@@ -107,7 +108,7 @@ public class InventoryUtil {
         return stack;
     }
 
-    private static ItemStack insertStack(TileEntity source, Object destination, IItemHandler destInventory, ItemStack stack, int slot)
+    private static ItemStack insertStack(BlockEntity source, Object destination, IItemHandler destInventory, ItemStack stack, int slot)
     {
         ItemStack itemstack = destInventory.getStackInSlot(slot);
 
@@ -131,16 +132,16 @@ public class InventoryUtil {
 
             if (insertedItem)
             {
-                if (inventoryWasEmpty && destination instanceof HopperTileEntity)
+                if (inventoryWasEmpty && destination instanceof HopperBlockEntity)
                 {
-                    HopperTileEntity destinationHopper = (HopperTileEntity)destination;
+                    HopperBlockEntity destinationHopper = (HopperBlockEntity)destination;
 
                     if (!destinationHopper.isOnCustomCooldown())
                     {
                         int k = 0;
-                        if (source instanceof HopperTileEntity)
+                        if (source instanceof HopperBlockEntity)
                         {
-                            if (destinationHopper.getLastUpdateTime() >= ((HopperTileEntity) source).getLastUpdateTime())
+                            if (destinationHopper.getLastUpdateTime() >= ((HopperBlockEntity) source).getLastUpdateTime())
                             {
                                 k = 1;
                             }
@@ -154,7 +155,7 @@ public class InventoryUtil {
         return stack;
     }
 
-    public static ItemStack putStackInInventoryAllSlots(TileEntity source, Object destination, IItemHandler destInventory, ItemStack stack)
+    public static ItemStack putStackInInventoryAllSlots(BlockEntity source, Object destination, IItemHandler destInventory, ItemStack stack)
     {
         for (int slot = 0; slot < destInventory.getSlots() && !stack.isEmpty(); slot++)
         {
@@ -163,11 +164,11 @@ public class InventoryUtil {
         return stack;
     }
 
-    public static ItemStack putStackInInventoryAllSlots(TileEntity source, IInventory destination,  ItemStack stack, @Nullable Direction direction)
+    public static ItemStack putStackInInventoryAllSlots(BlockEntity source, Container destination, ItemStack stack, @Nullable Direction direction)
     {
-        if (destination instanceof ISidedInventory && direction != null)
+        if (destination instanceof WorldlyContainer && direction != null)
         {
-            ISidedInventory isidedinventory = (ISidedInventory)destination;
+            WorldlyContainer isidedinventory = (WorldlyContainer)destination;
             int[] aint = isidedinventory.getSlotsForFace(direction);
 
             for (int k = 0; k < aint.length && !stack.isEmpty(); ++k)

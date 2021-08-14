@@ -2,35 +2,32 @@ package cn.evolvefield.mods.morechickens.init;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.core.tile.*;
-import net.minecraft.block.Block;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
+
+import net.minecraft.resources.ResourceLocation;
+
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.IForgeRegistry;
-
-import java.util.function.Supplier;
 
 @Mod.EventBusSubscriber(modid = MoreChickens.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModTileEntities {
 
-    public static TileEntityType<BaitTileEntity> BAIT;
-    public static TileEntityType<NestTileEntity> CHICKEN_NEST;
-    public static TileEntityType<RoostTileEntity> TILE_ROOST;
-    public static TileEntityType<BreederTileEntity> TILE_BREEDER;
-    public static TileEntityType<CollectorTileEntity> TILE_COLLECTOR;
+    public static BlockEntityType<BaitTileEntity> BAIT;
+    public static BlockEntityType<NestTileEntity> CHICKEN_NEST;
+    public static BlockEntityType<RoostTileEntity> TILE_ROOST;
+    public static BlockEntityType<BreederTileEntity> TILE_BREEDER;
+    public static BlockEntityType<CollectorTileEntity> TILE_COLLECTOR;
 
     @SubscribeEvent
-    public static void registerTileEntities(RegistryEvent.Register<TileEntityType<?>> event) {
-        final IForgeRegistry<TileEntityType<?>> registry = event.getRegistry();
+    public static void registerTileEntities(RegistryEvent.Register<BlockEntityType<?>> event) {
+        final IForgeRegistry<BlockEntityType<?>> registry = event.getRegistry();
         registry.registerAll(
-
                 BAIT = build(BaitTileEntity::new, new ResourceLocation(MoreChickens.MODID, "bait"), ModBlocks.BAITS),
-                CHICKEN_NEST = build(NestTileEntity::new,"chicken_nest",ModBlocks.BLOCK_NEST),
+                CHICKEN_NEST = build(NestTileEntity::new,"nest",ModBlocks.BLOCK_NEST),
                 TILE_ROOST = build(RoostTileEntity::new,"roost",ModBlocks.BLOCK_ROOST),
                 TILE_BREEDER = build(BreederTileEntity::new,"breeder",ModBlocks.BLOCK_BREEDER),
                 TILE_COLLECTOR = build(CollectorTileEntity::new,"collector",ModBlocks.BLOCK_COLLECTOR)
@@ -40,21 +37,20 @@ public class ModTileEntities {
 
 
     @SuppressWarnings("unchecked")
-    private static <T extends TileEntity> TileEntityType<T> build(Supplier<T> factory, String registryName, Block... block) {
+    private static <T extends BlockEntity> BlockEntityType<T> build(BlockEntityType.BlockEntitySupplier<T> factory, String registryName, Block... block) {
         //noinspection ConstantConditions
-        return (TileEntityType<T>) TileEntityType.Builder.of(factory, block).build(null).setRegistryName(registryName);
+        return (BlockEntityType<T>) BlockEntityType.Builder.of(factory, block).build(null).setRegistryName(registryName);
     }
 
     @SuppressWarnings("unchecked")
-    private static <T extends TileEntity> TileEntityType<T> build(Supplier<T> factory, ResourceLocation registryName, Block... block) {
+    private static <T extends BlockEntity> BlockEntityType<T> build(BlockEntityType.BlockEntitySupplier<T> factory, ResourceLocation registryName, Block... block) {
         //noinspection ConstantConditions
-        return (TileEntityType<T>) TileEntityType.Builder.of(factory, block).build(null).setRegistryName(registryName);
+        return (BlockEntityType<T>) BlockEntityType.Builder.of(factory, block).build(null).setRegistryName(registryName);
     }
 
-    public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, MoreChickens.MODID);
 
 
-//    public static final RegistryObject<TileEntityType<?>> CHICKEN_NEST = TILE_ENTITIES.register("chicken_nest",
-//            () -> TileEntityType.Builder.of(NestTileEntity::new, ModBlocks.BLOCK_NEST).build(Util.fetchChoiceType(TypeReferences.BLOCK_ENTITY, "chicken_nest")));
+//    public static final RegistryObject<BlockEntityType<?>> CHICKEN_NEST = TILE_ENTITIES.register("chicken_nest",
+//            () -> BlockEntityType.Builder.of(NestTileEntity::new, ModBlocks.BLOCK_NEST).build(Util.fetchChoiceType(TypeReferences.BLOCK_ENTITY, "chicken_nest")));
 
 }

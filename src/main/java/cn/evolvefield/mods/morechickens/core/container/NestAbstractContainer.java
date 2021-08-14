@@ -4,35 +4,36 @@ import cn.evolvefield.mods.morechickens.core.container.slot.ManualSlotItemHandle
 import cn.evolvefield.mods.morechickens.core.item.UpgradeItem;
 import cn.evolvefield.mods.morechickens.core.tile.util.InventoryHandlerHelper;
 import cn.evolvefield.mods.morechickens.core.tile.UpgradeableTileEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.ContainerType;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.tileentity.TileEntity;
+
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.AbstractContainerMenu;
+import net.minecraft.world.inventory.MenuType;
+import net.minecraft.world.inventory.Slot;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraftforge.items.IItemHandler;
 
 import javax.annotation.Nullable;
 
-public abstract class NestAbstractContainer extends Container {
-    protected NestAbstractContainer(@Nullable ContainerType<?> type, int id ) {
+public abstract class NestAbstractContainer extends AbstractContainerMenu {
+    protected NestAbstractContainer(@Nullable MenuType<?> type, int id ) {
         super(type,id);
     }
 
-    protected abstract TileEntity getTileEntity();
+    protected abstract BlockEntity getTileEntity();
 
     @Nullable
     @Override
-    public ItemStack quickMoveStack(PlayerEntity player, int index) {
+    public ItemStack quickMoveStack(Player player, int index) {
         ItemStack returnStack = ItemStack.EMPTY;
         final Slot slot = this.slots.get(index);
         if (slot != null && slot.hasItem()) {
             final ItemStack slotStack = slot.getItem();
             returnStack = slotStack.copy();
 
-            final int containerSlots = this.slots.size() - player.inventory.items.size();
+            final int containerSlots = this.slots.size() - player.getInventory().items.size();
 
             // Move from container to player inventory.
             if (index < containerSlots) {
@@ -70,7 +71,7 @@ public abstract class NestAbstractContainer extends Container {
         }
         return returnStack;
     }
-    protected int addSlotRange(IInventory handler, int index, int x, int y, int amount, int dx) {
+    protected int addSlotRange(Container handler, int index, int x, int y, int amount, int dx) {
         for (int i = 0; i < amount; i++) {
             if (handler instanceof InventoryHandlerHelper.ItemHandler) {
                 addSlot(new ManualSlotItemHandler((InventoryHandlerHelper.ItemHandler) handler, index, x, y));
@@ -95,7 +96,7 @@ public abstract class NestAbstractContainer extends Container {
         return index;
     }
 
-    protected void addSlotBox(IInventory handler, int startIndex, int x, int y, int horAmount, int dx, int verAmount, int dy) {
+    protected void addSlotBox(Container handler, int startIndex, int x, int y, int horAmount, int dx, int verAmount, int dy) {
         for (int j = 0; j < verAmount; j++) {
             startIndex = addSlotRange(handler, startIndex, x, y, horAmount, dx);
             y += dy;
@@ -109,7 +110,7 @@ public abstract class NestAbstractContainer extends Container {
         }
     }
 
-    protected void layoutPlayerInventorySlots(PlayerInventory inventory, int startIndex, int leftCol, int topRow) {
+    protected void layoutPlayerInventorySlots(Inventory inventory, int startIndex, int leftCol, int topRow) {
         // Player inventory
         addSlotBox(inventory, startIndex + 9, leftCol, topRow, 9, 18, 3, 18);
 
