@@ -46,14 +46,14 @@ public class BaseChickenEntity extends ModAnimalEntity {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private Gene gene, alleleA, alleleB;
-    private ChickenType breed;
+    private ChickenType type;
     private int layTimer;
 
     public float oFlap, oFlapSpeed, wingRotation, wingRotDelta = 1.0f, destPos;
 
     public BaseChickenEntity(EntityType<? extends AnimalEntity> type, World worldIn) {
         super(type, worldIn);
-        breed = ChickenType.RED_DYE;
+        this.type = ChickenType.RED_DYE;
         setAlleles(new Gene(random), new Gene(random));
         randomomBreed();
     }
@@ -69,7 +69,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
     }
 
     private void layLoot(){
-        spawnAtLocation(breed.getLoot(random, gene));
+        spawnAtLocation(type.getLoot(random, gene));
     }
 
     public void setAlleles(Gene a, Gene b){
@@ -80,7 +80,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
     }
 
     private void resetTimer(){
-        layTimer = breed.layTime + random.nextInt(breed.layTime + 1);
+        layTimer = type.layTime + random.nextInt(type.layTime + 1);
         layTimer *=  gene.layTime + random.nextFloat() * gene.layRandomTime;
         layTimer = Math.max(600, layTimer);
     }
@@ -96,20 +96,20 @@ public class BaseChickenEntity extends ModAnimalEntity {
     public void randomomBreed(){
         switch(random.nextInt(4)){
             case 0:
-                breed = ChickenType.OAK; break;
+                type = ChickenType.OAK; break;
             case 1:
-                breed = ChickenType.SAND; break;
+                type = ChickenType.SAND; break;
             case 2:
-                breed = ChickenType.FLINT; break;
+                type = ChickenType.FLINT; break;
             default:
-                breed = ChickenType.QUARTZ; break;
+                type = ChickenType.QUARTZ; break;
         }
-        entityData.set(NAME, breed.name);
+        entityData.set(NAME, type.name);
     }
 
-    public void setBreed(ChickenType breed){
-        this.breed = breed;
-        entityData.set(NAME, breed.name);
+    public void setType(ChickenType type){
+        this.type = type;
+        entityData.set(NAME, type.name);
     }
 
     protected int getBreedingTimeout(){
@@ -154,7 +154,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
             Gene childA = alleleA.crossover(alleleB, random);
             Gene childB = otherChicken.alleleA.crossover(otherChicken.alleleB, random);
             child.setAlleles(childA, childB);
-            child.setBreed(breed.getOffspring(otherChicken.breed, random));
+            child.setType(type.getOffspring(otherChicken.type, random));
         }
         return child;
     }
@@ -181,7 +181,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
         if(!level.isClientSide && isAlive() && !isBaby() && gene != null){
             layTimer --;
             if(layTimer <= 0){
-                if(breed != null) {
+                if(type != null) {
                     resetTimer();
                     this.playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
                     layLoot();
@@ -233,7 +233,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
     public void readAdditionalSaveData(CompoundNBT nbt) {
         super.readAdditionalSaveData(nbt);
         if(nbt.contains("Name")) {
-            setBreed(ChickenType.Types.get(nbt.getString("Name")));
+            setType(ChickenType.Types.get(nbt.getString("Name")));
         }
         if(nbt.contains("AlleleA"))
             alleleA.readFromTag(nbt.getCompound("AlleleA"));
@@ -249,7 +249,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
     public void addAdditionalSaveData(CompoundNBT nbt) {
         super.addAdditionalSaveData(nbt);
         nbt.putInt("EggLayTime", layTimer);
-        nbt.putString("Name", breed.name);
+        nbt.putString("Name", type.name);
         nbt.put("AlleleA", alleleA.writeToTag());
         nbt.put("AlleleB", alleleB.writeToTag());
     }
@@ -261,11 +261,11 @@ public class BaseChickenEntity extends ModAnimalEntity {
         if(this.removed || this.dead)
             return;
         super.dropAllDeathLoot(source);
-        if(breed.deathItem == null || breed.deathItem.equals("") || breed.deathAmount <= 0)
+        if(type.deathItem == null || type.deathItem.equals("") || type.deathAmount <= 0)
             return;
         int lootingLevel = ForgeHooks.getLootingLevel(this, source.getEntity(), source);
-        int amount = breed.deathAmount + random.nextInt(Math.max(1, breed.deathAmount) + lootingLevel);
-        Item dieItem = ChickenType.getItem(breed.deathItem, random);
+        int amount = type.deathAmount + random.nextInt(Math.max(1, type.deathAmount) + lootingLevel);
+        Item dieItem = ChickenType.getItem(type.deathItem, random);
         if(dieItem != null)
             spawnAtLocation(new ItemStack(dieItem, amount));
     }
@@ -274,7 +274,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
     @Override
     public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
-        if(itemStack.getItem() == Items.BUCKET && !this.isBaby() && this.breed == ChickenType.LEATHER){
+        if(itemStack.getItem() == Items.BUCKET && !this.isBaby() && this.type == ChickenType.LEATHER){
             player.playSound(SoundEvents.COW_MILK, 1.0f, 1.0f);
             ItemStack leftover = DrinkHelper.createFilledResult(itemStack, player, Items.MILK_BUCKET.getDefaultInstance());
             player.setItemInHand(hand, leftover);

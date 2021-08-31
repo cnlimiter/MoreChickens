@@ -1,0 +1,20 @@
+{
+  "Name": "lumium",
+  "LayAmount": 1,
+  "LayRandomAmount": 0,
+  "LayTime": 4500,
+  "DeathAmount": 1,
+  "Tier": 1,
+  "LayItem": "#forge:ingots/lumium",
+  "DeathItem": "",
+  "Parent1": "glass",
+  "Parent2": "gold",
+  "Enable": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ]
+
+}

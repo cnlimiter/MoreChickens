@@ -3,6 +3,7 @@ package cn.evolvefield.mods.morechickens.core.item;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
+import cn.evolvefield.mods.morechickens.core.entity.util.main.Gene;
 import cn.evolvefield.mods.morechickens.core.tile.NestTileEntity;
 import cn.evolvefield.mods.morechickens.init.ModItemGroups;
 import net.minecraft.client.util.ITooltipFlag;
@@ -49,7 +50,7 @@ public class AnalyzerItem extends Item {
         if(!(target instanceof BaseChickenEntity))
             return ActionResultType.FAIL;
         BaseChickenEntity quail = (BaseChickenEntity) target;
-        BaseChickenEntity.Gene gene = quail.getGene();
+        Gene gene = quail.getGene();
         TranslationTextComponent name=new TranslationTextComponent("text." + MoreChickens.MODID + ".breed." + quail.getBreedName());
         name.getStyle().withColor(TextFormatting.GOLD);
         playerIn.sendMessage(

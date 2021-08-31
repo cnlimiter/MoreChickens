@@ -1,5 +1,6 @@
 package cn.evolvefield.mods.morechickens.core.entity.util.main;
 
+import cn.evolvefield.mods.morechickens.core.entity.util.custom.ChickenReloadListener;
 import cn.evolvefield.mods.morechickens.core.entity.util.math.RandomPool;
 import cn.evolvefield.mods.morechickens.core.entity.util.math.UnorderedPair;
 import cn.evolvefield.mods.morechickens.init.ModConfig;
@@ -8,6 +9,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
@@ -130,11 +132,69 @@ public class ChickenType {
         return itemStack;
     }
 
+
+    protected CompoundNBT getNBTData() {
+        CompoundNBT nbt = ChickenReloadListener.INSTANCE.getData(name);
+        return nbt != null ? nbt : new CompoundNBT();
+    }
+
     public static void matchConfig(){
         List<Float> tiers = Arrays.stream(ModConfig.COMMON.tierOdds)
                 .map(ForgeConfigSpec.DoubleValue::get)
                 .map(Double::floatValue)
                 .collect(Collectors.toList());
+        //json file to add custom chicken
+        for (Map.Entry<String, CompoundNBT> entry : ChickenReloadListener.INSTANCE.getData().entrySet()) {
+            String name = entry.getKey();
+            CompoundNBT nbt = entry.getValue();
+
+            //String name = nbt.getString("Name");
+            int layAmount = nbt.getInt("LayAmount");
+            int layRandomAmount = nbt.getInt("LayRandomAmount");
+            int layTime = nbt.getInt("LayTime");
+            int deathAmount = nbt.getInt("DeathAmount");
+            int tier = nbt.getInt("Tier");
+            String dropItem = nbt.getString("LayItem");
+            String deathItem = nbt.getString("DeathItem");
+            String parent1 = nbt.getString("Parent1");
+            String parent2 = nbt.getString("Parent2");
+            ChickenType extraType = new ChickenType(name, dropItem, layAmount, layRandomAmount, layTime, deathItem, deathAmount);
+            if(!nbt.contains("Enable")|| nbt.getBoolean("Enable"))
+                extraType.disable();
+            extraType.tier = tier;
+            extraType.parent1 = parent1;
+            extraType.parent2 = parent2;
+            if(!parent1.equals("") && !parent2.equals("") && extraType.enabled){
+                UnorderedPair<String> pair = new UnorderedPair<>(parent1, parent2);
+                RandomPool<String> pool = Pairings.computeIfAbsent(pair, keyPair -> new RandomPool<>((String)null));
+                pool.add(name, tiers.get(tier));
+            }
+        }
+        //config file to add custom chicken
+        for(Config config : ModConfig.COMMON.childChicken.get()){
+            int layAmount = config.getIntOrElse("Amount", 1);
+            int layRandomAmount = config.getIntOrElse("RandomAmount", 0);
+            int layTime = config.getIntOrElse("LayTime", 6000);
+            int deathAmount = config.getIntOrElse("DeathAmount", 0);
+            int tier = config.getIntOrElse("Tier", 1);
+            String name = config.get("Name");
+            String dropItem = config.getOrElse("DropItem", "minecraft:egg");
+            String deathItem = config.getOrElse("DeathItem", "");
+            String parent1 = config.getOrElse("Parent1", "");
+            String parent2 = config.getOrElse("Parent2", "");
+            ChickenType extraType = new ChickenType(name, dropItem, layAmount, layRandomAmount, layTime, deathItem, deathAmount);
+            if(!config.getOrElse("Enabled", true))
+                extraType.disable();
+            extraType.tier = tier;
+            extraType.parent1 = parent1;
+            extraType.parent2 = parent2;
+            if(!parent1.equals("") && !parent2.equals("") && extraType.enabled){
+                UnorderedPair<String> pair = new UnorderedPair<>(parent1, parent2);
+                RandomPool<String> pool = Pairings.computeIfAbsent(pair, keyPair -> new RandomPool<>((String)null));
+                pool.add(name, tiers.get(tier));
+            }
+        }
+        //load config chickens
         for(Map.Entry<String, ChickenType> entry : Types.entrySet()){
             ChickenType type = entry.getValue();
             String key = entry.getKey();
@@ -153,29 +213,6 @@ public class ChickenType {
                 UnorderedPair<String> pair = new UnorderedPair<>(type.parent1, type.parent2);
                 RandomPool<String> pool = Pairings.computeIfAbsent(pair, keyPair -> new RandomPool<>((String)null));
                 pool.add(type.name, tiers.get(type.tier));
-            }
-        }
-        for(Config config : ModConfig.COMMON.childChicken.get()){
-            int layAmount = config.getIntOrElse("Amount", 1);
-            int layRandomAmount = config.getIntOrElse("RandomAmount", 0);
-            int layTime = config.getIntOrElse("LayTime", 6000);
-            int deathAmount = config.getIntOrElse("DeathAmount", 0);
-            int tier = config.getIntOrElse("Tier", 1);
-            String name = config.get("Name");
-            String dropItem = config.getOrElse("DropItem", "breesources:quail_egg");
-            String deathItem = config.getOrElse("DeathItem", "");
-            String parent1 = config.getOrElse("Parent1", "");
-            String parent2 = config.getOrElse("Parent2", "");
-            ChickenType extraType = new ChickenType(name, dropItem, layAmount, layRandomAmount, layTime, deathItem, deathAmount);
-            if(!config.getOrElse("Enabled", true))
-                extraType.disable();
-            extraType.tier = tier;
-            extraType.parent1 = parent1;
-            extraType.parent2 = parent2;
-            if(!parent1.equals("") && !parent2.equals("") && extraType.enabled){
-                UnorderedPair<String> pair = new UnorderedPair<>(parent1, parent2);
-                RandomPool<String> pool = Pairings.computeIfAbsent(pair, keyPair -> new RandomPool<>((String)null));
-                pool.add(name, tiers.get(tier));
             }
         }
     }

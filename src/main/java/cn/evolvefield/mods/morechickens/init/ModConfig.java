@@ -65,7 +65,7 @@ public class ModConfig {
             }
             builder.pop();
 
-            builder.comment().push("blockSpeed");
+            builder.comment().push("BlockSpeed");
             disableEggLaying = builder
                     .comment("Prevent vanilla chickens from laying eggs. Of interest to modpack makers only. Default: false.")
                     .define("disableEggLaying", false);
@@ -79,7 +79,7 @@ public class ModConfig {
                     .defineInRange("breederSpeed",1d,0.01d,100d);
             builder.pop();
 
-            builder.comment("wild chicken spawn chance").push("baits");
+            builder.comment("wild chicken spawn chance").push("Baits");
             oakChance = builder
                     .comment("The chance (per second) that a oak chicken bait will result in a spawn.")
                     .translation("chickens.config.oakChance")
