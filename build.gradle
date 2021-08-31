@@ -14,7 +14,7 @@ apply plugin: 'idea'
 apply plugin: 'maven-publish'
 
 group = 'cn.evolvefield.mods'
-version = '1.0-SNAPSHOT'
+version = "${version}"
 archivesBaseName = 'MoreChickens'
 
 java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
@@ -23,7 +23,7 @@ minecraft {
 
     mappings channel: 'official', version: '1.16.5'
 
-    //accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
 
 
     runs {

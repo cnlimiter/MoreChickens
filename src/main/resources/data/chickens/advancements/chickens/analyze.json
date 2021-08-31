@@ -8,18 +8,26 @@
     },
     "description": {
       "translate": "advancements.chickens.analyze.description"
-    }
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
   },
   "parent": "chickens:chickens/get_eggs",
   "criteria": {
     "analyze": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
-        "items": "chickens:analyzer"
+        "items": [
+          {
+            "item": "chickens:analyzer"
+          }
+        ]
       }
     }
   },
   "requirements":[
-    "analyze"
+    ["analyze"]
   ]
 }

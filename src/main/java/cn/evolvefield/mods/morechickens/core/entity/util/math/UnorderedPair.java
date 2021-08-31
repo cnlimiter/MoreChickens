@@ -1,4 +1,4 @@
-package cn.evolvefield.mods.morechickens.core.entity.util;
+package cn.evolvefield.mods.morechickens.core.entity.util.math;
 
 /**
  * Unordered pair of parameterized type for order-agnostic comparison

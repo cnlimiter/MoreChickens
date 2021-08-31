@@ -1,4 +1,4 @@
-package cn.evolvefield.mods.morechickens.core.entity.util;
+package cn.evolvefield.mods.morechickens.core.entity.util.main;
 
 import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
 import net.minecraft.nbt.CompoundNBT;
@@ -7,16 +7,16 @@ import java.util.Random;
 
 public class VirtualChicken {
     public final ChickenType breed;
-    public final BaseChickenEntity.Gene gene;
-    private final BaseChickenEntity.Gene alleleA;
-    private final BaseChickenEntity.Gene alleleB;
+    public final Gene gene;
+    private final Gene alleleA;
+    private final Gene alleleB;
     private final CompoundNBT extraNBT;
     public float layTimer;
     public VirtualChicken(CompoundNBT nbt){
         extraNBT = nbt.copy();
         breed = ChickenType.Types.get(extraNBT.getString("Breed"));
-        alleleA = new BaseChickenEntity.Gene().readFromTag(extraNBT.getCompound("AlleleA"));
-        alleleB = new BaseChickenEntity.Gene().readFromTag(extraNBT.getCompound("AlleleB"));
+        alleleA = new Gene().readFromTag(extraNBT.getCompound("AlleleA"));
+        alleleB = new Gene().readFromTag(extraNBT.getCompound("AlleleB"));
         layTimer = extraNBT.getInt("EggLayTime");
         extraNBT.remove("EggLayTime");
         extraNBT.remove("Breed");

@@ -1,7 +1,7 @@
 //package cn.evolvefield.mods.morechickens.core.data;
 //
 //import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
-//import cn.evolvefield.mods.morechickens.core.entity.util.ChickenType;
+//import cn.evolvefield.mods.morechickens.core.entity.util.main.ChickenType;
 //import cn.evolvefield.mods.morechickens.init.ModEntities;
 //import cn.evolvefield.mods.morechickens.init.ModItems;
 //import net.minecraft.entity.Entity;

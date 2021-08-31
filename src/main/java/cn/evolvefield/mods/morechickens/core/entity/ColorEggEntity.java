@@ -1,12 +1,10 @@
 package cn.evolvefield.mods.morechickens.core.entity;
 
-import cn.evolvefield.mods.morechickens.core.entity.util.ChickenType;
+import cn.evolvefield.mods.morechickens.core.entity.util.main.ChickenType;
 import cn.evolvefield.mods.morechickens.init.ModDefaultEntities;
-import cn.evolvefield.mods.morechickens.init.ModEntities;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.ICommandSource;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.projectile.ProjectileItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.CompoundNBT;

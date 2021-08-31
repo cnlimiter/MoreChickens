@@ -2,7 +2,7 @@ package cn.evolvefield.mods.morechickens;
 
 import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
 import cn.evolvefield.mods.morechickens.init.*;
-import cn.evolvefield.mods.morechickens.core.entity.util.ChickenType;
+import cn.evolvefield.mods.morechickens.core.entity.util.main.ChickenType;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -14,8 +14,6 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.Random;
 
 
 @Mod("chickens")

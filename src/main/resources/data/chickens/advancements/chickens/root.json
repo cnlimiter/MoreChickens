@@ -9,14 +9,31 @@
     "description": {
       "translate": "advancements.chickens.root.description"
     },
-    "background": "chickens:textures/items/chicken.png",
-    "show_toast": true,
-    "announce_to_chat": true,
-    "hidden" : false
+    "frame": "task",
+    "show_toast": false,
+    "announce_to_chat": false,
+    "hidden": false,
+    "background": "chickens:textures/gui/advancements/backgrounds/husbandry.png"
   },
   "criteria": {
-    "tick": {
-      "trigger": "minecraft:tick"
+    "minecraft:chicken": {
+      "trigger": "minecraft:bred_animals",
+      "conditions": {
+        "child": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "minecraft:chicken"
+            },
+            "entity": "this"
+          }
+        ]
+      }
     }
-  }
+  },
+  "requirements": [
+    [
+      "minecraft:chicken"
+    ]
+  ]
 }

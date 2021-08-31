@@ -92,7 +92,7 @@ public class BreederContainer extends Container {
     @Override//detectAndSendChanges
     public void broadcastChanges() {
         super.broadcastChanges();
-        List<IContainerListener> containerListeners = ObfuscationReflectionHelper.getPrivateValue(Container.class,null,"field_75149_d");
+        //List<IContainerListener> containerListeners = ObfuscationReflectionHelper.getPrivateValue(Container.class,null,"field_75149_d");
         for (int i = 0; i < containerListeners.size(); ++i) {
             IContainerListener listener = containerListeners.get(i);
 

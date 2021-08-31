@@ -1,9 +1,9 @@
 package cn.evolvefield.mods.morechickens.core.entity;
 
+import cn.evolvefield.mods.morechickens.core.entity.util.main.Gene;
 import cn.evolvefield.mods.morechickens.init.ModConfig;
 import cn.evolvefield.mods.morechickens.init.ModDefaultEntities;
-import cn.evolvefield.mods.morechickens.init.ModEntities;
-import cn.evolvefield.mods.morechickens.core.entity.util.ChickenType;
+import cn.evolvefield.mods.morechickens.core.entity.util.main.ChickenType;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -33,80 +33,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class BaseChickenEntity extends ModAnimalEntity {
     private static final Lazy<Integer> breedingTimeout = Lazy.of(ModConfig.COMMON.chickenBreedingTime::get);
 
-    public static class Gene {
-        private static final float MUTATION_SIGMA = 0.05f;
 
-        public float layAmount;
-        public float layRandomAmount;
-        public float layTime;
-        public float layRandomTime;
-        public float dominance;
-//        public float growth;
-//        public float gain;
-//        public float strength;
 
-        public Gene(Random random){
-            layAmount = random.nextFloat() * 1.5f;
-            layRandomAmount = random.nextFloat();
-            layTime = random.nextFloat() * 1.5f;
-            layRandomTime = random.nextFloat();
-            dominance = random.nextFloat();
-//            growth = random.nextFloat() * 100f;
-//            gain = random.nextFloat() * 100f;
-//            strength = random.nextFloat() * 100f;
-        }
+    private static final DataParameter<String> NAME = EntityDataManager.defineId(BaseChickenEntity.class, DataSerializers.STRING);
 
-        public Gene(){
-        }
-
-        public Gene crossover(Gene other, Random random){
-            Gene child = new Gene();
-            child.layAmount = Math.max(0, random.nextBoolean() ? layAmount : other.layAmount + (float)random.nextGaussian() * MUTATION_SIGMA);
-            child.layRandomAmount = Math.max(0, random.nextBoolean() ? layRandomAmount : other.layRandomAmount + (float)random.nextGaussian() * MUTATION_SIGMA);
-            child.layTime = Math.max(0, random.nextBoolean() ? layTime : other.layTime + (float)random.nextGaussian() * MUTATION_SIGMA);
-            child.layRandomTime = Math.max(0, random.nextBoolean() ? layRandomTime : other.layRandomTime + (float)random.nextGaussian() * MUTATION_SIGMA);
-            child.dominance = random.nextBoolean() ? dominance : other.dominance + (float)random.nextGaussian() * MUTATION_SIGMA;
-//            child.growth = random.nextBoolean() ? growth : other.growth + (float)random.nextGaussian() * MUTATION_SIGMA;
-//            child.gain = random.nextBoolean() ? gain : other.gain + (float)random.nextGaussian() * MUTATION_SIGMA;
-//            child.strength = random.nextBoolean() ? strength : other.strength + (float)random.nextGaussian() * MUTATION_SIGMA;
-
-            return child;
-        }
-
-        public Gene readFromTag(CompoundNBT nbt){
-            layAmount = nbt.getFloat("LayAmount");
-            layRandomAmount = nbt.getFloat("LayRandomAmount");
-            layTime = nbt.getFloat("LayTime");
-            layRandomTime = nbt.getFloat("LayRandomTime");
-            dominance = nbt.getFloat("Dominance");
-//            growth = nbt.getFloat("Growth");
-//            gain = nbt.getFloat("Gain");
-//            strength = nbt.getFloat("Strength");
-            return this;
-        }
-
-        public CompoundNBT writeToTag(){
-            CompoundNBT nbt = new CompoundNBT();
-            nbt.putFloat("LayAmount", layAmount);
-            nbt.putFloat("LayRandomAmount", layRandomAmount);
-            nbt.putFloat("LayTime", layTime);
-            nbt.putFloat("LayRandomTime", layRandomTime);
-            nbt.putFloat("Dominance", dominance);
-//            nbt.putFloat("Growth", growth);
-//            nbt.putFloat("Gain", gain);
-//            nbt.putFloat("Strength", strength);
-            return nbt;
-        }
-    }
-
-    private static final DataParameter<String> BREED_NAME = EntityDataManager.defineId(BaseChickenEntity.class, DataSerializers.STRING);
-
-    private static final Ingredient BREED_MATERIAL = Ingredient.of(Items.WHEAT_SEEDS, Items.PUMPKIN_SEEDS, Items.MELON_SEEDS, Items.BEETROOT_SEEDS);
+    private static final Ingredient MATERIAL = Ingredient.of(Items.WHEAT_SEEDS, Items.PUMPKIN_SEEDS, Items.MELON_SEEDS, Items.BEETROOT_SEEDS);
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -151,7 +86,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
     }
 
     public String getBreedName(){
-        return entityData.get(BREED_NAME);
+        return entityData.get(NAME);
     }
 
     public int getLayTimer(){
@@ -169,12 +104,12 @@ public class BaseChickenEntity extends ModAnimalEntity {
             default:
                 breed = ChickenType.QUARTZ; break;
         }
-        entityData.set(BREED_NAME, breed.name);
+        entityData.set(NAME, breed.name);
     }
 
     public void setBreed(ChickenType breed){
         this.breed = breed;
-        entityData.set(BREED_NAME, breed.name);
+        entityData.set(NAME, breed.name);
     }
 
     protected int getBreedingTimeout(){
@@ -195,7 +130,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
         goalSelector.addGoal(0, new SwimGoal(this));
         goalSelector.addGoal(1, new PanicGoal(this, 1.25));
         goalSelector.addGoal(2, new BreedGoal(this, 1.0));
-        goalSelector.addGoal(3, new TemptGoal(this, 1.1, BREED_MATERIAL, false));
+        goalSelector.addGoal(3, new TemptGoal(this, 1.1, MATERIAL, false));
         goalSelector.addGoal(4, new FollowParentGoal(this, 1.1));
         goalSelector.addGoal(5, new WaterAvoidingRandomWalkingGoal(this, 1.0));
         goalSelector.addGoal(6, new LookAtGoal(this, PlayerEntity.class, 6.0f));
@@ -206,7 +141,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        entityData.define(BREED_NAME, "painted");
+        entityData.define(NAME, "painted");
     }
 
 
@@ -258,7 +193,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
 
     @Override
     public boolean isFood(ItemStack stack) {
-        return BREED_MATERIAL.test(stack);
+        return MATERIAL.test(stack);
     }
 
 
@@ -297,8 +232,8 @@ public class BaseChickenEntity extends ModAnimalEntity {
     @Override
     public void readAdditionalSaveData(CompoundNBT nbt) {
         super.readAdditionalSaveData(nbt);
-        if(nbt.contains("Breed")) {
-            setBreed(ChickenType.Types.get(nbt.getString("Breed")));
+        if(nbt.contains("Name")) {
+            setBreed(ChickenType.Types.get(nbt.getString("Name")));
         }
         if(nbt.contains("AlleleA"))
             alleleA.readFromTag(nbt.getCompound("AlleleA"));
@@ -314,7 +249,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
     public void addAdditionalSaveData(CompoundNBT nbt) {
         super.addAdditionalSaveData(nbt);
         nbt.putInt("EggLayTime", layTimer);
-        nbt.putString("Breed", breed.name);
+        nbt.putString("Name", breed.name);
         nbt.put("AlleleA", alleleA.writeToTag());
         nbt.put("AlleleB", alleleB.writeToTag());
     }
