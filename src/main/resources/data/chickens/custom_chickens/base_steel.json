@@ -1,0 +1,23 @@
+{
+  "Name": "base_steel",
+  "LayAmount": 1,
+  "LayRandomAmount": 0,
+  "LayTime": 8000,
+  "DeathAmount": 0,
+  "Tier": 3,
+  "LayItem": "#forge:ingots/steel",
+  "DeathItem": "",
+  "Parent1": "iron",
+  "Parent2": "coal",
+  "Enable": true,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+          "type": "forge:tag_empty",
+          "tag": "forge:ingots/steel"
+      }
+    }
+  ]
+
+}

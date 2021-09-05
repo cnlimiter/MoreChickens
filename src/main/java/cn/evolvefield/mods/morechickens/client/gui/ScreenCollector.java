@@ -1,7 +1,7 @@
 package cn.evolvefield.mods.morechickens.client.gui;
 
 
-import cn.evolvefield.mods.morechickens.core.container.CollectorContainer;
+import cn.evolvefield.mods.morechickens.common.container.CollectorContainer;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;

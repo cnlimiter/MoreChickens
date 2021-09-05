@@ -1,8 +1,8 @@
 package cn.evolvefield.mods.morechickens.init;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.core.block.*;
-import cn.evolvefield.mods.morechickens.core.block.utils.BaitType;
+import cn.evolvefield.mods.morechickens.common.block.*;
+import cn.evolvefield.mods.morechickens.common.block.utils.BaitType;
 import net.minecraft.block.Block;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;

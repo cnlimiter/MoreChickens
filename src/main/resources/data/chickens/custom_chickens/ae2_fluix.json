@@ -1,0 +1,20 @@
+{
+  "Name": "ae2_fluix",
+  "LayAmount": 1,
+  "LayRandomAmount": 0,
+  "LayTime": 8000,
+  "DeathAmount": 0,
+  "Tier": 4,
+  "LayItem": "#forge:gems/fluix",
+  "DeathItem": "",
+  "Parent1": "quartz",
+  "Parent2": "ae2_certus_quartz",
+  "Enable": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "appliedenergistics2"
+    }
+  ]
+
+}

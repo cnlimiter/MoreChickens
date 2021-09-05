@@ -7,7 +7,10 @@ import cn.evolvefield.mods.morechickens.client.gui.ScreenCollector;
 import cn.evolvefield.mods.morechickens.client.gui.ScreenRoost;
 import cn.evolvefield.mods.morechickens.client.render.entity.BaseChickenEntityRender;
 import cn.evolvefield.mods.morechickens.client.render.tile.BaitRenderer;
-import cn.evolvefield.mods.morechickens.init.*;
+import cn.evolvefield.mods.morechickens.init.ModBlocks;
+import cn.evolvefield.mods.morechickens.init.ModContainers;
+import cn.evolvefield.mods.morechickens.init.ModEntities;
+import cn.evolvefield.mods.morechickens.init.ModTileEntities;
 import net.minecraft.client.gui.ScreenManager;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
@@ -24,7 +27,7 @@ public class ClientEventBus {
     @SubscribeEvent
     public static void init(final FMLClientSetupEvent event) {
         //entity
-        RenderingRegistry.registerEntityRenderingHandler(ModDefaultEntities.BASE_CHICKEN.get(), BaseChickenEntityRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.BASE_CHICKEN.get(), BaseChickenEntityRender::new);
 
         //tile
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.BAIT, BaitRenderer::new);

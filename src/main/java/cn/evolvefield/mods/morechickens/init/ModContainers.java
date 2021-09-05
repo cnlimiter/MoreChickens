@@ -2,9 +2,9 @@ package cn.evolvefield.mods.morechickens.init;
 
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.core.container.BreederContainer;
-import cn.evolvefield.mods.morechickens.core.container.CollectorContainer;
-import cn.evolvefield.mods.morechickens.core.container.RoostContainer;
+import cn.evolvefield.mods.morechickens.common.container.BreederContainer;
+import cn.evolvefield.mods.morechickens.common.container.CollectorContainer;
+import cn.evolvefield.mods.morechickens.common.container.RoostContainer;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraftforge.event.RegistryEvent;

@@ -1,9 +1,9 @@
 package cn.evolvefield.mods.morechickens;
 
-import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
-import cn.evolvefield.mods.morechickens.core.entity.util.custom.ChickenReloadListener;
-import cn.evolvefield.mods.morechickens.init.*;
-import cn.evolvefield.mods.morechickens.core.entity.util.main.ChickenType;
+import cn.evolvefield.mods.morechickens.common.data.custom.ChickenReloadListener;
+import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
+import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
+import cn.evolvefield.mods.morechickens.init.ModEntities;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -34,7 +34,7 @@ public class MoreChickens {
 
 
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
-        ModDefaultEntities.ENTITIES.register(modEventBus);
+        ModEntities.ENTITIES.register(modEventBus);
 
         //config
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, cn.evolvefield.mods.morechickens.init.ModConfig.CONFIG_SPEC, "more_chickens.toml");
@@ -45,9 +45,9 @@ public class MoreChickens {
     public void onCommonSetup(FMLCommonSetupEvent event) {
         DeferredWorkQueue.runLater(() -> {
             //Entity attribute assignments
-            GlobalEntityTypeAttributes.put(ModDefaultEntities.BASE_CHICKEN.get(), BaseChickenEntity.setAttributes().build());
+            GlobalEntityTypeAttributes.put(ModEntities.BASE_CHICKEN.get(), BaseChickenEntity.setAttributes().build());
             ChickenType.matchConfig();
-            ModDefaultEntities.registerPlacements();
+            ModEntities.registerPlacements();
 
         });
     }

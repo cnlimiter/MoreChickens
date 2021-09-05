@@ -1,0 +1,20 @@
+{
+  "Name": "tcons_blood_slime",
+  "LayAmount": 1,
+  "LayRandomAmount": 0,
+  "LayTime": 4800,
+  "DeathAmount": 0,
+  "Tier": 2,
+  "LayItem": "#forge:slimeball/blood",
+  "DeathItem": "",
+  "Parent1": "slime",
+  "Parent2": "dye_red",
+  "Enable": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "tconstruct"
+    }
+  ]
+
+}

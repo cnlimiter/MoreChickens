@@ -1,0 +1,23 @@
+{
+  "Name": "base_uranium",
+  "LayAmount": 1,
+  "LayRandomAmount": 0,
+  "LayTime": 10000,
+  "DeathAmount": 0,
+  "Tier": 4,
+  "LayItem": "#forge:ingots/uranium",
+  "DeathItem": "",
+  "Parent1": "redstone",
+  "Parent2": "ender_pearl",
+  "Enable": true,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+          "type": "forge:tag_empty",
+          "tag": "forge:ingots/uranium"
+      }
+    }
+  ]
+
+}

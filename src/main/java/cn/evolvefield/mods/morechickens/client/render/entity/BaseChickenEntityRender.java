@@ -1,7 +1,7 @@
 package cn.evolvefield.mods.morechickens.client.render.entity;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
+import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.client.renderer.entity.MobRenderer;
@@ -14,14 +14,13 @@ import javax.annotation.Nullable;
 public class BaseChickenEntityRender extends MobRenderer<BaseChickenEntity, ChickenModel<BaseChickenEntity>> {
     protected static final String TEXTURE_TEMPLATE = "textures/entity/chicken/%s.png";
 
-
     public BaseChickenEntityRender(EntityRendererManager manager) {
         super(manager,new ChickenModel<>(),0.3f);
     }
 
     @Override
     public ResourceLocation getTextureLocation(BaseChickenEntity entity) {
-        return new ResourceLocation(MoreChickens.MODID, String.format(TEXTURE_TEMPLATE, entity.getBreedName()));
+        return new ResourceLocation(MoreChickens.MODID, String.format(TEXTURE_TEMPLATE, entity.getChickenName()));
     }
 
     @Nullable

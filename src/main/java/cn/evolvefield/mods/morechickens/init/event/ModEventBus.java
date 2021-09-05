@@ -1,8 +1,8 @@
 package cn.evolvefield.mods.morechickens.init.event;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.core.item.ColorEggItem;
-import cn.evolvefield.mods.morechickens.core.item.ModSpawnEgg;
+import cn.evolvefield.mods.morechickens.common.item.ColorEggItem;
+import cn.evolvefield.mods.morechickens.common.item.ModSpawnEgg;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
 import net.minecraftforge.event.RegistryEvent;

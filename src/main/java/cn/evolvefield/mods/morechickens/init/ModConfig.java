@@ -1,7 +1,7 @@
 package cn.evolvefield.mods.morechickens.init;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.core.entity.util.main.ChickenType;
+import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
 import com.electronwill.nightconfig.core.Config;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -46,12 +46,18 @@ public class ModConfig {
         public final ForgeConfigSpec.DoubleValue roostSpeed;
         public final ForgeConfigSpec.DoubleValue breederSpeed;
 
+        //public final ForgeConfigSpec.BooleanValue renderChickenIngredientAsEntity;
+
 
 
         public Common(ForgeConfigSpec.Builder builder){
             chickenType = new HashMap<>();
             tierOdds = new ForgeConfigSpec.DoubleValue[7];
-
+//            builder.comment("Client Config").push("Client");
+//            renderChickenIngredientAsEntity = builder
+//                    .comment("Render chicken as entities in JEI . Set to false to show an image of the chicken instead.")
+//                    .define("renderChickenIngredientAsEntity", true);
+//            builder.pop();
             builder.comment("Nest-related config").push("Nest");
             nestTickRate = builder
                     .comment("Rate at which to tick nests")

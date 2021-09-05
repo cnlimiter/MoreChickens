@@ -1,0 +1,20 @@
+{
+  "Name": "botania_manasteel",
+  "LayAmount": 1,
+  "LayRandomAmount": 0,
+  "LayTime": 20000,
+  "DeathAmount": 0,
+  "Tier": 5,
+  "LayItem": "botania:manasteel_ingot",
+  "DeathItem": "",
+  "Parent1": "iron",
+  "Parent2": "ghast_tear",
+  "Enable": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "botania"
+    }
+  ]
+
+}

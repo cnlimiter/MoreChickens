@@ -1,0 +1,20 @@
+{
+  "Name": "thermal_lumium",
+  "LayAmount": 1,
+  "LayRandomAmount": 0,
+  "LayTime": 10000,
+  "DeathAmount": 0,
+  "Tier": 4,
+  "LayItem": "#forge:ingots/lumium",
+  "DeathItem": "",
+  "Parent1": "base_tin",
+  "Parent2": "glowstone",
+  "Enable": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "thermal"
+    }
+  ]
+
+}

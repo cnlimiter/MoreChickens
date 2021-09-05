@@ -2,7 +2,7 @@ package cn.evolvefield.mods.morechickens.client.gui;
 
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.core.container.BreederContainer;
+import cn.evolvefield.mods.morechickens.common.container.BreederContainer;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.platform.GlStateManager;
 import net.minecraft.client.gui.screen.inventory.ContainerScreen;

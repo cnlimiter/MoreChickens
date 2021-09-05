@@ -2,7 +2,7 @@ package cn.evolvefield.mods.morechickens.init;
 
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.core.item.*;
+import cn.evolvefield.mods.morechickens.common.item.*;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
@@ -50,7 +50,7 @@ public class ModItems {
         final IForgeRegistry<Item> registry = event.getRegistry();
         registry.registerAll(
                 ANALYZER = new AnalyzerItem().setRegistryName("analyzer"),
-                CHICKEN_SPAWN_EGG = new ModSpawnEgg(ModDefaultEntities.BASE_CHICKEN, 0x734011, 0xa4b5bd, new Item.Properties().tab(ModItemGroups.INSTANCE)).setRegistryName("chicken_spawn_egg"),
+                CHICKEN_SPAWN_EGG = new ModSpawnEgg(ModEntities.BASE_CHICKEN, 0x734011, 0xa4b5bd, new Item.Properties().tab(ModItemGroups.INSTANCE)).setRegistryName("chicken_spawn_egg"),
                 CHICKEN_JAIL =new JailItem(new Item.Properties().stacksTo(1).tab(ModItemGroups.INSTANCE), false).setRegistryName("chicken_jail"),
                 STRONG_CHICKEN_JAIL = new JailItem(new Item.Properties().stacksTo(1).tab(ModItemGroups.INSTANCE), true).setRegistryName("strong_chicken_jail"),
                 WATER_EGG = new BallItem(new Item.Properties().tab(ModItemGroups.INSTANCE),Fluids.WATER).setRegistryName("egg_water"),
