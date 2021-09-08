@@ -52,7 +52,7 @@ public class AnalyzerItem extends Item {
             return InteractionResult.FAIL;
         BaseChickenEntity quail = (BaseChickenEntity) target;
         Gene gene = quail.getGene();
-        TranslatableComponent name=new TranslatableComponent("text." + MoreChickens.MODID + ".breed." + quail.getChickenName());
+        TranslatableComponent name=new TranslatableComponent("text." + MoreChickens.MODID + ".name." + quail.getChickenName());
         name.getStyle().withColor(ChatFormatting.GOLD);
         playerIn.sendMessage(
                 name, Util.NIL_UUID
