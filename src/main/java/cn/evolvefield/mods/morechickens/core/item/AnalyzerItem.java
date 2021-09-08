@@ -4,6 +4,7 @@ package cn.evolvefield.mods.morechickens.core.item;
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
 import cn.evolvefield.mods.morechickens.core.tile.NestTileEntity;
+import cn.evolvefield.mods.morechickens.core.util.main.Gene;
 import cn.evolvefield.mods.morechickens.init.ModItemGroups;
 
 import net.minecraft.ChatFormatting;
@@ -50,8 +51,8 @@ public class AnalyzerItem extends Item {
         if(!(target instanceof BaseChickenEntity))
             return InteractionResult.FAIL;
         BaseChickenEntity quail = (BaseChickenEntity) target;
-        BaseChickenEntity.Gene gene = quail.getGene();
-        TranslatableComponent name=new TranslatableComponent("text." + MoreChickens.MODID + ".breed." + quail.getBreedName());
+        Gene gene = quail.getGene();
+        TranslatableComponent name=new TranslatableComponent("text." + MoreChickens.MODID + ".breed." + quail.getChickenName());
         name.getStyle().withColor(ChatFormatting.GOLD);
         playerIn.sendMessage(
                 name, Util.NIL_UUID

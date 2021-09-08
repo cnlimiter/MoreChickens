@@ -93,7 +93,7 @@ public class ContainerRoost extends AbstractContainerMenu {
 
     @Override
     public void broadcastChanges() {
-        List<ContainerListener> containerListeners = ObfuscationReflectionHelper.getPrivateValue(AbstractContainerMenu.class,null,"field_75149_d");
+        List<ContainerListener> containerListeners = ObfuscationReflectionHelper.getPrivateValue(AbstractContainerMenu.class,null,"f_38848_");
         for (int i = 0; i < containerListeners.size(); ++i) {
             ContainerListener listener = containerListeners.get(i);
             if (progress != tileRoost.get(0)) {

@@ -1,4 +1,4 @@
-package cn.evolvefield.mods.morechickens.core.entity.util;
+package cn.evolvefield.mods.morechickens.core.util.math;
 
 import net.minecraft.util.Tuple;
 

@@ -1,0 +1,20 @@
+{
+  "Name": "botania_elementium",
+  "LayAmount": 1,
+  "LayRandomAmount": 0,
+  "LayTime": 24000,
+  "DeathAmount": 0,
+  "Tier": 6,
+  "LayItem": "botania:elementium_ingot",
+  "DeathItem": "",
+  "Parent1": "botania_manasteel",
+  "Parent2": "botania_terrasteel",
+  "Enable": true,
+  "conditions": [
+    {
+      "type": "forge:mod_loaded",
+      "modid": "botania"
+    }
+  ]
+
+}

@@ -1,6 +1,6 @@
 package cn.evolvefield.mods.morechickens.core.entity;
 
-import cn.evolvefield.mods.morechickens.core.entity.util.ChickenType;
+import cn.evolvefield.mods.morechickens.core.util.main.ChickenType;
 import cn.evolvefield.mods.morechickens.init.ModDefaultEntities;
 
 import net.minecraft.commands.CommandSource;

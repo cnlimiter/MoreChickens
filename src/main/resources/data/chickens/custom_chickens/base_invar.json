@@ -1,0 +1,23 @@
+{
+  "Name": "base_invar",
+  "LayAmount": 1,
+  "LayRandomAmount": 0,
+  "LayTime": 8000,
+  "DeathAmount": 0,
+  "Tier": 3,
+  "LayItem": "#forge:ingots/invar",
+  "DeathItem": "",
+  "Parent1": "iron",
+  "Parent2": "base_nickel",
+  "Enable": true,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+          "type": "forge:tag_empty",
+          "tag": "forge:ingots/invar"
+      }
+    }
+  ]
+
+}

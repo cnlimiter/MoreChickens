@@ -2,7 +2,7 @@ package cn.evolvefield.mods.morechickens;
 
 
 import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
-import cn.evolvefield.mods.morechickens.core.entity.util.ChickenType;
+import cn.evolvefield.mods.morechickens.core.util.main.ChickenType;
 import cn.evolvefield.mods.morechickens.init.ModDefaultEntities;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;

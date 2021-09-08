@@ -2,7 +2,7 @@ package cn.evolvefield.mods.morechickens.core.tile;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
-import cn.evolvefield.mods.morechickens.core.entity.util.VirtualChicken;
+import cn.evolvefield.mods.morechickens.core.util.main.VirtualChicken;
 import cn.evolvefield.mods.morechickens.init.*;
 
 import net.minecraft.Util;

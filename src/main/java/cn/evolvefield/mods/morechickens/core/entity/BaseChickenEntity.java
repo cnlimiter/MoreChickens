@@ -1,11 +1,14 @@
 package cn.evolvefield.mods.morechickens.core.entity;
 
+import cn.evolvefield.mods.morechickens.core.util.main.Gene;
 import cn.evolvefield.mods.morechickens.init.ModConfig;
 import cn.evolvefield.mods.morechickens.init.ModDefaultEntities;
-import cn.evolvefield.mods.morechickens.core.entity.util.ChickenType;
+import cn.evolvefield.mods.morechickens.core.util.main.ChickenType;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
@@ -38,80 +41,15 @@ import net.minecraftforge.common.util.Lazy;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
-import java.util.Random;
 
 public class BaseChickenEntity extends ModAnimalEntity {
     private static final Lazy<Integer> breedingTimeout = Lazy.of(ModConfig.COMMON.chickenBreedingTime::get);
 
-    public static class Gene {
-        private static final float MUTATION_SIGMA = 0.05f;
-
-        public float layAmount;
-        public float layRandomAmount;
-        public float layTime;
-        public float layRandomTime;
-        public float dominance;
-//        public float growth;
-//        public float gain;
-//        public float strength;
-
-        public Gene(Random random){
-            layAmount = random.nextFloat() * 1.5f;
-            layRandomAmount = random.nextFloat();
-            layTime = random.nextFloat() * 1.5f;
-            layRandomTime = random.nextFloat();
-            dominance = random.nextFloat();
-//            growth = random.nextFloat() * 100f;
-//            gain = random.nextFloat() * 100f;
-//            strength = random.nextFloat() * 100f;
-        }
-
-        public Gene(){
-        }
-
-        public Gene crossover(Gene other, Random random){
-            Gene child = new Gene();
-            child.layAmount = Math.max(0, random.nextBoolean() ? layAmount : other.layAmount + (float)random.nextGaussian() * MUTATION_SIGMA);
-            child.layRandomAmount = Math.max(0, random.nextBoolean() ? layRandomAmount : other.layRandomAmount + (float)random.nextGaussian() * MUTATION_SIGMA);
-            child.layTime = Math.max(0, random.nextBoolean() ? layTime : other.layTime + (float)random.nextGaussian() * MUTATION_SIGMA);
-            child.layRandomTime = Math.max(0, random.nextBoolean() ? layRandomTime : other.layRandomTime + (float)random.nextGaussian() * MUTATION_SIGMA);
-            child.dominance = random.nextBoolean() ? dominance : other.dominance + (float)random.nextGaussian() * MUTATION_SIGMA;
-//            child.growth = random.nextBoolean() ? growth : other.growth + (float)random.nextGaussian() * MUTATION_SIGMA;
-//            child.gain = random.nextBoolean() ? gain : other.gain + (float)random.nextGaussian() * MUTATION_SIGMA;
-//            child.strength = random.nextBoolean() ? strength : other.strength + (float)random.nextGaussian() * MUTATION_SIGMA;
-
-            return child;
-        }
-
-        public Gene readFromTag(CompoundTag nbt){
-            layAmount = nbt.getFloat("LayAmount");
-            layRandomAmount = nbt.getFloat("LayRandomAmount");
-            layTime = nbt.getFloat("LayTime");
-            layRandomTime = nbt.getFloat("LayRandomTime");
-            dominance = nbt.getFloat("Dominance");
-//            growth = nbt.getFloat("Growth");
-//            gain = nbt.getFloat("Gain");
-//            strength = nbt.getFloat("Strength");
-            return this;
-        }
-
-        public CompoundTag writeToTag(){
-            CompoundTag nbt = new CompoundTag();
-            nbt.putFloat("LayAmount", layAmount);
-            nbt.putFloat("LayRandomAmount", layRandomAmount);
-            nbt.putFloat("LayTime", layTime);
-            nbt.putFloat("LayRandomTime", layRandomTime);
-            nbt.putFloat("Dominance", dominance);
-//            nbt.putFloat("Growth", growth);
-//            nbt.putFloat("Gain", gain);
-//            nbt.putFloat("Strength", strength);
-            return nbt;
-        }
-    }
 
 
-    private static final EntityDataAccessor<String> BREED_NAME = SynchedEntityData.defineId(BaseChickenEntity.class, EntityDataSerializers.STRING);
+    private static final EntityDataAccessor<String> NAME = SynchedEntityData.defineId(BaseChickenEntity.class, EntityDataSerializers.STRING);
 
     private static final Ingredient BREED_MATERIAL = Ingredient.of(Items.WHEAT_SEEDS, Items.PUMPKIN_SEEDS, Items.MELON_SEEDS, Items.BEETROOT_SEEDS);
 
@@ -120,7 +58,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
     private Gene gene, alleleA, alleleB;
     private ChickenType breed;
     private int layTimer;
-    //Random random = new Random();
+
 
     public float oFlap, oFlapSpeed, wingRotation, wingRotDelta = 1.0f, destPos;
 
@@ -158,8 +96,17 @@ public class BaseChickenEntity extends ModAnimalEntity {
         layTimer = Math.max(600, layTimer);
     }
 
-    public String getBreedName(){
-        return entityData.get(BREED_NAME);
+    public void setChickenName(String data) {
+        this.entityData.set(NAME, data);
+    }
+
+    public String getChickenName(){
+        return entityData.get(NAME);
+    }
+
+    public void setType(ChickenType breed){
+        this.breed = breed;
+        entityData.set(NAME, breed.name);
     }
 
     public int getLayTimer(){
@@ -177,19 +124,12 @@ public class BaseChickenEntity extends ModAnimalEntity {
             default:
                 breed = ChickenType.QUARTZ; break;
         }
-        entityData.set(BREED_NAME, breed.name);
-    }
-
-    public void setBreed(ChickenType breed){
-        this.breed = breed;
-        entityData.set(BREED_NAME, breed.name);
+        entityData.set(NAME, breed.name);
     }
 
     protected int getBreedingTimeout(){
         return breedingTimeout.get();
     }
-
-
 
     @Override
     public SpawnGroupData finalizeSpawn(ServerLevelAccessor worldIn, DifficultyInstance difficultyIn, MobSpawnType reason,@Nullable SpawnGroupData spawnDataIn,@Nullable CompoundTag dataTag) {
@@ -198,7 +138,11 @@ public class BaseChickenEntity extends ModAnimalEntity {
     }
 
 
-
+    @Nonnull
+    @Override
+    protected Component getTypeName() {
+        return new TranslatableComponent("text.chickens.name."+ getChickenName());
+    }
 
 
     @Override
@@ -218,7 +162,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        entityData.define(BREED_NAME, "painted");
+        entityData.define(NAME, "painted");
     }
 
 
@@ -232,7 +176,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
             Gene childA = alleleA.crossover(alleleB, random);
             Gene childB = otherChicken.alleleA.crossover(otherChicken.alleleB, random);
             child.setAlleles(childA, childB);
-            child.setBreed(breed.getOffspring(otherChicken.breed, random));
+            child.setType(breed.getOffspring(otherChicken.breed, random));
         }
         return child;
     }
@@ -311,8 +255,8 @@ public class BaseChickenEntity extends ModAnimalEntity {
     @Override
     public void readAdditionalSaveData(CompoundTag nbt) {
         super.readAdditionalSaveData(nbt);
-        if(nbt.contains("Breed")) {
-            setBreed(ChickenType.Types.get(nbt.getString("Breed")));
+        if(nbt.contains("Name")) {
+            setType(ChickenType.Types.get(nbt.getString("Name")));
         }
         if(nbt.contains("AlleleA"))
             alleleA.readFromTag(nbt.getCompound("AlleleA"));
@@ -328,7 +272,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
     public void addAdditionalSaveData(CompoundTag nbt) {
         super.addAdditionalSaveData(nbt);
         nbt.putInt("EggLayTime", layTimer);
-        nbt.putString("Breed", breed.name);
+        nbt.putString("Name", breed.name);
         nbt.put("AlleleA", alleleA.writeToTag());
         nbt.put("AlleleB", alleleB.writeToTag());
     }

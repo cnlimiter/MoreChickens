@@ -23,7 +23,7 @@ public class BaseChickenEntityRender extends MobRenderer<BaseChickenEntity, Chic
 
     @Override
     public ResourceLocation getTextureLocation(BaseChickenEntity entity) {
-        return new ResourceLocation(MoreChickens.MODID, String.format(TEXTURE_TEMPLATE, entity.getBreedName()));
+        return new ResourceLocation(MoreChickens.MODID, String.format(TEXTURE_TEMPLATE, entity.getChickenName()));
     }
 
     @Nullable

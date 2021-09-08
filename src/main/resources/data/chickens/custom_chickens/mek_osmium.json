@@ -1,0 +1,23 @@
+{
+  "Name": "mek_osmium",
+  "LayAmount": 1,
+  "LayRandomAmount": 0,
+  "LayTime": 6000,
+  "DeathAmount": 0,
+  "Tier": 3,
+  "LayItem": "#forge:ingots/osmium",
+  "DeathItem": "",
+  "Parent1": "iron",
+  "Parent2": "quartz",
+  "Enable": true,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+        "type": "forge:tag_empty",
+        "tag": "forge:ingots/osmium"
+      }
+    }
+  ]
+
+}

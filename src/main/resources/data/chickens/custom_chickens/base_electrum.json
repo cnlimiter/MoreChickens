@@ -1,0 +1,23 @@
+{
+  "Name": "base_electrum",
+  "LayAmount": 1,
+  "LayRandomAmount": 0,
+  "LayTime": 8000,
+  "DeathAmount": 0,
+  "Tier": 3,
+  "LayItem": "#forge:ingots/electrum",
+  "DeathItem": "",
+  "Parent1": "base_silver",
+  "Parent2": "gold",
+  "Enable": true,
+  "conditions": [
+      {
+          "type": "forge:not",
+          "value": {
+              "type": "forge:tag_empty",
+              "tag": "forge:ingots/electrum"
+        }
+      }
+  ]
+
+}

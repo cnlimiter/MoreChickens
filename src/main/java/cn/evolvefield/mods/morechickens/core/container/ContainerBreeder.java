@@ -91,7 +91,7 @@ public class ContainerBreeder extends AbstractContainerMenu {
     @Override//detectAndSendChanges
     public void broadcastChanges() {
         super.broadcastChanges();
-        List<ContainerListener> containerListeners = ObfuscationReflectionHelper.getPrivateValue(Container.class,null,"field_75149_d");
+        List<ContainerListener> containerListeners = ObfuscationReflectionHelper.getPrivateValue(AbstractContainerMenu.class,null,"f_38848_");
         for (int i = 0; i < containerListeners.size(); ++i) {
             ContainerListener listener = containerListeners.get(i);
 
