@@ -121,10 +121,6 @@ public class BaseChickenEntity extends ModAnimalEntity {
         entityData.set(NAME, type.name);
     }
 
-
-
-
-
     protected int getBreedingTimeout(){
         return breedingTimeout.get();
     }

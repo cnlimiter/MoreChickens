@@ -1,7 +1,8 @@
 //package cn.evolvefield.mods.morechickens.core.data;
 //
-//import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
-//import cn.evolvefield.mods.morechickens.core.entity.util.main.ChickenType;
+//import cn.evolvefield.mods.morechickens.common.data.DataChicken;
+//
+//import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
 //import cn.evolvefield.mods.morechickens.init.ModEntities;
 //import cn.evolvefield.mods.morechickens.init.ModItems;
 //import net.minecraft.entity.Entity;
@@ -14,7 +15,7 @@
 //
 //import java.util.*;
 //
-//public class DataChickenModded extends DataChicken{
+//public class DataChickenModded extends DataChicken {
 //
 //    private static final String BREED_NAME = "breed";
 //    private ChickenType chicken;

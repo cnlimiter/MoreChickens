@@ -32,7 +32,6 @@ public class ModConfig {
         public ForgeConfigSpec.IntValue chickenEggChance, chickenEggMultiChance,
                 chickenWeight, chickenMin, chickenMax, chickenBreedingTime;
 
-        public ForgeConfigSpec.ConfigValue<List<Config>> childChicken;
 
         public ForgeConfigSpec.DoubleValue nestTickRate;
         //wild spawn chance
@@ -53,11 +52,7 @@ public class ModConfig {
         public Common(ForgeConfigSpec.Builder builder){
             chickenType = new HashMap<>();
             tierOdds = new ForgeConfigSpec.DoubleValue[7];
-//            builder.comment("Client Config").push("Client");
-//            renderChickenIngredientAsEntity = builder
-//                    .comment("Render chicken as entities in JEI . Set to false to show an image of the chicken instead.")
-//                    .define("renderChickenIngredientAsEntity", true);
-//            builder.pop();
+
             builder.comment("Nest-related config").push("Nest");
             nestTickRate = builder
                     .comment("Rate at which to tick nests")
@@ -186,10 +181,6 @@ public class ModConfig {
                 builder.pop();
                 chickenType.put(type.getKey(), config);
             }
-            childChicken = builder
-                    .comment("Child chicken types, copy the format from default chicken, but add a Name property")
-                    .worldRestart()
-                    .define("Extras", new ArrayList<>());
             builder.pop();
         }
     }

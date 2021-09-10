@@ -126,30 +126,6 @@ public class ChickenType {
                 .collect(Collectors.toList());
 
 
-        //config file to add custom chicken
-        for(Config config : ModConfig.COMMON.childChicken.get()){
-            int layAmount = config.getIntOrElse("Amount", 1);
-            int layRandomAmount = config.getIntOrElse("RandomAmount", 0);
-            int layTime = config.getIntOrElse("LayTime", 6000);
-            int deathAmount = config.getIntOrElse("DeathAmount", 0);
-            int tier = config.getIntOrElse("Tier", 1);
-            String name = config.get("Name");
-            String dropItem = config.getOrElse("DropItem", "minecraft:egg");
-            String deathItem = config.getOrElse("DeathItem", "");
-            String parent1 = config.getOrElse("Parent1", "");
-            String parent2 = config.getOrElse("Parent2", "");
-            ChickenType extraType = new ChickenType(name, dropItem, layAmount, layRandomAmount, layTime, deathItem, deathAmount);
-            if(!config.getOrElse("Enabled", true))
-                extraType.disable();
-            extraType.tier = tier;
-            extraType.parent1 = parent1;
-            extraType.parent2 = parent2;
-            if(!parent1.equals("") && !parent2.equals("") && extraType.enabled){
-                UnorderedPair<String> pair = new UnorderedPair<>(parent1, parent2);
-                RandomPool<String> pool = Pairings.computeIfAbsent(pair, keyPair -> new RandomPool<>((String)null));
-                pool.add(name, tiers.get(tier));
-            }
-        }
         //load config chickens
         for(Map.Entry<String, ChickenType> entry : Types.entrySet()){
             ChickenType type = entry.getValue();
@@ -296,7 +272,8 @@ public class ChickenType {
         preRegisterPair(GOLD, GLASS, DIAMOND, (5));
 //diamond
         preRegisterPair(DIAMOND, WART, PEARL, (5));
-
+//pearl
+        preRegisterPair(PEARL,GHAST_TEAR,NETHERITE_SCRAP,(6));
 
     }
 
