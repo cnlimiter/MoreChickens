@@ -1,61 +1,34 @@
 package cn.evolvefield.mods.morechickens.init;
 
-
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import net.minecraft.world.entity.Entity;
+import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
+import cn.evolvefield.mods.morechickens.core.entity.ColorEggEntity;
+
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.level.Level;
-import net.minecraftforge.event.RegistryEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fmllegacy.network.FMLPlayMessages;
-import net.minecraftforge.registries.IForgeRegistry;
 
-import java.util.function.BiFunction;
+import net.minecraft.world.entity.MobCategory;
+import net.minecraft.world.entity.SpawnPlacements;
+import net.minecraft.world.entity.animal.Animal;
+import net.minecraft.world.level.levelgen.Heightmap;
+import net.minecraftforge.fmllegacy.RegistryObject;
+import net.minecraftforge.registries.DeferredRegister;
+import net.minecraftforge.registries.ForgeRegistries;
 
-
-@Mod.EventBusSubscriber(modid = MoreChickens.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModEntities {
-//    public static EntityType<BaseChickenEntity> BASE_CHICKEN;
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(ForgeRegistries.ENTITIES, MoreChickens.MODID);
 
+    public static final RegistryObject<EntityType<BaseChickenEntity>> BASE_CHICKEN = ENTITIES.register("base_chicken",
+            () -> EntityType.Builder.of(BaseChickenEntity::new, MobCategory.CREATURE).sized(0.375f, 0.625f)
+                    .build(new ResourceLocation(MoreChickens.MODID, "base_chicken").toString()));
 
-    @SubscribeEvent
-    public static void registerEntities(RegistryEvent.Register<EntityType<?>> event) {
-        final IForgeRegistry<EntityType<?>> registry = event.getRegistry();
+    public static final RegistryObject<EntityType<ColorEggEntity>> COLOR_EGG = ENTITIES.register("color_egg",
+            () -> EntityType.Builder.<ColorEggEntity>of(ColorEggEntity::new, MobCategory.MISC).sized(0.25f, 0.25f)
+                    .setTrackingRange(4)
+                    .setCustomClientFactory(ColorEggEntity::new)
+                    .build(new ResourceLocation(MoreChickens.MODID, "color_egg").toString()));
 
-//        registry.register(
-//
-//                BASE_CHICKEN = registerEntity(EntityType.Builder.of(BaseChickenEntity::new, EntityClassification.CREATURE)
-//                        .sized(0.375f, 0.625f)
-//                        ,new ResourceLocation(MoreChickens.MODID, "base_chicken").toString()
-//                        , "base_chicken")
-//
-//        );
-
+    public static void registerPlacements() {
+        SpawnPlacements.register(BASE_CHICKEN.get(), SpawnPlacements.Type.ON_GROUND, Heightmap.Types.MOTION_BLOCKING_NO_LEAVES, Animal::checkAnimalSpawnRules);
     }
-
-    @SuppressWarnings("unchecked")
-    private static <T extends Entity> EntityType<T> registerEntity(EntityType.Builder<T> builder, int trackingRange, BiFunction<FMLPlayMessages.SpawnEntity, Level, T> customClientFactory, String resourceLocation, String name) {
-        return (EntityType<T>) builder
-                .setTrackingRange(trackingRange)
-                .setCustomClientFactory(customClientFactory)
-                .build(resourceLocation)
-                .setRegistryName(name);
-    }
-
-
-    @SuppressWarnings("unchecked")
-    private static <T extends Entity> EntityType<T> registerEntity(EntityType.Builder<T> builder, String resourceLocation,String name) {
-        return (EntityType<T>) builder.build(resourceLocation).setRegistryName(name);
-    }
-
-    @SuppressWarnings("unchecked")
-    private static <T extends Entity> EntityType<T> registerEntity(EntityType.Builder<T> builder,String name) {
-        return (EntityType<T>) builder.build(name).setRegistryName(name);
-    }
-
-
-
-    //
-
 }

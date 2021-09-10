@@ -2,7 +2,7 @@ package cn.evolvefield.mods.morechickens.core.entity;
 
 import cn.evolvefield.mods.morechickens.core.util.main.Gene;
 import cn.evolvefield.mods.morechickens.init.ModConfig;
-import cn.evolvefield.mods.morechickens.init.ModDefaultEntities;
+import cn.evolvefield.mods.morechickens.init.ModEntities;
 import cn.evolvefield.mods.morechickens.core.util.main.ChickenType;
 
 import net.minecraft.core.BlockPos;
@@ -170,7 +170,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
     @Nullable
     @Override
     public AgeableMob getBreedOffspring(ServerLevel world, AgeableMob other) {
-        BaseChickenEntity child = ModDefaultEntities.BASE_CHICKEN.get().create(world);
+        BaseChickenEntity child = ModEntities.BASE_CHICKEN.get().create(world);
         if(child != null) {
             BaseChickenEntity otherChicken = (BaseChickenEntity) other;
             Gene childA = alleleA.crossover(alleleB, random);

@@ -4,7 +4,7 @@ package cn.evolvefield.mods.morechickens.core.item;
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
 import cn.evolvefield.mods.morechickens.core.tile.NestTileEntity;
-import cn.evolvefield.mods.morechickens.init.ModDefaultEntities;
+import cn.evolvefield.mods.morechickens.init.ModEntities;
 
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -66,7 +66,7 @@ public class JailItem extends Item {
         if(!(tileEntity instanceof NestTileEntity)) { // When using to release a quail
             if (jailTag == null)
                 return InteractionResult.PASS;
-            BaseChickenEntity released = (BaseChickenEntity) ModDefaultEntities.BASE_CHICKEN.get().spawn((ServerLevel) world, itemStack, player, context.getClickedPos().relative(context.getClickedFace()), MobSpawnType.SPAWN_EGG, true, false);
+            BaseChickenEntity released = (BaseChickenEntity) ModEntities.BASE_CHICKEN.get().spawn((ServerLevel) world, itemStack, player, context.getClickedPos().relative(context.getClickedFace()), MobSpawnType.SPAWN_EGG, true, false);
             if (released != null)
                 released.readAdditionalSaveData(jailTag);
             ItemStack emptied = new ItemStack(itemStack.getItem());

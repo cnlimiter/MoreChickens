@@ -3,12 +3,8 @@ package cn.evolvefield.mods.morechickens.core.util.main;
 import cn.evolvefield.mods.morechickens.core.util.math.RandomPool;
 import cn.evolvefield.mods.morechickens.core.util.math.UnorderedPair;
 import cn.evolvefield.mods.morechickens.init.ModConfig;
-import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
-import com.electronwill.nightconfig.core.Config;
-
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
-
 import net.minecraft.tags.Tag;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -17,7 +13,6 @@ import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.registries.ForgeRegistries;
 
-import javax.annotation.Nullable;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -140,29 +135,7 @@ public class ChickenType {
                 pool.add(type.name, tiers.get(type.tier));
             }
         }
-        for(Config config : ModConfig.COMMON.childChicken.get()){
-            int layAmount = config.getIntOrElse("Amount", 1);
-            int layRandomAmount = config.getIntOrElse("RandomAmount", 0);
-            int layTime = config.getIntOrElse("LayTime", 6000);
-            int deathAmount = config.getIntOrElse("DeathAmount", 0);
-            int tier = config.getIntOrElse("Tier", 1);
-            String name = config.get("Name");
-            String dropItem = config.getOrElse("DropItem", "breesources:quail_egg");
-            String deathItem = config.getOrElse("DeathItem", "");
-            String parent1 = config.getOrElse("Parent1", "");
-            String parent2 = config.getOrElse("Parent2", "");
-            ChickenType extraType = new ChickenType(name, dropItem, layAmount, layRandomAmount, layTime, deathItem, deathAmount);
-            if(!config.getOrElse("Enabled", true))
-                extraType.disable();
-            extraType.tier = tier;
-            extraType.parent1 = parent1;
-            extraType.parent2 = parent2;
-            if(!parent1.equals("") && !parent2.equals("") && extraType.enabled){
-                UnorderedPair<String> pair = new UnorderedPair<>(parent1, parent2);
-                RandomPool<String> pool = Pairings.computeIfAbsent(pair, keyPair -> new RandomPool<>((String)null));
-                pool.add(name, tiers.get(tier));
-            }
-        }
+
     }
 
     public static final ChickenType

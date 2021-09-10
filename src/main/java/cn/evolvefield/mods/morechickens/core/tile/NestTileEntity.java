@@ -173,7 +173,7 @@ public class NestTileEntity extends BlockEntity implements WorldlyContainer, Blo
     public void spawnChickens(Level world){
         for(VirtualChicken chicken : chickens){
             CompoundTag nbt = chicken.writeToTag();
-            BaseChickenEntity entity = (BaseChickenEntity) ModDefaultEntities.BASE_CHICKEN.get().spawn((ServerLevel)world, null, null, getBlockPos(), MobSpawnType.TRIGGERED, true, false);
+            BaseChickenEntity entity = (BaseChickenEntity) ModEntities.BASE_CHICKEN.get().spawn((ServerLevel)world, null, null, getBlockPos(), MobSpawnType.TRIGGERED, true, false);
             if(entity != null)
                 entity.load(nbt);
         }

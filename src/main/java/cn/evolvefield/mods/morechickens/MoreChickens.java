@@ -1,15 +1,22 @@
 package cn.evolvefield.mods.morechickens;
 
 
+import cn.evolvefield.mods.morechickens.core.data.custom.ChickenReloadListener;
 import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
 import cn.evolvefield.mods.morechickens.core.util.main.ChickenType;
-import cn.evolvefield.mods.morechickens.init.ModDefaultEntities;
+import cn.evolvefield.mods.morechickens.init.ModEntities;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.AddReloadListenerEvent;
+import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.fml.DeferredWorkQueue;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
@@ -18,7 +25,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.Map;
 
-// The value here should match an entry in the META-INF/mods.toml file
 @Mod("chickens")
 public class MoreChickens {
 
@@ -27,25 +33,30 @@ public class MoreChickens {
 
     public MoreChickens() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onCommonSetup);
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::addAttributes);
 
-        // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
-    }
+        MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
 
+        IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        ModEntities.ENTITIES.register(modEventBus);
+
+        //config
+        ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, cn.evolvefield.mods.morechickens.init.ModConfig.CONFIG_SPEC, "more_chickens.toml");
+
+    }
+    private void addAttributes(final EntityAttributeCreationEvent event) {
+        event.put(ModEntities.BASE_CHICKEN.get(), BaseChickenEntity.setAttributes().build());
+    }
 
     public void onCommonSetup(FMLCommonSetupEvent event) {
-        //DeferredWorkQueue.lookup(() -> {
-            //Entity attribute assignments
-            Map<EntityType<? extends LivingEntity>, AttributeSupplier> SUPPLIERS = ObfuscationReflectionHelper.getPrivateValue(DefaultAttributes.class,null,"f_22294_");
-            assert SUPPLIERS != null;
-            SUPPLIERS.put(ModDefaultEntities.BASE_CHICKEN.get(), BaseChickenEntity.setAttributes().build());
-            //GlobalEntityTypeAttributes.put(ModDefaultEntities.BASE_CHICKEN.get(), BaseChickenEntity.setAttributes().build());
-            ChickenType.matchConfig();
-            //ModItems.matchConfig();
-            ModDefaultEntities.registerPlacements();
 
-        //});
+            ChickenType.matchConfig();
+            ModEntities.registerPlacements();
     }
 
-
+    public void onServerStarting(AddReloadListenerEvent event) {
+        ChickenReloadListener.recipeManager = event.getDataPackRegistries().getRecipeManager();
+        event.addListener(ChickenReloadListener.INSTANCE);
+    }
 }

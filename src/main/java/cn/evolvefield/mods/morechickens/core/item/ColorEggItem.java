@@ -2,7 +2,7 @@ package cn.evolvefield.mods.morechickens.core.item;
 
 
 import cn.evolvefield.mods.morechickens.core.entity.ColorEggEntity;
-import cn.evolvefield.mods.morechickens.init.ModDefaultEntities;
+import cn.evolvefield.mods.morechickens.init.ModEntities;
 
 import net.minecraft.core.Position;
 import net.minecraft.core.dispenser.AbstractProjectileDispenseBehavior;
@@ -61,7 +61,7 @@ public class ColorEggItem extends Item {
         ItemStack itemstack = playerIn.getItemInHand(handIn);
         worldIn.playSound((Player)null, playerIn.getX(), playerIn.getY(), playerIn.getZ(), SoundEvents.EGG_THROW, SoundSource.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
         if (!worldIn.isClientSide) {
-            ColorEggEntity eggentity = ModDefaultEntities.COLOR_EGG.get().create(worldIn);
+            ColorEggEntity eggentity = ModEntities.COLOR_EGG.get().create(worldIn);
             if(eggentity != null) {
 
                 eggentity.setEgg(itemID, spawnChance, multiSpawnChance, animal);
@@ -87,7 +87,7 @@ public class ColorEggItem extends Item {
             @Override
             protected Projectile getProjectile(Level worldIn, Position position, ItemStack stackIn) {
                 ColorEggItem eggItem = (ColorEggItem)stackIn.getItem();
-                ColorEggEntity entity = ModDefaultEntities.COLOR_EGG.get().create(worldIn);
+                ColorEggEntity entity = ModEntities.COLOR_EGG.get().create(worldIn);
                 if(entity != null) {
                     entity.setEgg(eggItem.itemID, eggItem.spawnChance, eggItem.multiSpawnChance, eggItem.animal);
                     entity.setPos(position.x(), position.y(), position.z());

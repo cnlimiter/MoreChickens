@@ -21,18 +21,18 @@ import java.util.Map;
 
 public class ModSpawnEgg extends SpawnEggItem {
 
-    private static final List<ModSpawnEgg> QUEUE = new ArrayList<>();
+    private static final List<ModSpawnEgg> CHICKEN = new ArrayList<>();
     private final Lazy<? extends EntityType<?>> entityTypeSupplier;
 
     public ModSpawnEgg(RegistryObject<? extends EntityType<?>> entityType, int fg, int bg, Properties properties) {
         super(null, fg, bg, properties);
         this.entityTypeSupplier = Lazy.of(entityType);
-        QUEUE.add(this);
+        CHICKEN.add(this);
     }
 
     public static void registerMobs(){
         try {
-            Map<EntityType<?>, SpawnEggItem> EGGS = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, null, "field_195987_b");
+            Map<EntityType<?>, SpawnEggItem> EGGS = ObfuscationReflectionHelper.getPrivateValue(SpawnEggItem.class, null, "f_43201_");
             DefaultDispenseItemBehavior behavior = new DefaultDispenseItemBehavior(){
                 @Override
                 protected ItemStack execute(BlockSource source, ItemStack stack) {
@@ -43,10 +43,10 @@ public class ModSpawnEgg extends SpawnEggItem {
                     return stack;
                 }
             };
-            for(ModSpawnEgg egg : QUEUE){EGGS.put(egg.getType(null), egg);
+            for(ModSpawnEgg egg : CHICKEN){EGGS.put(egg.getType(null), egg);
                 DispenserBlock.registerBehavior(egg, behavior);
             }
-            QUEUE.clear();
+            CHICKEN.clear();
         } catch (Exception e) {
             e.printStackTrace();
         }

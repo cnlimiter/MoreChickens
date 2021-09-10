@@ -1,7 +1,7 @@
 package cn.evolvefield.mods.morechickens.core.entity;
 
 import cn.evolvefield.mods.morechickens.core.util.main.ChickenType;
-import cn.evolvefield.mods.morechickens.init.ModDefaultEntities;
+import cn.evolvefield.mods.morechickens.init.ModEntities;
 
 import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
@@ -48,7 +48,7 @@ public class ColorEggEntity extends ThrowableItemProjectile {
         super(type,world);
     }
     public ColorEggEntity(FMLPlayMessages.SpawnEntity packet, Level worldIn){
-        super(ModDefaultEntities.COLOR_EGG.get(), worldIn);
+        super(ModEntities.COLOR_EGG.get(), worldIn);
     }
 
     public ColorEggEntity setEgg(

@@ -35,7 +35,7 @@ public class ModBlocks {
         BAITS = registerEnumBlock(registry, BaitType.values(), it -> it + BaitBlock.nameSuffix, BaitBlock::new);
 
         registry.registerAll(
-                BLOCK_NEST = new NestBlock().setRegistryName("chicken_nest"),
+                BLOCK_NEST = new NestBlock().setRegistryName("nest"),
                 BLOCK_ROOST = new BlockRoost().setRegistryName("roost"),
                 BLOCK_BREEDER = new BlockBreeder().setRegistryName("breeder"),
                 BLOCK_COLLECTOR = new BlockCollector().setRegistryName("collector")

@@ -27,7 +27,7 @@ public class ClientEventBus {
     @SubscribeEvent
     public static void init(final FMLClientSetupEvent event) {
         //entity
-        EntityRenderers.register(ModDefaultEntities.BASE_CHICKEN.get(), BaseChickenEntityRender::new);
+        EntityRenderers.register(ModEntities.BASE_CHICKEN.get(), BaseChickenEntityRender::new);
 
         //tile
         BlockEntityRenderers.register(ModTileEntities.BAIT,BaitRenderer::new);
