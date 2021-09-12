@@ -22,16 +22,15 @@ public class DataChickenVanilla extends DataChicken {
     }
 
 
-    private static final String VANILLA_TYPE = "minecraft:chicken";
 
     public static DataChicken getDataFromStack(ItemStack stack) {
         CompoundNBT tagCompound = stack.getTag();
-        if (tagCompound == null || !tagCompound.getString(CHICKEN_ID_KEY).equals(VANILLA_TYPE)) return null;
+        if (tagCompound == null || !tagCompound.getString(CHICKEN_ID_KEY).equals("minecraft:chicken")) return null;
         return new DataChickenVanilla();
     }
 
     public static DataChicken getDataFromTooltipNBT(CompoundNBT tagCompound) {
-        if (tagCompound == null || !tagCompound.getString(CHICKEN_ID_KEY).equals(VANILLA_TYPE)) return null;
+        if (tagCompound == null || !tagCompound.getString(CHICKEN_ID_KEY).equals("minecraft:chicken")) return null;
         return new DataChickenVanilla();
     }
 
@@ -80,7 +79,7 @@ public class DataChickenVanilla extends DataChicken {
     public ItemStack buildChickenStack() {
         ItemStack stack = new ItemStack(ModItems.ITEM_CHICKEN);
         CompoundNBT tagCompound = new CompoundNBT();
-        tagCompound.putString(CHICKEN_ID_KEY, VANILLA_TYPE);
+        tagCompound.putString(CHICKEN_ID_KEY, "minecraft:chicken");
         stack.setTag(tagCompound);
         return stack;
     }
@@ -88,7 +87,7 @@ public class DataChickenVanilla extends DataChicken {
     @Override
     public CompoundNBT buildTooltipNBT() {
         CompoundNBT tagCompound = new CompoundNBT();
-        tagCompound.putString(CHICKEN_ID_KEY, VANILLA_TYPE);
+        tagCompound.putString(CHICKEN_ID_KEY, "minecraft:chicken");
         return tagCompound;
     }
 
