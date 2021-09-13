@@ -22,7 +22,7 @@ import java.util.List;
 
 public class ColorEggItem extends Item {
 
-    private static final List<ColorEggItem> EGG_QUEUE = new ArrayList<>();
+    private static final List<ColorEggItem> EGG_CHICKEN = new ArrayList<>();
 
     public static final String namePrefix = "egg_";
 
@@ -37,7 +37,7 @@ public class ColorEggItem extends Item {
         this.multiSpawnChance = multiSpawnChance;
         this.animal = animal;
         this.itemID = itemID;
-        EGG_QUEUE.add(this);
+        EGG_CHICKEN.add(this);
     }
 
     public void updateOdds(int chance, int multi){
@@ -54,7 +54,7 @@ public class ColorEggItem extends Item {
     @Override
     public ActionResult<ItemStack> use(World worldIn, PlayerEntity playerIn, Hand handIn) {
         ItemStack itemstack = playerIn.getItemInHand(handIn);
-        worldIn.playSound((PlayerEntity)null, playerIn.getX(), playerIn.getY(), playerIn.getZ(), SoundEvents.EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
+        worldIn.playSound(null, playerIn.getX(), playerIn.getY(), playerIn.getZ(), SoundEvents.EGG_THROW, SoundCategory.PLAYERS, 0.5F, 0.4F / (random.nextFloat() * 0.4F + 0.8F));
         if (!worldIn.isClientSide) {
             ColorEggEntity eggentity = ModEntities.COLOR_EGG.get().create(worldIn);
             if(eggentity != null) {
@@ -90,7 +90,7 @@ public class ColorEggItem extends Item {
                 return entity;
             }
         };
-        for(ColorEggItem egg : EGG_QUEUE){
+        for(ColorEggItem egg : EGG_CHICKEN){
             DispenserBlock.registerBehavior(egg, behavior);
         }
     }

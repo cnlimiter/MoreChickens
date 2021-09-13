@@ -22,6 +22,7 @@ public class DataChickenModded extends DataChicken {
 
     public DataChickenModded(ChickenType chickenIn, CompoundNBT compound) {
         super(chickenIn.name, "entity." + chickenIn.name + ".name");
+        this.chicken = chickenIn;
     }
 
     public static DataChicken getDataFromEntity(Entity entity) {

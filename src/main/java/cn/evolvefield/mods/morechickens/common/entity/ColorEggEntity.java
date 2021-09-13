@@ -5,6 +5,7 @@ import cn.evolvefield.mods.morechickens.init.ModEntities;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.ICommandSource;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.projectile.ProjectileItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.CompoundNBT;
@@ -103,8 +104,6 @@ public class ColorEggEntity extends ProjectileItemEntity {
     /**
      * Called when this egg hits a block or entity.
      */
-
-
     @Override
     protected void onHit(RayTraceResult result) {
         super.onHit(result);
@@ -116,14 +115,9 @@ public class ColorEggEntity extends ProjectileItemEntity {
                 }
 
                 for(int j = 0; j < i; ++j) {
-                    //AnimalEntity animalEntity = ((EntityType<? extends AnimalEntity>) ForgeRegistries.ENTITIES.getValue(new ResourceLocation(animal))).create(this.level);
-                    //BaseChickenEntity chickenEntity = ModEntities.BASE_CHICKEN.get().create(this.level);
-                    //assert animalEntity != null;
-                    //animalEntity.ageUp(-24000);
-                    //animalEntity.moveTo(this.getX(), this.getY(), this.getZ(), this.yRot, 0.0F);
                     this.level.getServer().getCommands().performCommand(new CommandSource(ICommandSource.NULL, new Vector3d(getX(),getY(),getZ()), Vector2f.ZERO,(ServerWorld) level,4, "",
                             new StringTextComponent(""), Objects.requireNonNull(level.getServer()), null),"summon chickens:base_chicken ~ ~ ~ {Breed:'"+ animal +"'}");
-                    //this.level.addFreshEntity(animalEntity);
+
                 }
             }
 
@@ -157,8 +151,8 @@ public class ColorEggEntity extends ProjectileItemEntity {
     }
 
 
-
-    public IPacket<?> createSpawnPacket(){
+    @Override
+    public IPacket<?> getAddEntityPacket(){
         return NetworkHooks.getEntitySpawningPacket(this);
     }
 }

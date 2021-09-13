@@ -27,7 +27,6 @@ public class NestTileEntity extends TileEntity implements ITickableTileEntity, I
 
 
     private final Stack<VirtualChicken> chickens;
-    //private NonNullList<ItemStack> inventory  ;
     private final Queue<ItemStack> inventory;
     private final Random rand;
 
@@ -35,7 +34,6 @@ public class NestTileEntity extends TileEntity implements ITickableTileEntity, I
     public NestTileEntity() {
         super(ModTileEntities.CHICKEN_NEST);
         chickens = new Stack<>();
-        //inventory = NonNullList.withSize(getContainerSize(), ItemStack.EMPTY);
         inventory = new ArrayDeque<>();
         rand = new Random();
     }
