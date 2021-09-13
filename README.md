@@ -1,6 +1,7 @@
 # MORE CHICKENS  
-![](https://cf.way2muchnoise.eu/full_514639_downloads.svg)
-![]( https://cf.way2muchnoise.eu/versions/MoreChickens.svg)
+
+![1](https://cf.way2muchnoise.eu/full_514639_downloads.svg)
+![2]( https://cf.way2muchnoise.eu/versions/MoreChickens.svg)
 <a href="https://github.com/cnlimiter/MoreChickens/LICENSE"><img src="https://img.shields.io/github/license/cnlimiter/MoreChickens?style=flat&color=E04E14" alt="License"></a>  
 Chickens lay eggs. Sometimes drop feather. You can throw eggs. That's it. SO BOOORING! Minecraft is a magical place so why not to add a little bit of magic? Chicken laying gunpowder... bonemeal... snowballs... YEAH! And what if you try to crossbreed them? Iron? Gold? DIAMODS? Just try it!
 
