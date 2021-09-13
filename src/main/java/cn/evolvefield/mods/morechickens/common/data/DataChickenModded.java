@@ -1,6 +1,4 @@
-package cn.evolvefield.mods.morechickens.core.data;
-
-import cn.evolvefield.mods.morechickens.common.data.DataChicken;
+package cn.evolvefield.mods.morechickens.common.data;
 
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
 import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
@@ -8,13 +6,14 @@ import cn.evolvefield.mods.morechickens.init.ModEntities;
 import cn.evolvefield.mods.morechickens.init.ModItems;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AnimalEntity;
-import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class DataChickenModded extends DataChicken {
 
