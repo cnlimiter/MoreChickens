@@ -1,20 +1,28 @@
 package cn.evolvefield.mods.morechickens.common.item;
 
 
-
-import cn.evolvefield.mods.morechickens.common.data.DataChicken;
+import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
+import cn.evolvefield.mods.morechickens.common.util.main.VirtualChicken;
+import cn.evolvefield.mods.morechickens.init.ModItems;
 import com.sun.javafx.geom.Vec3d;
 import net.minecraft.client.util.ITooltipFlag;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
+import net.minecraft.entity.merchant.villager.VillagerEntity;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.nbt.ListNBT;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.Util;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
@@ -22,15 +30,20 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
+import java.util.Stack;
 
 public class CatcherItem extends Item {
+
     public CatcherItem(Properties properties) {
         super(properties
                 .stacksTo(1)
                 .durability(238)
 
         );
+
     }
+
+
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
@@ -42,39 +55,69 @@ public class CatcherItem extends Item {
 
     @Override
     public ActionResultType interactLivingEntity(ItemStack itemStack, PlayerEntity player, LivingEntity entity, Hand hand) {
-        DataChicken chickenData = DataChicken.getDataFromEntity(entity);
-        Vec3d pos = new Vec3d(entity.getX(), entity.getY(), entity.getZ());
         World world = entity.level;
-
-        if (chickenData == null) {
-            return ActionResultType.FAIL;
-        } else if (entity.isBaby()) {
-            if (world.isClientSide) {
-                spawnParticles(pos, world, ParticleTypes.SMOKE);
-            }
-            world.playSound(player, pos.x, pos.y, pos.z, SoundEvents.CHICKEN_HURT, entity.getSoundSource(), 1.0F, 1.0F);
-        } else {
+        Vec3d pos = new Vec3d(entity.getX(), entity.getY(), entity.getZ());
+        if(entity instanceof ChickenEntity) {
             if (world.isClientSide) {
                 spawnParticles(pos, world, ParticleTypes.EXPLOSION);
             } else {
-                ItemEntity item = entity.spawnAtLocation(chickenData.buildChickenStack(), 1.0F);
-                item.lerpMotion(0,0.2D,0);
+                ItemStack chickenItem = new ItemStack(ModItems.ITEM_CHICKEN);
+                CompoundNBT tagCompound = new CompoundNBT();
+                tagCompound.putString("Type", "vanilla");
+                chickenItem.setTag(tagCompound);
+                ItemEntity item = entity.spawnAtLocation(chickenItem, 1.0F);
+                item.lerpMotion(0, 0.2D, 0);
                 entity.getServer().overworld().onEntityRemoved(entity);
             }
             world.playSound(player, pos.x, pos.y, pos.z, SoundEvents.CHICKEN_EGG, entity.getSoundSource(), 1.0F, 1.0F);
-            itemStack.hurtAndBreak(1, player,(playerin) -> {
-                        playerin.animateHurt();
-            });
+            return ActionResultType.SUCCESS;
         }
+        else if (entity instanceof BaseChickenEntity) {
+
+                BaseChickenEntity chickenEntity = (BaseChickenEntity)entity;
 
 
-        return ActionResultType.SUCCESS;
+
+                if (entity.isBaby()) {
+                    if (world.isClientSide) {
+                        spawnParticles(pos, world, ParticleTypes.SMOKE);
+                    }
+                    world.playSound(player, pos.x, pos.y, pos.z, SoundEvents.CHICKEN_HURT, entity.getSoundSource(), 1.0F, 1.0F);
+                    itemStack.hurtAndBreak(1, player, (playerIn) -> {
+                        playerIn.animateHurt();
+                    });
+                } else {
+                    if (world.isClientSide) {
+                        spawnParticles(pos, world, ParticleTypes.EXPLOSION);
+                    } else {
+                        ItemStack chickenItem = new ItemStack(ModItems.ITEM_CHICKEN);
+                        CompoundNBT tagCompound = new CompoundNBT();
+                        chickenEntity.addAdditionalSaveData(tagCompound);
+                        chickenEntity.remove(false);
+                        chickenItem.addTagElement("Chicken",tagCompound);
+                        tagCompound.putString("Type", "modded");
+                        chickenItem.setTag(tagCompound);
+                        ItemEntity item = entity.spawnAtLocation(chickenItem, 1.0F);
+                        item.lerpMotion(0, 0.2D, 0);
+                        entity.getServer().overworld().onEntityRemoved(entity);
+
+                    }
+                    world.playSound(player, pos.x, pos.y, pos.z, SoundEvents.CHICKEN_EGG, entity.getSoundSource(), 1.0F, 1.0F);
+
+                }
+
+
+                return ActionResultType.SUCCESS;
+            }
+
+        player.sendMessage(new TranslationTextComponent("item.chickens.catcher.fail"), Util.NIL_UUID);
+        return ActionResultType.FAIL;
+
     }
 
 
     private void spawnParticles(Vec3d pos, World world, IParticleData data) {
         Random rand = new Random();
-
         for (int k = 0; k < 20; ++k) {
             double xCoord = pos.x + (rand.nextDouble() * 0.6D) - 0.3D;
             double yCoord = pos.y + (rand.nextDouble() * 0.6D);

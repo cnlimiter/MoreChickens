@@ -24,8 +24,6 @@ public class ColorEggItem extends Item {
 
     private static final List<ColorEggItem> EGG_CHICKEN = new ArrayList<>();
 
-    public static final String namePrefix = "egg_";
-
     private int spawnChance;
     private int multiSpawnChance;
     private final String animal;

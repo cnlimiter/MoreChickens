@@ -13,12 +13,12 @@ public class VirtualChicken {
     public float layTimer;
     public VirtualChicken(CompoundNBT nbt){
         extraNBT = nbt.copy();
-        breed = ChickenType.Types.get(extraNBT.getString("Breed"));
+        breed = ChickenType.Types.get(extraNBT.getString("Name"));
         alleleA = new Gene().readFromTag(extraNBT.getCompound("AlleleA"));
         alleleB = new Gene().readFromTag(extraNBT.getCompound("AlleleB"));
         layTimer = extraNBT.getInt("EggLayTime");
         extraNBT.remove("EggLayTime");
-        extraNBT.remove("Breed");
+        extraNBT.remove("Name");
         extraNBT.remove("AlleleA");
         extraNBT.remove("AlleleB");
         gene = alleleA.dominance >= alleleB.dominance ? alleleA : alleleB;
@@ -26,7 +26,7 @@ public class VirtualChicken {
 
     public CompoundNBT writeToTag(){
         CompoundNBT nbt = extraNBT.copy();
-        nbt.putString("Breed", breed.name);
+        nbt.putString("Name", breed.name);
         nbt.putInt("EggLayTime", (int)layTimer);
         nbt.put("AlleleA", alleleA.writeToTag());
         nbt.put("AlleleB", alleleB.writeToTag());

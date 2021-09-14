@@ -4,6 +4,7 @@ import cn.evolvefield.mods.morechickens.common.data.custom.ChickenReloadListener
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
 import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
 import cn.evolvefield.mods.morechickens.init.ModEntities;
+import cn.evolvefield.mods.morechickens.init.ModItems;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
@@ -47,6 +48,7 @@ public class MoreChickens {
             //Entity attribute assignments
             GlobalEntityTypeAttributes.put(ModEntities.BASE_CHICKEN.get(), BaseChickenEntity.setAttributes().build());
             ChickenType.matchConfig();
+            ModItems.matchConfig();
             ModEntities.registerPlacements();
 
         });

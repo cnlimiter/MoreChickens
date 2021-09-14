@@ -169,6 +169,44 @@ public class ModItems {
 
     }
 
+    public static void matchConfig(){
+        ColorEggItem whiteEgg = (ColorEggItem)WHITE_EGG;
+        whiteEgg.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
+        ColorEggItem blueEgg = (ColorEggItem)BLUE_EGG;
+        blueEgg.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
+        ColorEggItem blackEgg = (ColorEggItem)BLACK_EGG;
+        blackEgg.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
+        ColorEggItem magentaEgg = (ColorEggItem)MAGENTA_EGG;
+        magentaEgg.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
+        ColorEggItem limeEgg = (ColorEggItem)LIME_EGG;
+        limeEgg.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
+        ColorEggItem yellowEgg = (ColorEggItem)YELLOW_EGG;
+        yellowEgg.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
+        ColorEggItem purpleEgg = (ColorEggItem)PURPLE_EGG;
+        purpleEgg.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
+        ColorEggItem greenEgg = (ColorEggItem)GREEN_EGG;
+        greenEgg.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
+        ColorEggItem lightGrayEgg = (ColorEggItem)LIGHT_GRAY_EGG;
+        lightGrayEgg.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
+        ColorEggItem lightBlueEgg = (ColorEggItem)LIGHT_BLUE_EGG;
+        lightBlueEgg.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
+        ColorEggItem cyanEgg = (ColorEggItem)CYAN_EGG;
+        cyanEgg.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
+        ColorEggItem redEgg = (ColorEggItem)RED_EGG;
+        redEgg.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
+        ColorEggItem pinkEgg = (ColorEggItem)PINK_EGG;
+        pinkEgg.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
+        ColorEggItem orangeEgg = (ColorEggItem)ORANGE_EGG;
+        orangeEgg.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
+        ColorEggItem grayEgg = (ColorEggItem)GRAY_EGG;
+        grayEgg.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
+        ColorEggItem brownEgg = (ColorEggItem)BROWN_EGG;
+        brownEgg.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
+        ColorEggItem itemCatcher = (ColorEggItem)ITEM_CATCHER;
+        itemCatcher.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
+
+    }
+
     private static Item.Properties itemProperties() {
         return new Item.Properties().tab(ModItemGroups.INSTANCE);
     }

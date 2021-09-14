@@ -32,6 +32,7 @@
   "item.chickens.chicken_spawn_egg": "Chicken Spawn Egg",
   "item.chickens.catcher": "Chicken Catcher",
   "item.chickens.catcher.tooltip1": "Catch chickens when right click chickens",
+  "item.chickens.catcher.fail": "Catch Failure!",
   "item.chickens.roost": "Roost",
   "item.chickens.breeder": "Breeder",
   "item.chickens.collector": "Collector",
@@ -78,7 +79,10 @@
 
   "text.chickens.empty": "Empty",
   "text.chickens.onetime": "One-time use",
-  
+
+
+
+  "text.chickens.name.vanilla": "VANILLA CHICKEN",
   "text.chickens.name.painted": "Painted CHICKEN",
   "text.chickens.name.sand": "SAND CHICKEN",
   "text.chickens.name.oak": "OAK CHICKEN",
@@ -132,6 +136,7 @@
   "text.chickens.name.emerald": "EMERALD CHICKEN",
   "text.chickens.name.ender_pearl": "ENDER_PEARL CHICKEN",
   "text.chickens.name.ghast_tear": "GHAST_TEAR CHICKEN",
+  "text.chickens.name.netherite_scrap": "NETHERITE_SCRAP CHICKEN",
 
   "text.chickens.name.ae2_certus_quartz": "CERTUS_QUARTZ CHICKEN",
   "text.chickens.name.ae2_fluix": "FLUIX_CRYSTAL CHICKEN",

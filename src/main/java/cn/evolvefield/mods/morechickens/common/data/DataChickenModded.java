@@ -87,7 +87,6 @@ public class DataChickenModded extends DataChicken {
         BaseChickenEntity chicken = new BaseChickenEntity(ModEntities.BASE_CHICKEN.get(),world);
         chicken.setDeltaMovement(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
         chicken.setType(ChickenType.Types.get(getChickenType()));
-        //chicken.ageUp(getLayTime());
         world.addFreshEntity(chicken);
     }
 

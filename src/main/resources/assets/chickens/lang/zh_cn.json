@@ -33,6 +33,7 @@
   "item.chickens.chicken_spawn_egg": "更多鸡刷怪蛋",
   "item.chickens.catcher": "鸡捕手",
   "item.chickens.catcher.tooltip1": "右击鸡，将它变成物品",
+  "item.chickens.catcher.fail": "捕捉鸡失败!",
   "item.chickens.roost": "鸡舍",
   "item.chickens.breeder": "繁殖箱",
   "item.chickens.collector": "收集器",
@@ -81,7 +82,11 @@
   
   "text.chickens.empty": "空的",
   "text.chickens.onetime": "一次性使用的",
-  
+
+
+
+
+  "text.chickens.name.vanilla": "原版鸡",
   "text.chickens.name.painted": "自定义鸡",
   "text.chickens.name.sand": "沙子鸡",
   "text.chickens.name.oak": "原木鸡",
@@ -135,6 +140,7 @@
   "text.chickens.name.emerald": "绿宝石鸡",
   "text.chickens.name.ender_pearl": "末影珍珠鸡",
   "text.chickens.name.ghast_tear": "恶魂之泪鸡",
+  "text.chickens.name.netherite_scrap": "下届合金碎片鸡",
 
   "text.chickens.name.ae2_certus_quartz": "赛特斯石英水晶鸡",
   "text.chickens.name.ae2_fluix": "福鲁伊克斯水晶鸡",
@@ -155,7 +161,7 @@
   "text.chickens.name.base_slag": "矿渣鸡",
   "text.chickens.name.base_steel": "钢鸡",
   "text.chickens.name.base_sulfur": "硫鸡",
-  "text.chicken.name.base_tin": "锡鸡",
+  "text.chickens.name.base_tin": "锡鸡",
   "text.chickens.name.base_uranium": "铀鸡",
   "text.chickens.name.base_zinc": "锌鸡",
   "text.chickens.name.botania_elementium": "源质钢鸡",

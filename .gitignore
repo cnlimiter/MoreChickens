@@ -118,3 +118,4 @@ run/
 !gradle-wrapper.jar
 /test/
 /test/ender/
+/libs/

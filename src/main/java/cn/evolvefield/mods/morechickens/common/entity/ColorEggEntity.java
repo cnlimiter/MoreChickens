@@ -1,15 +1,12 @@
 package cn.evolvefield.mods.morechickens.common.entity;
 
-import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
 import cn.evolvefield.mods.morechickens.init.ModEntities;
 import net.minecraft.command.CommandSource;
 import net.minecraft.command.ICommandSource;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.projectile.ProjectileItemEntity;
 import net.minecraft.item.Item;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.network.IPacket;
 import net.minecraft.network.datasync.DataParameter;
 import net.minecraft.network.datasync.DataSerializers;
 import net.minecraft.network.datasync.EntityDataManager;
@@ -27,7 +24,6 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.fml.network.FMLPlayMessages;
-import net.minecraftforge.fml.network.NetworkHooks;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.Objects;
@@ -39,7 +35,7 @@ public class ColorEggEntity extends ProjectileItemEntity {
     private int spawnChance;
     private int manySpawnChance;
     private String animal;
-    private ChickenType breed;
+
 
     public ColorEggEntity(EntityType<? extends ColorEggEntity> type, World world) {
         super(type,world);
@@ -69,7 +65,6 @@ public class ColorEggEntity extends ProjectileItemEntity {
 
 
 
-
     @Override
     protected Item getDefaultItem() {
         return ForgeRegistries.ITEMS.getValue(new ResourceLocation(entityData.get(ITEM_ID)));
@@ -78,8 +73,9 @@ public class ColorEggEntity extends ProjectileItemEntity {
     /**
      * Display particles on destroy
      */
+    @Override
     @OnlyIn(Dist.CLIENT)
-    public void handleStatusUpdate(byte id) {
+    public void handleEntityEvent(byte id) {
         if (id == 3) {
             for(int i = 0; i < 8; ++i) {
                 this.level.addParticle(new ItemParticleData(ParticleTypes.ITEM, this.getItem()), this.getX(), this.getY(), this.getZ(), ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D);
@@ -98,9 +94,6 @@ public class ColorEggEntity extends ProjectileItemEntity {
 
     }
 
-
-
-
     /**
      * Called when this egg hits a block or entity.
      */
@@ -115,8 +108,9 @@ public class ColorEggEntity extends ProjectileItemEntity {
                 }
 
                 for(int j = 0; j < i; ++j) {
+
                     this.level.getServer().getCommands().performCommand(new CommandSource(ICommandSource.NULL, new Vector3d(getX(),getY(),getZ()), Vector2f.ZERO,(ServerWorld) level,4, "",
-                            new StringTextComponent(""), Objects.requireNonNull(level.getServer()), null),"summon chickens:base_chicken ~ ~ ~ {Breed:'"+ animal +"'}");
+                            new StringTextComponent(""), Objects.requireNonNull(level.getServer()), null),"summon chickens:base_chicken ~ ~ ~ {Name:'"+ animal +"'}");
 
                 }
             }
@@ -151,8 +145,4 @@ public class ColorEggEntity extends ProjectileItemEntity {
     }
 
 
-    @Override
-    public IPacket<?> getAddEntityPacket(){
-        return NetworkHooks.getEntitySpawningPacket(this);
-    }
 }

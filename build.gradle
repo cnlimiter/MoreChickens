@@ -93,6 +93,10 @@ repositories {
         name = "JEI Maven"
         url "http://dvs1.progwml6.com/files/maven"
     }
+    maven { // TOP
+        name 'tterrag maven'
+        url "http://maven.tterrag.com/"
+    }
 
 
 }
@@ -103,6 +107,13 @@ dependencies {
     compileOnly fg.deobf("mezz.jei:jei-1.16.4:7.6.1.71:api")
     // at runtime, use the full JEI jar
     runtimeOnly fg.deobf("mezz.jei:jei-1.16.4:7.6.1.71")
+    compileOnly fg.deobf ("mcjty.theoneprobe:TheOneProbe-${top_version}:api")
+    runtime fg.deobf ("mcjty.theoneprobe:TheOneProbe-${top_version}")
+    runtime fileTree(dir:'libs', includes: ['*.jar'])
+//    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
+//    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+
+
     implementation fg.deobf("curse.maven:cofh-core-69162:3249453")
     implementation fg.deobf("curse.maven:thermal-foundation-222880:3248150")
 }

@@ -174,14 +174,14 @@ public class NestTileEntity extends TileEntity implements ITickableTileEntity, I
     }
 
     public void printChickens(PlayerEntity player){
-        Map<String, Integer> breeds = new HashMap<>();
+        Map<String, Integer> name = new HashMap<>();
         for(VirtualChicken chicken : chickens){
-            breeds.put(chicken.breed.name, breeds.getOrDefault(chicken.breed.name, 0) + 1);
+            name.put(chicken.breed.name, name.getOrDefault(chicken.breed.name, 0) + 1);
         }
-        for(Map.Entry<String, Integer> breed : breeds.entrySet()){
+        for(Map.Entry<String, Integer> chickenName : name.entrySet()){
             player.sendMessage(new TranslationTextComponent("text." + MoreChickens.MODID + ".multiplier",
-                            new TranslationTextComponent("text." + MoreChickens.MODID + ".breed." + breed.getKey()),
-                            breed.getValue()),
+                            new TranslationTextComponent("text." + MoreChickens.MODID + ".name." + chickenName.getKey()),
+                            chickenName.getValue()),
                     Util.NIL_UUID);
         }
     }
