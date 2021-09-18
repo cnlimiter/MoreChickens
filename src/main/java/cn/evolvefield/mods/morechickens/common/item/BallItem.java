@@ -29,8 +29,8 @@ public class BallItem extends Item {
 
     private final Fluid fluid;
 
-    public BallItem(Properties properties, Fluid fluid) {
-        super(properties);
+    public BallItem( Fluid fluid) {
+        super(new Properties());
         this.fluid = fluid;
     }
 

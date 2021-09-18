@@ -5,7 +5,6 @@ import cn.evolvefield.mods.morechickens.MoreChickens;
 
 import cn.evolvefield.mods.morechickens.common.container.CollectorContainer;
 import cn.evolvefield.mods.morechickens.init.ModTileEntities;
-import cn.evolvefield.mods.morechickens.init.util.InventoryUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
@@ -20,7 +19,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.Direction;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.NonNullList;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraftforge.common.capabilities.Capability;
@@ -202,42 +200,42 @@ public class CollectorTileEntity extends TileEntity implements ISidedInventory, 
         for (int x = -4; x < 5; x++) {
             int y = searchOffset / 9;
             int z = (searchOffset % 9) - 4;
-            gatherItemAtPos(getBlockPos().offset(x, y, z));
+            //gatherItemAtPos(getBlockPos().offset(x, y, z));
         }
     }
 
-    private void gatherItemAtPos(BlockPos pos) {
-        TileEntity tileEntity = getLevel().getBlockEntity(pos);
-        if (!(tileEntity instanceof RoostTileEntity)) return;
-
-        RoostTileEntity roostTileEntity = (RoostTileEntity) getLevel().getBlockEntity(pos);
-
-        int[] slots = roostTileEntity.getSlotsForFace(null);
-
-        for (int i : slots) {
-            if (pullItemFromSlot(roostTileEntity, i)) return;
-        }
-    }
-
-    private boolean pullItemFromSlot(RoostTileEntity tileRoost, int index) {
-        ItemStack itemStack = tileRoost.getItem(index);
-
-        if (!itemStack.isEmpty() && tileRoost.canTakeItemThroughFace(index, itemStack, null)) {
-            ItemStack itemStack1 = itemStack.copy();
-            ItemStack itemStack2 = InventoryUtil.putStackInInventoryAllSlots(tileRoost, this,
-                    tileRoost.removeItem(index, 1),null);
-
-            if (itemStack2.isEmpty()) {
-                tileRoost.setChanged();
-                setChanged();
-                return true;
-            }
-
-            tileRoost.setItem(index, itemStack1);
-        }
-
-        return false;
-    }
+//    private void gatherItemAtPos(BlockPos pos) {
+//        TileEntity tileEntity = getLevel().getBlockEntity(pos);
+//        if (!(tileEntity instanceof RoostTileEntity)) return;
+//
+//        RoostTileEntity roostTileEntity = (RoostTileEntity) getLevel().getBlockEntity(pos);
+//
+//        int[] slots = roostTileEntity.getSlotsForFace(null);
+//
+//        for (int i : slots) {
+//            if (pullItemFromSlot(roostTileEntity, i)) return;
+//        }
+//    }
+//
+//    private boolean pullItemFromSlot(RoostTileEntity tileRoost, int index) {
+//        ItemStack itemStack = tileRoost.getItem(index);
+//
+//        if (!itemStack.isEmpty() && tileRoost.canTakeItemThroughFace(index, itemStack, null)) {
+//            ItemStack itemStack1 = itemStack.copy();
+//            ItemStack itemStack2 = InventoryUtil.putStackInInventoryAllSlots(tileRoost, this,
+//                    tileRoost.removeItem(index, 1),null);
+//
+//            if (itemStack2.isEmpty()) {
+//                tileRoost.setChanged();
+//                setChanged();
+//                return true;
+//            }
+//
+//            tileRoost.setItem(index, itemStack1);
+//        }
+//
+//        return false;
+//    }
 
 
 

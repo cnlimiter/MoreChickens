@@ -1,158 +1,299 @@
 package cn.evolvefield.mods.morechickens.common.tile;
 
-
-import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.common.container.RoostContainer;
-import cn.evolvefield.mods.morechickens.common.data.DataChicken;
-import cn.evolvefield.mods.morechickens.init.ModConfig;
+import cn.evolvefield.mods.morechickens.common.container.base.ItemListInventory;
+import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
+import cn.evolvefield.mods.morechickens.common.tile.base.FakeWorldTileEntity;
+import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
+import cn.evolvefield.mods.morechickens.init.ModBlocks;
+import cn.evolvefield.mods.morechickens.init.ModEntities;
 import cn.evolvefield.mods.morechickens.init.ModTileEntities;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.ChickenEntity;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
+import net.minecraft.tileentity.ITickableTileEntity;
+import net.minecraft.tileentity.TileEntityType;
+import net.minecraft.util.*;
+import net.minecraft.world.World;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.items.CapabilityItemHandler;
+import net.minecraftforge.items.IItemHandlerModifiable;
+import net.minecraftforge.items.ItemStackHandler;
 
-import javax.annotation.Nullable;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
-public class RoostTileEntity extends ChickenContainerTileEntity implements INamedContainerProvider {
-
-    private static final String CHICKEN_KEY = "Chicken";
-    private static final String COMPLETE_KEY = "Complete";
-    private static int CHICKEN_SLOT = 0;
-    private Inventory inventory = new Inventory(5);
-
-    public RoostTileEntity() {
-        super(ModTileEntities.TILE_ROOST);
-    }
+public class RoostTileEntity extends FakeWorldTileEntity implements ITickableTileEntity{
 
 
-    public DataChicken createChickenData() {
-        return createChickenData(0);
-    }
-
-    public boolean putChickenIn(ItemStack newStack) {
-        ItemStack oldStack = getItem(CHICKEN_SLOT);
-
-        if (!canPlaceItem(CHICKEN_SLOT, newStack)) {
-            return false;
-        }
-
-        if (oldStack.isEmpty()) {
-            setItem(CHICKEN_SLOT, newStack.split(16));
-            setChanged();
-            playPutChickenInSound();
-            return true;
-        }
-
-        if (oldStack.equals(newStack) && ItemStack.tagMatches(oldStack, newStack)) {
-            int itemsAfterAdding = Math.min(oldStack.getCount() + newStack.getCount(), 16);
-            int itemsToAdd = itemsAfterAdding - oldStack.getCount();
-            if (itemsToAdd > 0) {
-                newStack.split(itemsToAdd);
-                oldStack.grow(itemsToAdd);
-                setChanged();
-                playPutChickenInSound();
-                return true;
+    private ItemStack chickenItem;
+    private NonNullList<ItemStack> outputInventory;
+    private AnimalEntity chickenEntity;
+    Random rand = new Random();
+    private int progress;
+    private int timeElapsed = 0;
+    private int timeUntilNextLay = 0;
+    public final IIntArray dataAccess = new IIntArray() {
+        public int get(int id) {
+            switch (id) {
+                case 0:
+                    return progress;
+                default:
+                    return 0;
             }
         }
 
+        public void set(int id, int value) {
+            switch (id) {
+                case 0:
+                    progress = value;
+                    break;
+            }
+        }
+
+        public int getCount() {
+            return 2;
+        }
+    };
+
+    public RoostTileEntity() {
+        super(ModTileEntities.ROOST, ModBlocks.BLOCK_ROOST.defaultBlockState());
+        outputInventory = NonNullList.withSize(4, ItemStack.EMPTY);
+        chickenItem = ItemStack.EMPTY;
+    }
+
+    public AnimalEntity getChicken(World world, ItemStack stack) {
+        CompoundNBT compound = stack.getOrCreateTag();
+        String type = compound.getString("Type");
+        AnimalEntity chicken;
+        if(type.equals("vanilla")){
+            chicken = new ChickenEntity(EntityType.CHICKEN,world);
+            return chicken;
+
+        }
+        chicken = new BaseChickenEntity(ModEntities.BASE_CHICKEN.get(), world);
+        chicken.readAdditionalSaveData(compound);
+        return chicken;
+    }
+
+    public void setChicken(ItemStack stack, AnimalEntity chickenEntity) {
+        CompoundNBT compound = stack.getOrCreateTag();
+        if (chickenEntity instanceof BaseChickenEntity){
+            chickenEntity.addAdditionalSaveData(compound);
+            compound.putString("Type","modded");
+            stack.setTag(compound);
+        }
+        else if (chickenEntity instanceof ChickenEntity){
+            compound.putString("Type","vanilla");
+            stack.setTag(compound);
+        }
+
+    }
+
+    public void setChickenItem(ItemStack chicken1) {
+        this.chickenItem = chicken1;
+        if (chicken1.isEmpty()) {
+            chickenEntity = null;
+        } else {
+            chickenEntity = getChicken(level, chicken1);
+        }
+        setChanged();
+        sync();
+    }
+
+    public ItemStack getChickenItem() {
+        return chickenItem;
+    }
+
+    public boolean hasChickenItem() {
+        return !chickenItem.isEmpty();
+    }
+
+    public AnimalEntity getChickenEntity() {
+        if (chickenEntity == null && !chickenItem.isEmpty()) {
+            chickenEntity = getChicken(level, chickenItem);
+        }
+        return chickenEntity;
+    }
+
+    public ItemStack removeChickenItem() {
+        ItemStack v = chickenItem;
+        setChickenItem(ItemStack.EMPTY);
+        return v;
+    }
+
+
+
+
+    @Override
+    public CompoundNBT save(CompoundNBT compound) {
+        if (hasChickenItem()) {
+            CompoundNBT comp = new CompoundNBT();
+            if (chickenEntity != null) {
+                setChicken(chickenItem, chickenEntity);
+            }
+            chickenItem.save(comp);
+            compound.put("ChickenItem", comp);
+        }
+        compound.putInt("TimeElapsed",this.timeElapsed);
+        compound.putInt("TimeUntilNextLay", timeUntilNextLay);
+        compound.put("OutputInventory", ItemStackHelper.saveAllItems(new CompoundNBT(), outputInventory, true));
+        return super.save(compound);
+    }
+
+    @Override
+    public void load(BlockState state, CompoundNBT compound) {
+        if (compound.contains("ChickenItem")) {
+            CompoundNBT comp = compound.getCompound("ChickenItem");
+            chickenItem = ItemStack.of(comp);
+            chickenEntity = null;
+        } else {
+            removeChickenItem();
+        }
+        this.timeUntilNextLay = compound.getInt("TimeUntilNextLay");
+        this.timeElapsed = compound.getInt("TimeElapsed");
+        ItemStackHelper.loadAllItems(compound.getCompound("OutputInventory"), outputInventory);
+        super.load(state, compound);
+    }
+
+    @Override
+    public void tick() {
+        if (level.isClientSide) {
+            return;
+        }
+        updateProgress();
+        updateTimerIfNeeded();
+        spawnChickenDropIfNeeded();
+    }
+    private void updateTimerIfNeeded() {
+        if (  canLay() && !outputIsFull()) {
+            timeElapsed += 5;
+            setChanged();
+        }
+    }
+    public boolean canLay() {
+        if (!hasChickenItem() ) {
+            return false;
+        }
+        return !getChickenEntity().isBaby() ;
+    }
+
+
+    private void updateProgress() {
+        if (hasChickenItem()){
+            this.progress = timeUntilNextLay == 0 ? 0 : (timeElapsed * 1000 / timeUntilNextLay);
+        }
+        else {
+            this.progress = 0;
+        }
+    }
+
+    public double getProgress() {
+        return progress / 1000.0;
+    }
+
+
+    private void spawnChickenDropIfNeeded() {
+        if ((timeElapsed >= timeUntilNextLay)) {
+            if (timeUntilNextLay > 0) {
+                if(addLoot()){
+                    getLevel().playSound(null, getBlockPos(), SoundEvents.CHICKEN_EGG, SoundCategory.NEUTRAL, 0.5F, 0.8F);
+                    //spawnParticles();
+                }
+            }
+            resetTimer();
+        }
+    }
+
+    private void resetTimer() {
+        String type = getChickenItem().getOrCreateTag().getString("Type");
+        timeElapsed = 0;
+        if (type.equals("modded")){
+            BaseChickenEntity chicken = (BaseChickenEntity) getChickenEntity();
+            timeUntilNextLay = chicken.type.layTime + rand.nextInt(chicken.type.layTime + 1);
+            timeUntilNextLay *= chicken.getGene().layTime + rand.nextFloat() * chicken.getGene().layRandomTime;
+            timeUntilNextLay = Math.max(600, timeUntilNextLay) + 6000;
+            setChanged();
+        }
+        else if(type.equals("vanilla")){
+            timeUntilNextLay = rand.nextInt(6000) + 6000;
+            setChanged();
+        }
+    }
+
+    private boolean addLoot() {
+        for (int i = 0; i < outputInventory.size(); i++) {
+            if (outputInventory.get(i).isEmpty()) {
+                String type = getChickenItem().getOrCreateTag().getString("Type");
+                if(type.equals("modded")) {
+                    BaseChickenEntity chicken = (BaseChickenEntity) getChickenEntity();
+                    ItemStack layItem = chicken.type.getLoot(rand,chicken.getGene());
+                    outputInventory.set(i, layItem);
+                    return true;
+
+                }
+                else if(type.equals("vanilla")){
+                    List<ItemStack> vanillaLay = new ArrayList<>();
+                    vanillaLay.add(new ItemStack(Items.EGG));
+                    vanillaLay.add(new ItemStack(Items.FEATHER));
+                    outputInventory.set(i, new ItemStack(Items.EGG));
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
-    public boolean pullChickenOut(PlayerEntity playerIn) {
-        ItemStack spawnStack = getItem(CHICKEN_SLOT);
 
-        if (spawnStack.isEmpty()) {
-            return false;
+
+
+    private boolean outputIsFull() {
+        int max = outputInventory.size();
+
+        for (int i = 0; i < max; i++) {
+            ItemStack stack = outputInventory.get(i);
+            if (stack.getCount() < stack.getMaxStackSize()) return false;
         }
-
-        playerIn.inventory.add(spawnStack);
-        setItem(CHICKEN_SLOT, ItemStack.EMPTY);
-
-        setChanged();
-        playPullChickenOutSound();
-
         return true;
     }
 
-    private void playPutChickenInSound() {
-        getLevel().playSound(null, getBlockPos(), SoundEvents.ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
+
+
+    public IInventory getOutputInventory() {
+        return new ItemListInventory(outputInventory, this::setChanged);
     }
 
-    private void playPullChickenOutSound() {
-        getLevel().playSound(null, getBlockPos(), SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
-    }
 
-    public void addInfoToTooltip(List<String> tooltip, CompoundNBT tag) {
-        if (tag.contains(CHICKEN_KEY)) {
-            DataChicken chicken = DataChicken.getDataFromTooltipNBT(tag.getCompound(CHICKEN_KEY));
-            tooltip.add(chicken.getDisplaySummary());
+    @Override
+    public <T> LazyOptional<T> getCapability(Capability<T> cap, Direction side) {
+        if (!remove && cap == CapabilityItemHandler.ITEM_HANDLER_CAPABILITY) {
+            if (side != null && side.equals(Direction.DOWN)) {
+                return LazyOptional.of(this::getOutputInventoryItemHandler).cast();
+            }
         }
+        return super.getCapability(cap, side);
+    }
 
-        if (tag.contains(COMPLETE_KEY)) {
-            tooltip.add(new TranslationTextComponent("container.chickens.roost.progress", formatProgress(tag.getDouble(COMPLETE_KEY))).getString());
+    private IItemHandlerModifiable outputInventoryHandler;
+
+    public IItemHandlerModifiable getOutputInventoryItemHandler() {
+        if (outputInventoryHandler == null) {
+            outputInventoryHandler = new ItemStackHandler(outputInventory);
         }
-    }
-
-    public void storeInfoForTooltip(CompoundNBT tag) {
-        DataChicken chicken = getChickenData(CHICKEN_SLOT);
-        if (chicken == null) return;
-        tag.put(CHICKEN_KEY, chicken.buildTooltipNBT());
-        tag.putDouble(COMPLETE_KEY, getProgress());
-    }
-
-    public Inventory getInventory() {
-        return inventory;
+        return outputInventoryHandler;
     }
 
 
-    public String getName() {
-        return "container." + MoreChickens.MODID + ".roost";
-    }
 
-    @Override
-    public ITextComponent getDisplayName() {
-        return new TranslationTextComponent(getName());
-    }
 
-    @Nullable
-    @Override
-    public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity player) {
-        return new RoostContainer(id,playerInventory,this);
-    }
 
-    @Override
-    protected void spawnChickenDrop() {
-        DataChicken chicken = getChickenData(0);
-        if (chicken != null) putStackInOutput(chicken.createDropStack());
-    }
-
-    @Override
-    public int getContainerSize() {
-        return 5;
-    }
-
-    @Override
-    protected int getSizeChickenInventory() {
-        return 1;
-    }
-
-    @Override
-    protected int requiredSeedsForDrop() {
-        return 0;
-    }
-
-    @Override
-    protected double speedMultiplier() {
-        return ModConfig.COMMON.roostSpeed.get();
-    }
 
 
 }

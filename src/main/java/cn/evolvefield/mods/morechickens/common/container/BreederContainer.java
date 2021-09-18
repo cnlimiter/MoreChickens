@@ -1,136 +1,100 @@
 package cn.evolvefield.mods.morechickens.common.container;
 
-
-import cn.evolvefield.mods.morechickens.common.container.slot.SlotChicken;
-import cn.evolvefield.mods.morechickens.common.container.slot.SlotReadOnly;
-import cn.evolvefield.mods.morechickens.common.container.slot.SlotSeeds;
-import cn.evolvefield.mods.morechickens.common.tile.BreederTileEntity;
+import cn.evolvefield.mods.morechickens.common.container.base.ContainerBase;
+import cn.evolvefield.mods.morechickens.common.container.base.LockedSlot;
+import cn.evolvefield.mods.morechickens.common.container.base.SlotSeeds;
 import cn.evolvefield.mods.morechickens.init.ModContainers;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.IContainerListener;
 import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IWorldPosCallable;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.IntArray;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-import javax.annotation.Nullable;
-import java.util.Objects;
+import java.text.DecimalFormat;
 
-public class BreederContainer extends Container {
+public  class BreederContainer extends ContainerBase {
 
-    public final BreederTileEntity tileBreeder;
     private int progress;
-    public final IWorldPosCallable canInteractWithCallable;
+    private final IIntArray data;
+    private static final DecimalFormat FORMATTER = new DecimalFormat("0.0%");
 
-    public BreederContainer(final int windowId, final PlayerInventory playerInventory, final PacketBuffer data) {
-        this(windowId, playerInventory, getTileEntity(playerInventory, data));
+    public BreederContainer(ContainerType type, int id, PlayerInventory playerInventory, IInventory inputInventory, IInventory outputInventory, IIntArray data) {
+        super(ModContainers.BREEDER_CONTAINER, id, playerInventory, null);
+        checkContainerDataCount(data, 2);
+
+        addSlot(getInputSlot(inputInventory, 0, 59 , 32));
+
+        addSlot(new LockedSlot(outputInventory, 0 , 115 , 23 , true, false));
+        addSlot(new LockedSlot(outputInventory, 1 , 115 + 18, 23 , true, false));
+        addSlot(new LockedSlot(outputInventory, 2 , 115 , 23 + 18, true, false));
+        addSlot(new LockedSlot(outputInventory, 3 , 115 + 18, 23 + 18, true, false));
+
+
+        addPlayerInventorySlots();
+        this.data = data;
+        this.addDataSlots(data);
     }
 
-    public BreederContainer(final int windowId, final PlayerInventory playerInventory, final BreederTileEntity tileEntity) {
-        this(ModContainers.CONTAINER_BREEDER, windowId, playerInventory, tileEntity);
-    }
-
-
-    public BreederContainer(@Nullable ContainerType<?> type, final int windowId, final PlayerInventory playerInventory, final BreederTileEntity tileEntity)
-    {
-        super(type, windowId);
-        this.tileBreeder = tileEntity;
-        this.canInteractWithCallable = IWorldPosCallable.create(tileEntity.getLevel(), tileEntity.getBlockPos());
-
-        addSlot(new SlotChicken(tileEntity, 0, 44, 20));
-        addSlot(new SlotChicken(tileEntity, 1, 62, 20));
-        addSlot(new SlotSeeds(tileEntity, 2, 8, 20));
-
-        for (int i = 0; i < 3; ++i) {
-            addSlot(new SlotReadOnly(tileEntity, i + 3, 116 + i * 18, 20));
-        }
-
-        for (int i = 0; i < 3; ++i) {
-            for (int j = 0; j < 9; ++j) {
-                addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 51 + i * 18));
-            }
-        }
-
-        for (int k = 0; k < 9; ++k) {
-            addSlot(new Slot(playerInventory, k, 8 + k * 18, 109));
-        }
-    }
-
-    private static BreederTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
-        Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
-        Objects.requireNonNull(data, "data cannot be null!");
-        final TileEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
-        if (tileAtPos instanceof BreederTileEntity) {
-            return (BreederTileEntity) tileAtPos;
-        }
-        throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
+    public BreederContainer(int id, PlayerInventory playerInventory) {
+        this(ModContainers.BREEDER_CONTAINER, id, playerInventory, new Inventory(1), new Inventory(4),new IntArray(2));
     }
 
 
-    public TileEntity getTileEntity() {
-        return tileBreeder;
-    }
 
 
-    @Override//canInteractWith
-    public boolean stillValid(PlayerEntity player) {
-        return tileBreeder.stillValid(player);
+    @Override
+    public int getInvOffset() {
+        return -2;
     }
 
     @Override
-    public void addSlotListener(IContainerListener listener) {
-        super.addSlotListener(listener);
-        //listener.sendAllWindowProperties(this, this.breederInventory);
+    public int getInventorySize() {
+        return 8;
     }
+
+    public  Slot getInputSlot(IInventory inventory, int id, int x, int y){
+        return new SlotSeeds(inventory, id, x, y);
+    };
+
+
+    @OnlyIn(Dist.CLIENT)
+    public double getProgress() {
+        int i = this.data.get(0);
+
+        return i /1000.0;
+    }
+
+    public String getFormattedProgress() {
+        return formatProgress(getProgress());
+    }
+
+    public String formatProgress(double progress) {
+        return FORMATTER.format(progress);
+    }
+
 
     @Override//detectAndSendChanges
     public void broadcastChanges() {
         super.broadcastChanges();
-        //List<IContainerListener> containerListeners = ObfuscationReflectionHelper.getPrivateValue(Container.class,null,"field_75149_d");
         for (int i = 0; i < containerListeners.size(); ++i) {
             IContainerListener listener = containerListeners.get(i);
-
-            if (progress != tileBreeder.get(0)) {
-                listener.setContainerData(this, 0, tileBreeder.get(0));
+            if (progress != data.get(0)) {
+                listener.setContainerData(this, 0, data.get(0));
             }
         }
 
-        progress = tileBreeder.get(0);
+        progress = data.get(0);
     }
+
 
     @Override//updateProgressBar
-    public void setData(int id, int data) {
-        tileBreeder.set(id, data);
+    public void setData(int id, int data1) {
+        data.set(id, data1);
     }
 
-    @Override
-    public ItemStack quickMoveStack(PlayerEntity player, int fromSlot) {
-        ItemStack previous = ItemStack.EMPTY;
-        Slot slot = slots.get(fromSlot);
-
-        if (slot != null && slot.hasItem()) {
-            ItemStack current = slot.getItem();
-            previous = current.copy();
-
-            if (fromSlot < tileBreeder.getContainerSize()) {
-                if (!moveItemStackTo(current, tileBreeder.getContainerSize(), slots.size(), true)) {
-                    return ItemStack.EMPTY;
-                }
-            } else if (!moveItemStackTo(current, 0, 3, false)) {
-                return ItemStack.EMPTY;
-            }
-
-            if (current.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
-            } else {
-                slot.setChanged();
-            }
-        }
-
-        return previous;
-    }
 }

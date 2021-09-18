@@ -13,12 +13,9 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.IForgeRegistry;
 
 
-@Mod.EventBusSubscriber(modid = MoreChickens.MODID, bus = Mod.EventBusSubscriber.Bus.MOD)
 public class ModItems {
-    public static Item ANALYZER;
+
     public static Item CHICKEN_SPAWN_EGG;
-    public static Item CHICKEN_JAIL;
-    public static Item STRONG_CHICKEN_JAIL;
     public static Item WATER_EGG;
     public static Item LAVA_EGG;
     public static Item WHITE_EGG;
@@ -32,29 +29,20 @@ public class ModItems {
     public static Item LIGHT_GRAY_EGG;
     public static Item LIGHT_BLUE_EGG;
     public static Item CYAN_EGG;
-    public static Item  RED_EGG;
+    public static Item RED_EGG;
     public static Item PINK_EGG;
     public static Item ORANGE_EGG;
     public static Item GRAY_EGG;
     public static Item BROWN_EGG;
 
-    public static Item ITEM_CHICKEN;
-    public static Item ITEM_CATCHER;
+    public static Item ITEM_CHICKEN = new ChickenItem();
+    public static Item ITEM_CATCHER = new CatcherItem();
+    public static Item ANALYZER = new AnalyzerItem();
 
-    public static Item ITEM_ROOST;
-    public static Item ITEM_BREEDER;
-    public static Item ITEM_COLLECTOR;
-
-    @SubscribeEvent
     public static void registerItems(RegistryEvent.Register<Item> event) {
         final IForgeRegistry<Item> registry = event.getRegistry();
         registry.registerAll(
-                ANALYZER = new AnalyzerItem().setRegistryName("analyzer"),
-                CHICKEN_SPAWN_EGG = new ModSpawnEgg(ModEntities.BASE_CHICKEN, 0x734011, 0xa4b5bd, new Item.Properties().tab(ModItemGroups.INSTANCE)).setRegistryName("chicken_spawn_egg"),
-                CHICKEN_JAIL =new JailItem(new Item.Properties().stacksTo(1).tab(ModItemGroups.INSTANCE), false).setRegistryName("chicken_jail"),
-                STRONG_CHICKEN_JAIL = new JailItem(new Item.Properties().stacksTo(1).tab(ModItemGroups.INSTANCE), true).setRegistryName("strong_chicken_jail"),
-                WATER_EGG = new BallItem(new Item.Properties().tab(ModItemGroups.INSTANCE),Fluids.WATER).setRegistryName("egg_water"),
-                LAVA_EGG = new BallItem(new Item.Properties().tab(ModItemGroups.INSTANCE), Fluids.LAVA).setRegistryName("egg_lava"),
+
                 WHITE_EGG = new ColorEggItem(new Item.Properties().tab(ModItemGroups.INSTANCE),
                         10,
                         1000,
@@ -151,16 +139,12 @@ public class ModItems {
                         "dye_brown",
                         "chickens:egg_brown")
                         .setRegistryName("egg_brown"),
-                ITEM_CATCHER = new CatcherItem(new Item.Properties()
-                        .craftRemainder(Items.BUCKET)
-                        .stacksTo(1)
-                        .tab(ModItemGroups.INSTANCE)
-                ).setRegistryName("catcher"),
-                ITEM_CHICKEN = new ChickenItem(new Item.Properties()
-                        .craftRemainder(Items.BUCKET)
-                        .stacksTo(1)
-                        .tab(ModItemGroups.INSTANCE)
-                ).setRegistryName("chicken")
+                CHICKEN_SPAWN_EGG = new ModSpawnEgg(ModEntities.BASE_CHICKEN, 0x734011, 0xa4b5bd, new Item.Properties().tab(ModItemGroups.INSTANCE)).setRegistryName("chicken_spawn_egg"),
+                WATER_EGG = new BallItem(Fluids.WATER).setRegistryName("egg_water"),
+                LAVA_EGG = new BallItem( Fluids.LAVA).setRegistryName("egg_lava"),
+                ANALYZER ,
+                ITEM_CATCHER ,
+                ITEM_CHICKEN
 
 
 
@@ -207,16 +191,13 @@ public class ModItems {
 
     }
 
-    private static Item.Properties itemProperties() {
-        return new Item.Properties().tab(ModItemGroups.INSTANCE);
-    }
 
+    //impact
     private static Item.Properties optionalItemProperties(String modId) {
         Item.Properties properties = new Item.Properties();
         if (ModList.get().isLoaded(modId)) {
             return properties.tab(ModItemGroups.INSTANCE);
         }
-
         return properties;
     }
 }

@@ -1,179 +1,114 @@
 package cn.evolvefield.mods.morechickens.common.block;
 
-
+import cn.evolvefield.mods.morechickens.MoreChickens;
+import cn.evolvefield.mods.morechickens.common.block.base.HorizontalRotatableBlock;
+import cn.evolvefield.mods.morechickens.common.container.RoostContainer;
+import cn.evolvefield.mods.morechickens.common.item.ChickenItem;
 import cn.evolvefield.mods.morechickens.common.tile.RoostTileEntity;
+import cn.evolvefield.mods.morechickens.common.util.ItemUtils;
 import cn.evolvefield.mods.morechickens.init.ModBlocks;
-import net.minecraft.block.*;
+import cn.evolvefield.mods.morechickens.init.ModContainers;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.ServerPlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.item.BlockItemUseContext;
-import net.minecraft.network.PacketBuffer;
-import net.minecraft.state.DirectionProperty;
-import net.minecraft.state.Property;
-import net.minecraft.state.StateContainer;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
-import java.util.Optional;
 
-public class RoostBlock extends ContainerBlock {
-    public static class ChickenTypeProperty extends Property<String> {
-        private final String name;
-
-        public ChickenTypeProperty(String name) {
-            super(name,String.class);
-            this.name = name;
-        }
-        @Override
-        public Collection<String> getPossibleValues() {
-            return null;
-        }
-        @Override
-        public String getName(String name1) {
-            return name;
-        }
-        @Override
-        public Optional<String> getValue(String value) {
-            return Optional.of(value);
-        }
-    }
-
-    public static final DirectionProperty FACING = HorizontalBlock.FACING;
-    public static final ChickenTypeProperty CHICKEN = new ChickenTypeProperty("chicken");
+public class RoostBlock extends HorizontalRotatableBlock {
 
     public RoostBlock() {
         super(Properties.of(Material.WOOD)
-            .sound(SoundType.WOOD)
+                .sound(SoundType.WOOD)
                 .strength(2.0f,5.0f)
+                .noCollission()
 
         );
-        this.registerDefaultState(this.getStateDefinition().any()
-                .setValue(FACING, Direction.NORTH)
-        );
+        setRegistryName(new ResourceLocation(MoreChickens.MODID, "roost"));
+
     }
 
     @Override
-    protected void createBlockStateDefinition(StateContainer.Builder<Block, BlockState> builder) {
-        builder.add(FACING);
-    }
+    public ActionResultType use(BlockState state, World worldIn, BlockPos pos, PlayerEntity player, Hand handIn, BlockRayTraceResult hit) {
+        ItemStack heldItem = player.getItemInHand(handIn);
+        TileEntity tileEntity = worldIn.getBlockEntity(pos);
+        if (!(tileEntity instanceof RoostTileEntity)) {
+            return super.use(state, worldIn, pos, player, handIn, hit);
+        }
+        RoostTileEntity breeder = (RoostTileEntity) tileEntity;
 
+        if (!breeder.hasChickenItem() && heldItem.getItem() instanceof ChickenItem) {
+            breeder.setChickenItem(heldItem.copy());
+            ItemUtils.decrItemStack(heldItem, player);
+            worldIn.playSound(null, pos, SoundEvents.ITEM_FRAME_ADD_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            return ActionResultType.SUCCESS;
 
-    @Nullable
-    @Override
-    public BlockState getStateForPlacement(BlockItemUseContext context) {
-        BlockState blockstate = this.defaultBlockState();
-        IWorldReader iworldreader = context.getLevel();
-        BlockPos blockpos = context.getClickedPos();
-        Direction[] adirection = context.getNearestLookingDirections();
-
-        for(Direction direction : adirection) {
-            if (direction.getAxis().isHorizontal()) {
-                Direction direction1 = direction.getOpposite();
-                blockstate = blockstate.setValue(FACING, direction1);
-
-                    return blockstate;
-
+        } else if (player.isShiftKeyDown() && breeder.hasChickenItem()) {
+            ItemStack stack = breeder.removeChickenItem();
+            if (heldItem.isEmpty()) {
+                player.setItemInHand(handIn, stack);
+            } else {
+                if (!player.inventory.add(stack)) {
+                    Direction direction = state.getValue(FACING);
+                    InventoryHelper.dropItemStack(worldIn, direction.getStepX() + pos.getX() + 0.5D, pos.getY() + 0.5D, direction.getStepZ() + pos.getZ() + 0.5D, stack);
+                }
             }
-        }
-        return  null;
-        //return this.defaultBlockState().setValue(FACING,context.getHorizontalDirection().getOpposite());
-    }
+            worldIn.playSound(null, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
+            return ActionResultType.SUCCESS;
+        } else {
+            player.openMenu(new INamedContainerProvider() {
+                @Override
+                public ITextComponent getDisplayName() {
+                    return new TranslationTextComponent(state.getBlock().getDescriptionId());
+                }
 
-
-    @Override
-    public BlockState rotate(BlockState state, Rotation rot) {
-        return state.setValue(FACING, rot.rotate(state.getValue(FACING)));
-    }
-
-
-    @Override
-    public BlockState mirror(BlockState state, Mirror mirrorIn) {
-        return state.rotate(mirrorIn.getRotation(state.getValue(FACING)));
-    }
-
-    //    @Nullable
-//    @Override
-//    public BlockState getStateForPlacement(BlockItemUseContext context) {
-//        IBlockReader world = context.getLevel();
-//        BlockPos blockpos = context.getClickedPos();
-//        BlockState blockstate = context.getLevel().getBlockState(blockpos);
-//
-//        String chickenType = "chickens:empty";
-//        TileEntity tileEntity = world instanceof Chunk
-//                ? ((Chunk) world).getBlockEntity(blockpos, Chunk.CreateEntityType.CHECK)
-//                : world.getBlockEntity(blockpos);
-//
-//        if (tileEntity instanceof TileEntityRoost) {
-//            DataChicken chickenData = ((TileEntityRoost) tileEntity).createChickenData();
-//            if (chickenData != null) chickenType = chickenData.getChickenType();
-//        }
-//
-//        if (chickenType == null) chickenType = "minecraft:vanilla";
-//
-//        return blockstate.setValue(CHICKEN, chickenType);
-//
-//    }
-
-    @Override
-    public ActionResultType use(BlockState state, World world, BlockPos pos, PlayerEntity playerEntity, Hand hand, BlockRayTraceResult result) {
-        if (world.isClientSide) {
-            return ActionResultType.FAIL;
-        }
-        RoostTileEntity tileEntity = (RoostTileEntity) world.getBlockEntity(pos);
-        if (tileEntity == null) {
-            return ActionResultType.FAIL;
-        }
-        if (playerEntity.isCrouching() && tileEntity.pullChickenOut(playerEntity)) {
+                @Nullable
+                @Override
+                public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity player) {
+                    return new RoostContainer(ModContainers.ROOST_CONTAINER,id, playerInventory, breeder.getOutputInventory(),breeder.dataAccess);
+                }
+            });
             return ActionResultType.SUCCESS;
         }
-
-        if (tileEntity.putChickenIn(playerEntity.getItemInHand(hand))) {
-            return ActionResultType.SUCCESS;
-        }
-
-        NetworkHooks.openGui((ServerPlayerEntity) playerEntity, tileEntity
-                ,
-                (PacketBuffer packerBuffer) -> {
-            packerBuffer.writeBlockPos(tileEntity.getBlockPos());
-        }
-        );
-
-
-        return ActionResultType.SUCCESS;
     }
 
-
-
     @Override
-    public void destroy(IWorld world, BlockPos blockPos, BlockState state) {
-        TileEntity tileEntity =world.getBlockEntity(blockPos);
+    public void destroy(IWorld world, BlockPos pos, BlockState state) {
+        TileEntity tileEntity = world.getBlockEntity(pos);
+
         if (tileEntity instanceof RoostTileEntity) {
-            InventoryHelper.dropItemStack((World) world, blockPos.getX(),blockPos.getY(),blockPos.getZ(), ModBlocks.BLOCK_ROOST.asItem().getDefaultInstance());
+            InventoryHelper.dropItemStack((World) world, pos.getX(),pos.getY(),pos.getZ(), ModBlocks.BLOCK_ROOST.asItem().getDefaultInstance());
         }
-        super.destroy(world, blockPos, state);
+
+        super.destroy(world, pos, state);
     }
 
     @Override
-    public BlockRenderType getRenderShape(BlockState state) {
+    public BlockRenderType getRenderShape(BlockState p_149645_1_) {
         return BlockRenderType.MODEL;
     }
 
 
-
     @Nullable
     @Override
-    public TileEntity newBlockEntity(IBlockReader blockReader) {
+    public TileEntity createTileEntity(BlockState state, IBlockReader world) {
         return new RoostTileEntity();
     }
 
@@ -182,7 +117,11 @@ public class RoostBlock extends ContainerBlock {
         return true;
     }
 
-
+    @OnlyIn(Dist.CLIENT)
+    @Override
+    public float getShadeBrightness(BlockState state, IBlockReader worldIn, BlockPos pos) {
+        return 1F;
+    }
 
 
 }

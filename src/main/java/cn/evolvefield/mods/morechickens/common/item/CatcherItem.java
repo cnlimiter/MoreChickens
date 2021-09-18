@@ -3,6 +3,7 @@ package cn.evolvefield.mods.morechickens.common.item;
 
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
 import cn.evolvefield.mods.morechickens.common.util.main.VirtualChicken;
+import cn.evolvefield.mods.morechickens.init.ModItemGroups;
 import cn.evolvefield.mods.morechickens.init.ModItems;
 import com.sun.javafx.geom.Vec3d;
 import net.minecraft.client.util.ITooltipFlag;
@@ -15,6 +16,7 @@ import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.nbt.ListNBT;
 import net.minecraft.particles.IParticleData;
@@ -34,17 +36,17 @@ import java.util.Stack;
 
 public class CatcherItem extends Item {
 
-    public CatcherItem(Properties properties) {
-        super(properties
+    public CatcherItem() {
+        super(new Properties()
                 .stacksTo(1)
                 .durability(238)
+                .craftRemainder(Items.BUCKET)
+                .tab(ModItemGroups.INSTANCE)
 
         );
+        setRegistryName("catcher");
 
     }
-
-
-
     @Override
     public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
         super.appendHoverText(stack, world, tooltip, flag);
@@ -62,12 +64,12 @@ public class CatcherItem extends Item {
                 spawnParticles(pos, world, ParticleTypes.EXPLOSION);
             } else {
                 ItemStack chickenItem = new ItemStack(ModItems.ITEM_CHICKEN);
-                CompoundNBT tagCompound = new CompoundNBT();
+                CompoundNBT tagCompound = chickenItem.getOrCreateTagElement("ChickenData");
                 tagCompound.putString("Type", "vanilla");
                 chickenItem.setTag(tagCompound);
                 ItemEntity item = entity.spawnAtLocation(chickenItem, 1.0F);
                 item.lerpMotion(0, 0.2D, 0);
-                entity.getServer().overworld().onEntityRemoved(entity);
+                entity.getServer().overworld().removeEntity(entity,false);
             }
             world.playSound(player, pos.x, pos.y, pos.z, SoundEvents.CHICKEN_EGG, entity.getSoundSource(), 1.0F, 1.0F);
             return ActionResultType.SUCCESS;
@@ -75,8 +77,6 @@ public class CatcherItem extends Item {
         else if (entity instanceof BaseChickenEntity) {
 
                 BaseChickenEntity chickenEntity = (BaseChickenEntity)entity;
-
-
 
                 if (entity.isBaby()) {
                     if (world.isClientSide) {
@@ -91,22 +91,16 @@ public class CatcherItem extends Item {
                         spawnParticles(pos, world, ParticleTypes.EXPLOSION);
                     } else {
                         ItemStack chickenItem = new ItemStack(ModItems.ITEM_CHICKEN);
-                        CompoundNBT tagCompound = new CompoundNBT();
+                        CompoundNBT tagCompound = chickenItem.getOrCreateTagElement("ChickenData");
                         chickenEntity.addAdditionalSaveData(tagCompound);
                         chickenEntity.remove(false);
-                        chickenItem.addTagElement("Chicken",tagCompound);
                         tagCompound.putString("Type", "modded");
                         chickenItem.setTag(tagCompound);
                         ItemEntity item = entity.spawnAtLocation(chickenItem, 1.0F);
                         item.lerpMotion(0, 0.2D, 0);
-                        entity.getServer().overworld().onEntityRemoved(entity);
-
                     }
                     world.playSound(player, pos.x, pos.y, pos.z, SoundEvents.CHICKEN_EGG, entity.getSoundSource(), 1.0F, 1.0F);
-
                 }
-
-
                 return ActionResultType.SUCCESS;
             }
 

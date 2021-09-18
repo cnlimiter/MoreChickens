@@ -1,13 +1,20 @@
 package cn.evolvefield.mods.morechickens.init;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.common.tile.*;
+import cn.evolvefield.mods.morechickens.client.render.tile.BreederRenderer;
+import cn.evolvefield.mods.morechickens.common.tile.BaitTileEntity;
+import cn.evolvefield.mods.morechickens.common.tile.CollectorTileEntity;
+import cn.evolvefield.mods.morechickens.common.tile.BreederTileEntity;
+import cn.evolvefield.mods.morechickens.common.tile.RoostTileEntity;
 import net.minecraft.block.Block;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -19,9 +26,8 @@ import java.util.function.Supplier;
 public class ModTileEntities {
 
     public static TileEntityType<BaitTileEntity> BAIT;
-    public static TileEntityType<NestTileEntity> CHICKEN_NEST;
-    public static TileEntityType<RoostTileEntity> TILE_ROOST;
-    public static TileEntityType<BreederTileEntity> TILE_BREEDER;
+    public static TileEntityType<RoostTileEntity> ROOST;
+    public static TileEntityType<BreederTileEntity> BREEDER;
     public static TileEntityType<CollectorTileEntity> TILE_COLLECTOR;
 
     @SubscribeEvent
@@ -30,12 +36,18 @@ public class ModTileEntities {
         registry.registerAll(
 
                 BAIT = build(BaitTileEntity::new, new ResourceLocation(MoreChickens.MODID, "bait"), ModBlocks.BAITS),
-                CHICKEN_NEST = build(NestTileEntity::new,"chicken_nest",ModBlocks.BLOCK_NEST),
-                TILE_ROOST = build(RoostTileEntity::new,"roost",ModBlocks.BLOCK_ROOST),
-                TILE_BREEDER = build(BreederTileEntity::new,"breeder",ModBlocks.BLOCK_BREEDER),
+                //TILE_ROOST = build(RoostTileEntity::new,"roost",ModBlocks.BLOCK_ROOST),
                 TILE_COLLECTOR = build(CollectorTileEntity::new,"collector",ModBlocks.BLOCK_COLLECTOR)
 
+
         );
+        BREEDER = TileEntityType.Builder.of(BreederTileEntity::new, ModBlocks.BLOCK_BREEDER).build(null);
+        BREEDER.setRegistryName(new ResourceLocation(MoreChickens.MODID, "breeder"));
+        event.getRegistry().register(BREEDER);
+
+        ROOST = TileEntityType.Builder.of(RoostTileEntity::new, ModBlocks.BLOCK_ROOST).build(null);
+        ROOST.setRegistryName(new ResourceLocation(MoreChickens.MODID, "roost"));
+        event.getRegistry().register(ROOST);
     }
 
 
@@ -54,7 +66,11 @@ public class ModTileEntities {
     public static final DeferredRegister<TileEntityType<?>> TILE_ENTITIES = DeferredRegister.create(ForgeRegistries.TILE_ENTITIES, MoreChickens.MODID);
 
 
-//    public static final RegistryObject<TileEntityType<?>> CHICKEN_NEST = TILE_ENTITIES.register("chicken_nest",
-//            () -> TileEntityType.Builder.of(NestTileEntity::new, ModBlocks.BLOCK_NEST).build(Util.fetchChoiceType(TypeReferences.BLOCK_ENTITY, "chicken_nest")));
+    @OnlyIn(Dist.CLIENT)
+    public static void clientSetup() {
+
+        ClientRegistry.bindTileEntityRenderer(ModTileEntities.BREEDER, BreederRenderer::new);
+
+    }
 
 }

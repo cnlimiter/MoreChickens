@@ -9,7 +9,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class CachedMap<K, V>{
-    private final Map<K, ValueWrapper> cache;
+    private final Map<K, CachedMap<K, V>.ValueWrapper> cache;
     private final long lifespan;
     private long lastCheck;
 
@@ -30,7 +30,7 @@ public class CachedMap<K, V>{
         this(-1L);
     }
 
-    public Object get(K key, Supplier<V> valueSupplier) {
+    public V get(K key, Supplier<V> valueSupplier) {
         Object value;
         if (this.cache.containsKey(key)) {
             value = ((CachedMap.ValueWrapper)this.cache.get(key)).getValue();
@@ -40,15 +40,15 @@ public class CachedMap<K, V>{
         }
 
         this.cleanup();
-        return value;
+        return (V)value;
     }
 
     private void cleanup() {
         if (this.lifespan >= 0L) {
             long time = System.currentTimeMillis();
             if (time - this.lastCheck > this.lifespan) {
-                Collection<K> collect = this.cache.entrySet().stream().filter((kValueWrapperEntry) -> {
-                    return kValueWrapperEntry.getValue().checkInvalid(time);
+                Collection<K> collect = (Collection)this.cache.entrySet().stream().filter((kValueWrapperEntry) -> {
+                    return ((CachedMap.ValueWrapper)kValueWrapperEntry.getValue()).checkInvalid(time);
                 }).map(Map.Entry::getKey).collect(Collectors.toSet());
                 this.cache.keySet().removeAll(collect);
                 this.lastCheck = time;

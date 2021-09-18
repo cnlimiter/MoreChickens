@@ -3,7 +3,9 @@ package cn.evolvefield.mods.morechickens.integrations.jei.ingredients;
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
+import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.BeeEntity;
+import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
@@ -34,7 +36,7 @@ public class ChickenIngredient
         return chicken;
     }
 
-    public BaseChickenEntity getCachedEntity(World world) {
+    public AnimalEntity getCachedEntity(World world) {
         if (!cache.containsKey(this)) {
             Entity newChicken = getChickenEntity().create(world);
             if (newChicken instanceof BaseChickenEntity) {
@@ -43,12 +45,14 @@ public class ChickenIngredient
             }
             cache.put(this, newChicken);
         }
+        Entity cachedEntity = cache.get(this);
+        if (cachedEntity instanceof ChickenEntity) {
+            return (ChickenEntity) cachedEntity;
+        }
         return null;
     }
 
-    /**
-     * productivebees:osmium, prouctivebees:leafcutter_bee
-     */
+
     public ResourceLocation getChickenType() {
         return chickenType != null ? chickenType : chicken.getRegistryName();
     }

@@ -1,140 +1,95 @@
 package cn.evolvefield.mods.morechickens.common.container;
 
-
-import cn.evolvefield.mods.morechickens.common.block.RoostBlock;
-import cn.evolvefield.mods.morechickens.common.container.slot.SlotChicken;
-import cn.evolvefield.mods.morechickens.common.container.slot.SlotReadOnly;
-import cn.evolvefield.mods.morechickens.common.tile.RoostTileEntity;
+import cn.evolvefield.mods.morechickens.common.container.base.ContainerBase;
+import cn.evolvefield.mods.morechickens.common.container.base.LockedSlot;
 import cn.evolvefield.mods.morechickens.init.ModContainers;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.IContainerListener;
-import net.minecraft.inventory.container.Slot;
-import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.IWorldPosCallable;
+import net.minecraft.util.IIntArray;
+import net.minecraft.util.IntArray;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 
-import javax.annotation.Nullable;
-import java.util.Objects;
+import java.text.DecimalFormat;
 
-public class RoostContainer extends Container {
-    public final RoostTileEntity tileRoost;
+public class RoostContainer extends ContainerBase {
     private int progress;
-    public final IWorldPosCallable canInteractWithCallable;
+    private final IIntArray data;
+    private static final DecimalFormat FORMATTER = new DecimalFormat("0.0%");
 
 
-    public RoostContainer(final int windowId, final PlayerInventory playerInventory, final PacketBuffer data) {
-        this(windowId, playerInventory, getTileEntity(playerInventory, data));
+    public RoostContainer(ContainerType type, int id, PlayerInventory playerInventory, IInventory outputInventory, IIntArray data) {
+        super(ModContainers.ROOST_CONTAINER, id, playerInventory, null);
+        checkContainerDataCount(data, 2);
+
+        addSlot(new LockedSlot(outputInventory, 0 , 115 , 23 , true, false));
+        addSlot(new LockedSlot(outputInventory, 1 , 115 + 18, 23 , true, false));
+        addSlot(new LockedSlot(outputInventory, 2 , 115 , 23 + 18, true, false));
+        addSlot(new LockedSlot(outputInventory, 3 , 115 + 18, 23 + 18, true, false));
+
+
+        addPlayerInventorySlots();
+        this.data = data;
+        this.addDataSlots(data);
+
     }
 
-    public RoostContainer(final int windowId, final PlayerInventory playerInventory, final RoostTileEntity tileEntity) {
-        this(ModContainers.CONTAINER_ROOST, windowId, playerInventory, tileEntity);
-    }
-
-
-    public RoostContainer(@Nullable ContainerType<?> type, final int windowId, final PlayerInventory playerInventory, final RoostTileEntity tileEntity)
-    {
-        super(type, windowId);
-        this.tileRoost = tileEntity;
-        this.canInteractWithCallable = IWorldPosCallable.create(tileEntity.getLevel(), tileEntity.getBlockPos());
-
-        addSlot(new SlotChicken(tileEntity, 0, 26, 20));
-
-        for (int i = 0; i < 4; ++i) {
-            addSlot(new SlotReadOnly(tileEntity, i + 1, 80 + i * 18, 20));
-        }
-
-        for (int i = 0; i < 3; ++i) {
-            for (int j = 0; j < 9; ++j) {
-                addSlot(new Slot(playerInventory, j + i * 9 + 9, 8 + j * 18, 51 + i * 18));
-            }
-        }
-
-        for (int k = 0; k < 9; ++k) {
-            addSlot(new Slot(playerInventory, k, 8 + k * 18, 109));
-        }
-    }
-
-
-    private static RoostTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
-        Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
-        Objects.requireNonNull(data, "data cannot be null!");
-        final TileEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
-        if (tileAtPos instanceof RoostTileEntity) {
-            return (RoostTileEntity) tileAtPos;
-        }
-        throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
-    }
-
-
-    public TileEntity getTileEntity() {
-        return tileRoost;
-    }
-
-    @Override//canInteractWith
-    public boolean stillValid(PlayerEntity playerEntity) {
-        return canInteractWithCallable.evaluate(
-                (world, pos) -> world.getBlockState(pos).getBlock() instanceof RoostBlock
-                        && playerEntity.distanceToSqr((double) pos.getX() + 0.5D, (double) pos.getY() + 0.5D, (double) pos.getZ() + 0.5D) <= 64.0D, true);
+    public RoostContainer(int id, PlayerInventory playerInventory) {
+        this(ModContainers.ROOST_CONTAINER, id, playerInventory, new Inventory(4),new IntArray(2));
     }
 
 
 
 
     @Override
-    public void addSlotListener(IContainerListener listener) {
-        super.addSlotListener(listener);
+    public int getInvOffset() {
+        return -2;
+    }
 
-        //listener.refreshContainer(this, tileRoost);
+    @Override
+    public int getInventorySize() {
+        return 8;
     }
 
 
-    @Override
+    @OnlyIn(Dist.CLIENT)
+    public double getProgress() {
+        int i = this.data.get(0);
+
+        return i /1000.0;
+    }
+
+    public String getFormattedProgress() {
+        return formatProgress(getProgress());
+    }
+
+    public String formatProgress(double progress) {
+        return FORMATTER.format(progress);
+    }
+
+
+    @Override//detectAndSendChanges
     public void broadcastChanges() {
-        //List<IContainerListener> containerListeners = ObfuscationReflectionHelper.getPrivateValue(Container.class,null,"field_75149_d");
+        super.broadcastChanges();
         for (int i = 0; i < containerListeners.size(); ++i) {
             IContainerListener listener = containerListeners.get(i);
-            if (progress != tileRoost.get(0)) {
-                listener.setContainerData(this, 0, tileRoost.get(0));
+            if (progress != data.get(0)) {
+                listener.setContainerData(this, 0, data.get(0));
             }
         }
 
-        progress = tileRoost.get(0);
+        progress = data.get(0);
     }
 
 
-    @Override
-    public void setData(int id, int data) {
-        tileRoost.set(id, data);
+    @Override//updateProgressBar
+    public void setData(int id, int data1) {
+        data.set(id, data1);
     }
 
-    @Override
-    public ItemStack quickMoveStack(PlayerEntity playerEntity, int fromSlot) {
-        ItemStack previous = ItemStack.EMPTY;
-        Slot slot = slots.get(fromSlot);
-
-        if (slot != null && slot.hasItem()) {
-            ItemStack current = slot.getItem();
-            previous = current.copy();
-
-            if (fromSlot < tileRoost.getContainerSize()) {
-                if (!moveItemStackTo(current, tileRoost.getContainerSize(), slots.size(), true)) {
-                    return ItemStack.EMPTY;
-                }
-            } else if (!moveItemStackTo(current, 0, 1, false)) {
-                return ItemStack.EMPTY;
-            }
-
-            if (current.isEmpty()) {
-                slot.set(ItemStack.EMPTY);
-            } else {
-                slot.setChanged();
-            }
-        }
-
-        return previous;
-    }
 }

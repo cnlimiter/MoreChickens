@@ -4,7 +4,6 @@ package cn.evolvefield.mods.morechickens.common.item;
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
 import cn.evolvefield.mods.morechickens.common.util.main.Gene;
-import cn.evolvefield.mods.morechickens.common.tile.NestTileEntity;
 import cn.evolvefield.mods.morechickens.init.ModItemGroups;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
@@ -32,14 +31,15 @@ public class AnalyzerItem extends Item {
                         .tab(ModItemGroups.INSTANCE)
 
                 );
+        setRegistryName("analyzer");
     }
 
 
     @Override
     public void appendHoverText(ItemStack stack, @Nullable World world, List<ITextComponent> tooltip, ITooltipFlag flag) {
         super.appendHoverText(stack, world, tooltip, flag);
-        tooltip.add(new TranslationTextComponent("item.chickens.analyzer.json.tooltip1"));
-        tooltip.add(new TranslationTextComponent("item.chickens.analyzer.json.tooltip2"));
+        tooltip.add(new TranslationTextComponent("item.chickens.analyzer.tooltip1"));
+        tooltip.add(new TranslationTextComponent("item.chickens.analyzer.tooltip2"));
     }
 
 
@@ -49,9 +49,9 @@ public class AnalyzerItem extends Item {
             return ActionResultType.FAIL;
         if(!(target instanceof BaseChickenEntity))
             return ActionResultType.FAIL;
-        BaseChickenEntity quail = (BaseChickenEntity) target;
-        Gene gene = quail.getGene();
-        TranslationTextComponent name=new TranslationTextComponent("text." + MoreChickens.MODID + ".name." + quail.getChickenName());
+        BaseChickenEntity chickenEntity = (BaseChickenEntity) target;
+        Gene gene = chickenEntity.getGene();
+        TranslationTextComponent name=new TranslationTextComponent("text." + MoreChickens.MODID + ".name." + chickenEntity.getChickenName());
         name.getStyle().withColor(TextFormatting.GOLD);
         playerIn.sendMessage(
                 name, Util.NIL_UUID
@@ -69,24 +69,21 @@ public class AnalyzerItem extends Item {
                 new TranslationTextComponent("text." + MoreChickens.MODID + ".stat.timeRandom", gene.layRandomTime),
                 Util.NIL_UUID);
         playerIn.sendMessage(
-                new TranslationTextComponent("text." + MoreChickens.MODID + ".stat.eggTimer", quail.getLayTimer() / 1200f),
+                new TranslationTextComponent("text." + MoreChickens.MODID + ".stat.eggTimer", chickenEntity.getLayTimer() / 1200f),
                 Util.NIL_UUID);
         return ActionResultType.PASS;
 
     }
 
 
-    @Override
-    public ActionResultType useOn(ItemUseContext context) {
-        BlockPos pos = context.getClickedPos();
-        World world = context.getLevel();
-        if(world.isClientSide)
-            return ActionResultType.FAIL;
-        TileEntity entity = world.getBlockEntity(pos);
-        if(!(entity instanceof NestTileEntity))
-            return ActionResultType.FAIL;
-        NestTileEntity nest = (NestTileEntity)entity;
-        nest.printChickens(context.getPlayer());
-        return ActionResultType.FAIL;
-    }
+//    @Override
+//    public ActionResultType useOn(ItemUseContext context) {
+//        BlockPos pos = context.getClickedPos();
+//        World world = context.getLevel();
+//        if(world.isClientSide)
+//            return ActionResultType.FAIL;
+//        TileEntity entity = world.getBlockEntity(pos);
+//
+//        return ActionResultType.FAIL;
+//    }
 }

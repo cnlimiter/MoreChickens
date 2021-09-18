@@ -33,7 +33,7 @@ public class ModConfig {
                 chickenWeight, chickenMin, chickenMax, chickenBreedingTime;
 
 
-        public ForgeConfigSpec.DoubleValue nestTickRate;
+
         //wild spawn chance
         public final ForgeConfigSpec.DoubleValue oakChance;
         public final ForgeConfigSpec.DoubleValue sandChance;
@@ -45,6 +45,7 @@ public class ModConfig {
         public final ForgeConfigSpec.DoubleValue roostSpeed;
         public final ForgeConfigSpec.DoubleValue breederSpeed;
 
+        public final ForgeConfigSpec.IntValue breedingTime;
         //public final ForgeConfigSpec.BooleanValue renderChickenIngredientAsEntity;
 
 
@@ -53,12 +54,7 @@ public class ModConfig {
             chickenType = new HashMap<>();
             tierOdds = new ForgeConfigSpec.DoubleValue[7];
 
-            builder.comment("Nest-related config").push("Nest");
-            nestTickRate = builder
-                    .comment("Rate at which to tick nests")
-                    .worldRestart()
-                    .defineInRange("NestTickRate", 1f, 0f, 1_000_000f);
-            builder.pop();
+
 
             builder.comment("Odds of successful cross-breeding to ascend one tier").push("Tiers");
             for(int i = 0; i < 7; i++){
@@ -78,6 +74,9 @@ public class ModConfig {
             breederSpeed = builder
                     .comment("The speed multiplier for the breeder. Higher is faster. Default: 1.")
                     .defineInRange("breederSpeed",1d,0.01d,100d);
+            breedingTime = builder
+                    .comment("The time in ticks the breeder takes to create a new chicken")
+                    .defineInRange("breedingTime", 20 * 60, 20, Integer.MAX_VALUE);
             builder.pop();
 
             builder.comment("wild chicken spawn chance").push("Baits");

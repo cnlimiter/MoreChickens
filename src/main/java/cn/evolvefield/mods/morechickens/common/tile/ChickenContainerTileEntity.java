@@ -1,7 +1,8 @@
 package cn.evolvefield.mods.morechickens.common.tile;
 
 
-import cn.evolvefield.mods.morechickens.common.data.DataChicken;
+import cn.evolvefield.mods.morechickens.common.item.ChickenItem;
+import cn.evolvefield.mods.morechickens.init.ModItems;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
@@ -40,11 +41,11 @@ public abstract class ChickenContainerTileEntity extends TileEntity implements I
     private int timeElapsed = 0;
     private int progress = 0; // 0 - 1000
 
-    private final DataChicken[] chickenData = new DataChicken[getSizeChickenInventory()];
     private boolean fullOfChickens = false;
     private boolean fullOfSeeds = false;
 
 
+    private final ChickenItem[] chickenData = new ChickenItem[getSizeChickenInventory()];
 
     public ChickenContainerTileEntity(TileEntityType<?> type) {
         super(type);
@@ -76,12 +77,12 @@ public abstract class ChickenContainerTileEntity extends TileEntity implements I
     }
 
     private void updateChickenInfoIfNeededForSlot(int slot) {
-        DataChicken oldChicken = chickenData[slot];
-        DataChicken newChicken = createChickenData(slot);
+        ChickenItem oldChicken = chickenData[slot];
+        ChickenItem newChicken = createChickenData(slot);
 
         boolean wasCreated = oldChicken == null && newChicken != null;
         boolean wasDeleted = oldChicken != null && newChicken == null;
-        boolean wasChanged = oldChicken != null && newChicken != null && !oldChicken.isEqual(newChicken);
+        boolean wasChanged = oldChicken != null && newChicken != null && !oldChicken.equals(newChicken);
 
         if (wasCreated || wasChanged || wasDeleted) {
             chickenData[slot] = newChicken;
@@ -90,13 +91,13 @@ public abstract class ChickenContainerTileEntity extends TileEntity implements I
         if (wasChanged) notifyBlockUpdate();
     }
 
-    protected DataChicken getChickenData(int slot) {
+    protected ChickenItem getChickenData(int slot) {
         if (slot >= chickenData.length || slot < 0) return null;
         return chickenData[slot];
     }
 
-    protected DataChicken createChickenData(int slot) {
-        return DataChicken.getDataFromStack(getItem(slot));
+    protected ChickenItem createChickenData(int slot) {
+        return (ChickenItem)getItem(slot).getItem();
     }
 
     private void updateTimerIfNeeded() {
@@ -110,11 +111,12 @@ public abstract class ChickenContainerTileEntity extends TileEntity implements I
         progress = timeUntilNextDrop == 0 ? 0 : (timeElapsed * 1000 / timeUntilNextDrop);
     }
 
+
     private int getTimeElapsed() {
         int time = Integer.MAX_VALUE;
         for (int i = 0; i < chickenData.length; i++) {
             if (chickenData[i] == null) return 0;
-            time = Math.min(time, chickenData[i].getAddedTime(getItem(i)));
+            //time = Math.min(time, chickenData[i].getAddedTime(getItem(i)));
         }
         return time;
     }
@@ -146,13 +148,13 @@ public abstract class ChickenContainerTileEntity extends TileEntity implements I
         timeUntilNextDrop = 0;
         for (int i = 0; i < chickenData.length; i++) {
             if (chickenData[i] != null) {
-                timeUntilNextDrop = Math.max(timeUntilNextDrop, chickenData[i].getLayTime());
+                //timeUntilNextDrop = Math.max(timeUntilNextDrop, chickenData[i].getLayTime(getItem(i)));
                 timeUntilNextDrop /= speedMultiplier();
             }
         }
         setChanged();
     }
-    
+
     protected abstract void spawnChickenDrop();
 
     protected abstract int getSizeChickenInventory();
@@ -199,9 +201,7 @@ public abstract class ChickenContainerTileEntity extends TileEntity implements I
         for (int i = getOutputStackIndex(); i < max && !stack.isEmpty(); i++) {
             stack = insertStack(stack, i);
         }
-
         setChanged();
-
         return stack;
     }
 
@@ -212,11 +212,9 @@ public abstract class ChickenContainerTileEntity extends TileEntity implements I
         if (outputStack.isEmpty()) {
             if (stack.getCount() >= max) {
                 inventory.set(index, stack);
-                //setInventorySlotContents(index, stack);
                 stack = ItemStack.EMPTY;
             } else {
                 inventory.set(index, stack.split(max));
-                //setInventorySlotContents(index, stack.splitStack(max));
             }
         } else if (canCombine(outputStack, stack)) {
             if (outputStack.getCount() < max) {
@@ -231,12 +229,9 @@ public abstract class ChickenContainerTileEntity extends TileEntity implements I
 
     private boolean canCombine(ItemStack a, ItemStack b) {
         if (a.getItem() != b.getItem()) return false;
-        //if (a.getMetadata() != b.getMetadata()) return false;
         if (a.getCount() > a.getMaxStackSize()) return false;
         return ItemStack.tagMatches(a, b);
     }
-
-
 
     @Override
     public int getContainerSize() {
@@ -309,7 +304,7 @@ public abstract class ChickenContainerTileEntity extends TileEntity implements I
 
     @Override//isItemValidForSlot
     public boolean canPlaceItem(int index, ItemStack stack) {
-        if (index < getSizeChickenInventory()) return DataChicken.isChicken(stack);
+        if (index < getSizeChickenInventory()) return stack.getItem() == ModItems.ITEM_CHICKEN;
         if (index < getOutputStackIndex()) return isSeed(stack);
         return false;
     }
@@ -420,8 +415,6 @@ public abstract class ChickenContainerTileEntity extends TileEntity implements I
         }
         return super.getCapability(cap, side);
     }
-
-
 
 
     @Override

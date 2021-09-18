@@ -1,23 +1,12 @@
 package cn.evolvefield.mods.morechickens.client.render.ingredient;
 
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
-import cn.evolvefield.mods.morechickens.init.ModConfig;
 import cn.evolvefield.mods.morechickens.integrations.jei.ingredients.ChickenIngredient;
 import com.mojang.blaze3d.matrix.MatrixStack;
-import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.entity.EntityRenderer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.vector.Vector3f;
-import net.minecraft.world.World;
-
-import javax.annotation.Nonnull;
-import java.util.HashMap;
 
 public class ChickenRenderer {
     private ChickenRenderer() {
@@ -25,7 +14,7 @@ public class ChickenRenderer {
 
     public static void render(MatrixStack matrixStack, int xPosition, int yPosition, ChickenIngredient ChickenIngredient, Minecraft minecraft) {
 //        if (ModConfig.COMMON.renderChickenIngredientAsEntity.get()) {
-            BaseChickenEntity chicken = ChickenIngredient.getCachedEntity(minecraft.level);
+            BaseChickenEntity chicken = (BaseChickenEntity)ChickenIngredient.getCachedEntity(minecraft.level);
 
             if (minecraft.player != null && chicken != null) {
                 chicken.setChickenName(ChickenIngredient.getChickenType().toString());

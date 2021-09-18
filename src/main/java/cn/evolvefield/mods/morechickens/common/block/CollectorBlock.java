@@ -32,6 +32,7 @@ public class CollectorBlock extends ContainerBlock {
                 .strength(2.0f,5.0f)
 
         );
+        setRegistryName("collector");
     }
 
     @Override

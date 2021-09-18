@@ -26,8 +26,6 @@
   "item.chickens.analyzer": "分析器",
   "item.chickens.analyzer.tooltip1": "对鸡使用来检测它们的属性。",
   "item.chickens.analyzer.tooltip2": " -- 鸡最讨厌一星期中的哪一天？星期五！（因为Friday和Fry-Day谐音）！",
-  "item.chickens.chicken_jail": "鸡收纳器",
-  "item.chickens.strong_chicken_jail": "强化鸡收纳器",
   "item.chickens.egg_water": "水鸡蛋",
   "item.chickens.egg_lava": "岩浆鸡蛋",
   "item.chickens.chicken_spawn_egg": "更多鸡刷怪蛋",
@@ -47,7 +45,6 @@
   "block.chickens.roost": "鸡舍",
   "block.chickens.breeder": "繁殖箱",
   "block.chickens.collector": "收集器",
-  "block.chickens.nest": "鸡窝",
 
 
   "container.chickens.roost.progress": "进度：%s",
@@ -85,7 +82,7 @@
 
 
 
-
+  "text.chickens.name.": "原版物品鸡",
   "text.chickens.name.vanilla": "原版鸡",
   "text.chickens.name.painted": "自定义鸡",
   "text.chickens.name.sand": "沙子鸡",

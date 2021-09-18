@@ -25,8 +25,6 @@
   "item.chickens.analyzer": "Chicken Analyzer",
   "item.chickens.analyzer.tooltip1": "Use it on chickens to determine their stats.",
   "item.chickens.analyzer.tooltip2": " - Which day of the week do chickens hate most? Fry-day!",
-  "item.chickens.chicken_jail": "Chicken Jail",
-  "item.chickens.strong_chicken_jail": "Reusable Chicken Jail",
   "item.chickens.egg_water": "Water EGG",
   "item.chickens.egg_lava": "Lava EGG",
   "item.chickens.chicken_spawn_egg": "Chicken Spawn Egg",
@@ -45,18 +43,13 @@
   "block.chickens.roost": "Roost",
   "block.chickens.breeder": "Breeder",
   "block.chickens.collector": "Collector",
-  "block.chickens.nest": "Chicken Nest",
+
 
   "container.chickens.roost.progress": "Progress: %s",
   "container.chickens.roost": "Roost",
   "container.chickens.breeder": "Breeder",
   "container.chickens.collector": "Collector",
   "container.roost.breeder.seedless": "Seedless",
-
-
-
-
-
 
 
   "chickens.subtitle.chicken_milk": "Chicken milked",
@@ -81,7 +74,7 @@
   "text.chickens.onetime": "One-time use",
 
 
-
+  "text.chickens.name.": "ITEM CHICKEN",
   "text.chickens.name.vanilla": "VANILLA CHICKEN",
   "text.chickens.name.painted": "Painted CHICKEN",
   "text.chickens.name.sand": "SAND CHICKEN",
