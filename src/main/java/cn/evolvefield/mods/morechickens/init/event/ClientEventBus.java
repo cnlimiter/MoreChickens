@@ -2,14 +2,10 @@ package cn.evolvefield.mods.morechickens.init.event;
 
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.client.gui.ScreenBreeder;
-import cn.evolvefield.mods.morechickens.client.gui.ScreenCollector;
-import cn.evolvefield.mods.morechickens.client.gui.ScreenRoost;
 import cn.evolvefield.mods.morechickens.client.render.entity.BaseChickenEntityRender;
 import cn.evolvefield.mods.morechickens.client.render.tile.BaitRenderer;
 import cn.evolvefield.mods.morechickens.init.*;
 
-import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 
@@ -47,15 +43,5 @@ public class ClientEventBus {
         });
     }
 
-    @SubscribeEvent
-    public static void ScreenInit(final FMLClientSetupEvent event) {
-
-        event.enqueueWork(() -> {
-            MenuScreens.register(ModContainers.CONTAINER_ROOST, ScreenRoost::new);
-            MenuScreens.register(ModContainers.CONTAINER_BREEDER, ScreenBreeder::new);
-            MenuScreens.register(ModContainers.CONTAINER_COLLECTOR, ScreenCollector::new);
-
-        });
-    }
 
 }

@@ -1,7 +1,7 @@
 package cn.evolvefield.mods.morechickens.client.render.entity;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
+import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
 import net.minecraft.client.model.ChickenModel;
 import net.minecraft.client.model.geom.ModelLayers;
 import net.minecraft.client.renderer.RenderType;

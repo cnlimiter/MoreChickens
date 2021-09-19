@@ -1,8 +1,8 @@
- {
-  "variants": {
-    "has_seeds=true,is_breeding=true": { "model": "chickens:block/breeder_privacy" },
-    "has_seeds=true,is_breeding=false": { "model": "chickens:block/breeder" },
-    "has_seeds=false,is_breeding=true": { "model": "chickens:block/breeder_empty" },
-    "has_seeds=false,is_breeding=false": { "model": "chickens:block/breeder" }
-  }
+{
+    "variants": {
+        "facing=north": { "model": "chickens:block/breeder" },
+        "facing=south": { "model": "chickens:block/breeder", "y": 180 },
+        "facing=west": { "model": "chickens:block/breeder", "y": 270 },
+        "facing=east": { "model": "chickens:block/breeder", "y": 90 }
+    }
 }

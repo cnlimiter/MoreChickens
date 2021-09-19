@@ -1,8 +1,8 @@
 package cn.evolvefield.mods.morechickens.init;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
-import cn.evolvefield.mods.morechickens.core.entity.ColorEggEntity;
+import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
+import cn.evolvefield.mods.morechickens.common.entity.ColorEggEntity;
 
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;

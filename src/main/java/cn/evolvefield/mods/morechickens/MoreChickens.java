@@ -1,29 +1,27 @@
 package cn.evolvefield.mods.morechickens;
 
 
-import cn.evolvefield.mods.morechickens.core.data.custom.ChickenReloadListener;
-import cn.evolvefield.mods.morechickens.core.entity.BaseChickenEntity;
-import cn.evolvefield.mods.morechickens.core.util.main.ChickenType;
-import cn.evolvefield.mods.morechickens.init.ModEntities;
-import net.minecraft.world.entity.EntityType;
-import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
+import cn.evolvefield.mods.morechickens.common.data.custom.ChickenReloadListener;
+import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
+import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
+import cn.evolvefield.mods.morechickens.init.*;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.AddReloadListenerEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
-import net.minecraftforge.fml.DeferredWorkQueue;
+import net.minecraftforge.fml.DistExecutor;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
+import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-
-import java.util.Map;
 
 @Mod("chickens")
 public class MoreChickens {
@@ -34,6 +32,9 @@ public class MoreChickens {
     public MoreChickens() {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onCommonSetup);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::addAttributes);
+        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Item.class, ModItems::registerItems);
+        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Item.class, ModBlocks::registerBlockItems);
+        FMLJavaModLoadingContext.get().getModEventBus().addGenericListener(Block.class, ModBlocks::registerBlocks);
 
         MinecraftForge.EVENT_BUS.register(this);
         MinecraftForge.EVENT_BUS.addListener(this::onServerStarting);
@@ -44,6 +45,8 @@ public class MoreChickens {
         //config
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, cn.evolvefield.mods.morechickens.init.ModConfig.CONFIG_SPEC, "more_chickens.toml");
 
+        DistExecutor.unsafeRunWhenOn(Dist.CLIENT, () -> () -> FMLJavaModLoadingContext.get().getModEventBus().addListener(MoreChickens.this::clientSetup));
+
     }
     private void addAttributes(final EntityAttributeCreationEvent event) {
         event.put(ModEntities.BASE_CHICKEN.get(), BaseChickenEntity.setAttributes().build());
@@ -52,11 +55,18 @@ public class MoreChickens {
     public void onCommonSetup(FMLCommonSetupEvent event) {
 
             ChickenType.matchConfig();
+            ModItems.matchConfig();
             ModEntities.registerPlacements();
     }
 
     public void onServerStarting(AddReloadListenerEvent event) {
         ChickenReloadListener.recipeManager = event.getDataPackRegistries().getRecipeManager();
         event.addListener(ChickenReloadListener.INSTANCE);
+    }
+
+    @OnlyIn(Dist.CLIENT)
+    public void clientSetup(FMLClientSetupEvent event) {
+        ModTileEntities.clientSetup();
+        ModContainers.clientSetup();
     }
 }

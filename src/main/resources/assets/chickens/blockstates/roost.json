@@ -1,18 +1,18 @@
 {
   "variants": {
     "facing=north": {
-      "model": "chickens:block/roost_box"
+      "model": "chickens:block/roost"
     },
     "facing=west": {
-      "model": "chickens:block/roost_box",
+      "model": "chickens:block/roost",
       "y": 270
     },
     "facing=east": {
-      "model": "chickens:block/roost_box",
+      "model": "chickens:block/roost",
       "y": 90
     },
     "facing=south": {
-      "model": "chickens:block/roost_box",
+      "model": "chickens:block/roost",
       "y": 180
     }
   }

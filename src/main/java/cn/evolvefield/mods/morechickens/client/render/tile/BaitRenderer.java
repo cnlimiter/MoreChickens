@@ -1,7 +1,7 @@
 package cn.evolvefield.mods.morechickens.client.render.tile;
 
-import cn.evolvefield.mods.morechickens.core.block.utils.BaitType;
-import cn.evolvefield.mods.morechickens.core.tile.BaitTileEntity;
+import cn.evolvefield.mods.morechickens.common.block.utils.BaitType;
+import cn.evolvefield.mods.morechickens.common.tile.BaitTileEntity;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Quaternion;
 import net.minecraft.client.Minecraft;

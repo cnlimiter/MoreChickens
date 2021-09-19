@@ -2,12 +2,18 @@ package cn.evolvefield.mods.morechickens.init;
 
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.core.container.ContainerBreeder;
-import cn.evolvefield.mods.morechickens.core.container.ContainerCollector;
-import cn.evolvefield.mods.morechickens.core.container.ContainerRoost;
+import cn.evolvefield.mods.morechickens.client.gui.BreederScreen;
+import cn.evolvefield.mods.morechickens.client.gui.CollectorScreen;
+import cn.evolvefield.mods.morechickens.client.gui.RoostScreen;
+import cn.evolvefield.mods.morechickens.common.container.BreederContainer;
+import cn.evolvefield.mods.morechickens.common.container.CollectorContainer;
+import cn.evolvefield.mods.morechickens.common.container.RoostContainer;
 
+import cn.evolvefield.mods.morechickens.init.registry.ClientRegistry;
 import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.MenuType;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -20,28 +26,34 @@ import net.minecraftforge.registries.IForgeRegistry;
 public class ModContainers
 {
 
-    public static MenuType<ContainerRoost> CONTAINER_ROOST;
-    public static MenuType<ContainerBreeder> CONTAINER_BREEDER;
-    public static MenuType<ContainerCollector> CONTAINER_COLLECTOR;
+    public static MenuType<RoostContainer> CONTAINER_ROOST;
+    public static MenuType<BreederContainer> CONTAINER_BREEDER;
+    public static MenuType<CollectorContainer> CONTAINER_COLLECTOR;
 
 
     @SubscribeEvent
     public static void registerContainers(RegistryEvent.Register<MenuType<?>> event) {
         final IForgeRegistry<MenuType<?>> registry = event.getRegistry();
         registry.register(
-                CONTAINER_ROOST = register("roost", ContainerRoost::new));
+                CONTAINER_ROOST = register("roost", RoostContainer::new));
 
         registry.register(
-                CONTAINER_BREEDER = register("breeder", ContainerBreeder::new));
+                CONTAINER_BREEDER = register("breeder", BreederContainer::new));
 
         registry.register(
-                CONTAINER_COLLECTOR = register("collector", ContainerCollector::new));
+                CONTAINER_COLLECTOR = register("collector", CollectorContainer::new));
 
 
     }
 
 
+    @OnlyIn(Dist.CLIENT)
+    public static void clientSetup() {
+        ClientRegistry.<BreederContainer, BreederScreen>registerScreen(CONTAINER_BREEDER, BreederScreen::new);
+        ClientRegistry.<RoostContainer, RoostScreen>registerScreen(CONTAINER_ROOST, RoostScreen::new);
+        ClientRegistry.<CollectorContainer, CollectorScreen>registerScreen(CONTAINER_COLLECTOR, CollectorScreen::new);
 
+    }
 
 
     @SuppressWarnings("unchecked")

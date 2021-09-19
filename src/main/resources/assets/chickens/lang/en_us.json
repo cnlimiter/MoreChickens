@@ -25,13 +25,12 @@
   "item.chickens.analyzer": "Chicken Analyzer",
   "item.chickens.analyzer.tooltip1": "Use it on chickens to determine their stats.",
   "item.chickens.analyzer.tooltip2": " - Which day of the week do chickens hate most? Fry-day!",
-  "item.chickens.chicken_jail": "Chicken Jail",
-  "item.chickens.strong_chicken_jail": "Reusable Chicken Jail",
   "item.chickens.egg_water": "Water EGG",
   "item.chickens.egg_lava": "Lava EGG",
   "item.chickens.chicken_spawn_egg": "Chicken Spawn Egg",
   "item.chickens.catcher": "Chicken Catcher",
   "item.chickens.catcher.tooltip1": "Catch chickens when right click chickens",
+  "item.chickens.catcher.fail": "Catch Failure!",
   "item.chickens.roost": "Roost",
   "item.chickens.breeder": "Breeder",
   "item.chickens.collector": "Collector",
@@ -44,18 +43,13 @@
   "block.chickens.roost": "Roost",
   "block.chickens.breeder": "Breeder",
   "block.chickens.collector": "Collector",
-  "block.chickens.nest": "Chicken Nest",
+
 
   "container.chickens.roost.progress": "Progress: %s",
   "container.chickens.roost": "Roost",
   "container.chickens.breeder": "Breeder",
   "container.chickens.collector": "Collector",
   "container.roost.breeder.seedless": "Seedless",
-
-
-
-
-
 
 
   "chickens.subtitle.chicken_milk": "Chicken milked",
@@ -78,7 +72,10 @@
 
   "text.chickens.empty": "Empty",
   "text.chickens.onetime": "One-time use",
-  
+
+
+  "text.chickens.name.": "ITEM CHICKEN",
+  "text.chickens.name.vanilla": "VANILLA CHICKEN",
   "text.chickens.name.painted": "Painted CHICKEN",
   "text.chickens.name.sand": "SAND CHICKEN",
   "text.chickens.name.oak": "OAK CHICKEN",
@@ -132,6 +129,48 @@
   "text.chickens.name.emerald": "EMERALD CHICKEN",
   "text.chickens.name.ender_pearl": "ENDER_PEARL CHICKEN",
   "text.chickens.name.ghast_tear": "GHAST_TEAR CHICKEN",
+  "text.chickens.name.netherite_scrap": "NETHERITE_SCRAP CHICKEN",
+
+  "text.chickens.name.ae2_certus_quartz": "CERTUS_QUARTZ CHICKEN",
+  "text.chickens.name.ae2_fluix": "FLUIX_CRYSTAL CHICKEN",
+  "text.chickens.name.base_aluminum": "ALUMINUM CHICKEN",
+  "text.chickens.name.base_brass": "BRASS CHICKEN",
+  "text.chickens.name.base_bronze": "BRONZE CHICKEN",
+  "text.chickens.name.base_cinnabar": "CINNABAR CHICKEN",
+  "text.chickens.name.base_constantan": "CONSTANTAN CHICKEN",
+  "text.chickens.name.base_copper": "COPPER CHICKEN",
+  "text.chickens.name.base_electrum": "ELECTRUM CHICKEN",
+  "text.chickens.name.base_invar": "INVAR CHICKEN",
+  "text.chickens.name.base_lead": "LEAD CHICKEN",
+  "text.chickens.name.base_mithril": "MITHRIL CHICKEN",
+  "text.chickens.name.base_nickel": "NICKEL CHICKEN",
+  "text.chickens.name.base_niter": "NITER CHICKEN",
+  "text.chickens.name.base_platinum": "PLATINUM CHICKEN",
+  "text.chickens.name.base_silver": "SILVER CHICKEN",
+  "text.chickens.name.base_slag": "SLAG CHICKEN",
+  "text.chickens.name.base_steel": "STEEL CHICKEN",
+  "text.chickens.name.base_sulfur": "SULFUR CHICKEN",
+  "text.chickens.name.base_tin": "TIN CHICKEN",
+  "text.chickens.name.base_uranium": "URANIUM CHICKEN",
+  "text.chickens.name.base_zinc": "ZINC CHICKEN",
+  "text.chickens.name.botania_elementium": "ELEMENTIUM CHICKEN",
+  "text.chickens.name.botania_manasteel": "MANASTELL CHICKEN",
+  "text.chickens.name.botania_terrasteel": "TERRASTEEL CHICKEN",
+  "text.chickens.name.mek_osmium": "OSMIUM CHICKEN",
+  "text.chickens.name.tcons_blood_slime": "BLOOD CHICKEN",
+  "text.chickens.name.tcons_cobalt": "COBALT CHICKEN",
+  "text.chickens.name.tcons_ender_slime": "ENDER_SLIME CHICKEN",
+  "text.chickens.name.tcons_ichor_slime": "ICHOR_SLIME CHICKEN",
+  "text.chickens.name.tcons_manyullyn": "MANYULLYN CHICKEN",
+  "text.chickens.name.tcons_pig_iron": "PIG_IRON CHICKEN",
+  "text.chickens.name.tcons_sky_slime": "SKY_SLIME CHICKEN",
+  "text.chickens.name.thermal_basalz_rod": "BASALZ_ROD CHICKEN",
+  "text.chickens.name.thermal_blitz_rod": "BLITZ_ROD CHICKEN",
+  "text.chickens.name.thermal_blizz_rod": "BLIZZ_ROD CHICKEN",
+  "text.chickens.name.thermal_enderium": "ENDERIUM CHICKEN",
+  "text.chickens.name.thermal_lumium": "LUMIUM CHICKEN",
+  "text.chickens.name.thermal_rich_slag": "RICH_SLAG CHICKEN",
+  "text.chickens.name.thermal_signalum": "SIGNALUM CHICKEN",
 
 
   "advancements.chickens.root.title": "Chickens",
