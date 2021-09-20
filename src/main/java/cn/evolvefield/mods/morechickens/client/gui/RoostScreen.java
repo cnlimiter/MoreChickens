@@ -6,6 +6,7 @@ import cn.evolvefield.mods.morechickens.common.container.RoostContainer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -51,12 +52,12 @@ public class RoostScreen extends ScreenBase<RoostContainer> {
 
     @Override
     protected void renderBg(PoseStack PoseStack, float partialTicks, int mouseX, int mouseY) {
-        RenderSystem.clearColor(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.getTextureManager().bindForSetup(BACKGROUND);
         int x = getGuiLeft();
         int y = (height - getYSize()) / 2;
-
-
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+        RenderSystem.setShaderTexture(0, BACKGROUND);
+        blit(PoseStack, leftPos, topPos, 0, 0, imageWidth, imageHeight);
 
         GuiUtils.drawTexturedModalRect(PoseStack,x, y, 0, 0, getXSize(), getYSize(),100);
         GuiUtils.drawTexturedModalRect(PoseStack,x + 69, y + 31, 176, 0, getProgressWidth(), 12,100);

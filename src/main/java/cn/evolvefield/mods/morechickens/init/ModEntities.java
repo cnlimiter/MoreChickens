@@ -24,7 +24,8 @@ public class ModEntities {
 
     public static final RegistryObject<EntityType<ColorEggEntity>> COLOR_EGG = ENTITIES.register("color_egg",
             () -> EntityType.Builder.<ColorEggEntity>of(ColorEggEntity::new, MobCategory.MISC).sized(0.25f, 0.25f)
-                    .setTrackingRange(4)
+                    .clientTrackingRange(4)
+                    .updateInterval(10)
                     .setCustomClientFactory(ColorEggEntity::new)
                     .build(new ResourceLocation(MoreChickens.MODID, "color_egg").toString()));
 

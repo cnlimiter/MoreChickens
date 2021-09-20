@@ -13,7 +13,6 @@ group = 'cn.evolvefield.mods'
 version = "${version}"
 archivesBaseName = 'MoreChickens'
 
-//java.toolchain.languageVersion = JavaLanguageVersion.of(8) // Mojang ships Java 8 to end users, so your mod should target Java 8.
 java.toolchain.languageVersion = JavaLanguageVersion.of(16)
 minecraft {
     mappings channel: 'official', version: '1.17.1'
@@ -25,49 +24,39 @@ minecraft {
     // These can be tweaked, removed, or duplicated as needed.
     runs {
         client {
-            workingDirectory project.file('run')
-
-
-            property 'forge.logging.markers', 'REGISTRIES'
+            workingDirectory project.file('run').canonicalPath
             property 'forge.logging.console.level', 'debug'
-
+            args = ['--username', 'cnlimiter']
+            source sourceSets.main
             mods {
-                morechickens {
+                mod_id {
                     source sourceSets.main
                 }
             }
         }
 
         server {
-            workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
+            workingDirectory project.file('run/server').canonicalPath
             property 'forge.logging.console.level', 'debug'
-
+            source sourceSets.main
             mods {
-                morechickens {
+                mod_id {
                     source sourceSets.main
                 }
             }
         }
-
         data {
             workingDirectory project.file('run')
-
-            property 'forge.logging.markers', 'REGISTRIES'
             property 'forge.logging.console.level', 'debug'
-
-            args '--mod', 'morechickens', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/')
             mods {
-                morechickens {
+                mod_id {
                     source sourceSets.main
                 }
             }
         }
     }
 }
-
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 

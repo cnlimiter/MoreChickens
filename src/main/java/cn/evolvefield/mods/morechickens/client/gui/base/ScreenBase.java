@@ -6,6 +6,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.gui.Font;
 import net.minecraft.client.gui.font.FontManager;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.FormattedCharSequence;
@@ -26,63 +27,63 @@ public class ScreenBase<T extends AbstractContainerMenu> extends AbstractContain
     public ScreenBase(ResourceLocation texture, T container, Inventory playerInventory, Component title) {
         super(container, playerInventory, title);
         this.texture = texture;
-        this.hoverAreas = new ArrayList();
+        this.hoverAreas = new ArrayList<>();
     }
 
-    public void render(PoseStack PoseStack, int x, int y, float partialTicks) {
-        this.renderBackground(PoseStack);
-        super.render(PoseStack, x, y, partialTicks);
-        this.renderTooltip(PoseStack, x, y);
+    @Override
+    public void render(PoseStack matrixStack, int x, int y, float partialTicks) {
+        renderBackground(matrixStack);
+        super.render(matrixStack, x, y, partialTicks);
+        renderTooltip(matrixStack, x, y);
     }
 
-    protected void renderBg(PoseStack PoseStack, float partialTicks, int mouseX, int mouseY) {
-        RenderSystem.clearColor(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.getTextureManager().bindForSetup(this.texture);
-        this.blit(PoseStack, this.leftPos, this.topPos, 0, 0, this.imageWidth, this.imageHeight);
+    @Override
+    protected void renderBg(PoseStack matrixStack, float partialTicks, int mouseX, int mouseY) {
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+        RenderSystem.setShaderTexture(0, texture);
+
+        blit(matrixStack, leftPos, topPos, 0, 0, imageWidth, imageHeight);
     }
 
-    protected void renderLabels(PoseStack PoseStack, int mouseX, int mouseY) {
+    @Override
+    protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
+
     }
 
-    public void drawHoverAreas(PoseStack PoseStack, int mouseX, int mouseY) {
-        Iterator var4 = this.hoverAreas.iterator();
-
-        while(var4.hasNext()) {
-            HoverArea hoverArea = (HoverArea)var4.next();
-            if (hoverArea.tooltip != null && hoverArea.isHovered(this.leftPos, this.topPos, mouseX, mouseY)) {
-                this.renderTooltip(PoseStack, (List)hoverArea.tooltip.get(), mouseX - this.leftPos, mouseY - this.topPos);
+    public void drawHoverAreas(PoseStack matrixStack, int mouseX, int mouseY) {
+        for (HoverArea hoverArea : hoverAreas) {
+            if (hoverArea.tooltip != null && hoverArea.isHovered(leftPos, topPos, mouseX, mouseY)) {
+                renderTooltip(matrixStack, hoverArea.tooltip.get(), mouseX - leftPos, mouseY - topPos);
             }
         }
-
     }
 
     public int getBlitSize(int amount, int max, int size) {
-        return size - (int)((float)amount / (float)max * (float)size);
+        return size - (int) (((float) amount / (float) max) * (float) size);
     }
 
-    public void drawCentered(PoseStack PoseStack, Component text, int y, int color) {
-        this.drawCentered(PoseStack, text, this.imageWidth / 2, y, color);
+    public void drawCentered(PoseStack matrixStack, Component text, int y, int color) {
+        drawCentered(matrixStack, text, imageWidth / 2, y, color);
     }
 
-    public void drawCentered(PoseStack PoseStack, Component text, int x, int y, int color) {
-        drawCentered(this.font, PoseStack, text, x, y, color);
+    public void drawCentered(PoseStack matrixStack, Component text, int x, int y, int color) {
+        drawCentered(font, matrixStack, text, x, y, color);
     }
 
-    public static void drawCentered(Font font, PoseStack PoseStack, Component text, int x, int y, int color) {
+    public static void drawCentered(Font font, PoseStack matrixStack, Component text, int x, int y, int color) {
         int width = font.width(text);
-        font.draw(PoseStack, text, (float)(x - width / 2), (float)y, color);
+        font.draw(matrixStack, text, x - width / 2, y, color);
     }
 
     public static class HoverArea {
-        private final int posX;
-        private final int posY;
-        private final int width;
-        private final int height;
+        private final int posX, posY;
+        private final int width, height;
         @Nullable
         private final Supplier<List<FormattedCharSequence>> tooltip;
 
         public HoverArea(int posX, int posY, int width, int height) {
-            this(posX, posY, width, height, (Supplier)null);
+            this(posX, posY, width, height, null);
         }
 
         public HoverArea(int posX, int posY, int width, int height, Supplier<List<FormattedCharSequence>> tooltip) {
@@ -94,28 +95,34 @@ public class ScreenBase<T extends AbstractContainerMenu> extends AbstractContain
         }
 
         public int getPosX() {
-            return this.posX;
+            return posX;
         }
 
         public int getPosY() {
-            return this.posY;
+            return posY;
         }
 
         public int getWidth() {
-            return this.width;
+            return width;
         }
 
         public int getHeight() {
-            return this.height;
+            return height;
         }
 
         @Nullable
         public Supplier<List<FormattedCharSequence>> getTooltip() {
-            return this.tooltip;
+            return tooltip;
         }
 
         public boolean isHovered(int guiLeft, int guiTop, int mouseX, int mouseY) {
-            return mouseX >= guiLeft + this.posX && mouseX < guiLeft + this.posX + this.width && mouseY >= guiTop + this.posY && mouseY < guiTop + this.posY + this.height;
+            if (mouseX >= guiLeft + posX && mouseX < guiLeft + posX + width) {
+                if (mouseY >= guiTop + posY && mouseY < guiTop + posY + height) {
+                    return true;
+                }
+            }
+            return false;
         }
     }
+
 }

@@ -6,6 +6,7 @@ import cn.evolvefield.mods.morechickens.common.container.BreederContainer;
 
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
@@ -47,8 +48,11 @@ public class BreederScreen extends ScreenBase<BreederContainer> {
 
     @Override
     protected void renderBg(PoseStack PoseStack, float partialTicks, int mouseX, int mouseY) {
-        RenderSystem.clearColor(1.0F, 1.0F, 1.0F, 1.0F);
-        this.minecraft.getTextureManager().bindForSetup(BACKGROUND);
+        RenderSystem.setShader(GameRenderer::getPositionTexShader);
+        RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
+        RenderSystem.setShaderTexture(0, BACKGROUND);
+        blit(PoseStack, leftPos, topPos, 0, 0, imageWidth, imageHeight);
+
         int x = getGuiLeft();
         int y = (height - getYSize()) / 2;
 

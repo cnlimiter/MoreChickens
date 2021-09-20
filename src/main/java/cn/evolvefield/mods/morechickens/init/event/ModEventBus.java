@@ -6,6 +6,7 @@ import cn.evolvefield.mods.morechickens.common.item.ModSpawnEgg;
 
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -18,9 +19,12 @@ public class ModEventBus {
         ModSpawnEgg.registerMobs();
     }
 
-    @SubscribeEvent
-    public static void onRegisterItems(RegistryEvent.Register<Item> event){
-        ColorEggItem.registerDispenser();
-    }
+//    @SubscribeEvent
+//    public static void onRegisterItems(RegistryEvent.Register<Item> event){
+//        ColorEggItem.registerDispenser();
+//    }
+
+
+
 
 }

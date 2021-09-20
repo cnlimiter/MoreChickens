@@ -36,8 +36,8 @@ public class ModItems {
     public static Item GRAY_EGG;
     public static Item BROWN_EGG;
 
-    public static Item ITEM_CHICKEN = new CatcherItem();
-    public static Item ITEM_CATCHER = new ChickenItem();
+    public static Item ITEM_CHICKEN = new ChickenItem();
+    public static Item ITEM_CATCHER = new CatcherItem();
     public static Item ANALYZER = new AnalyzerItem();
 
 
@@ -188,8 +188,6 @@ public class ModItems {
         grayEgg.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
         ColorEggItem brownEgg = (ColorEggItem)BROWN_EGG;
         brownEgg.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
-        ColorEggItem itemCatcher = (ColorEggItem)ITEM_CATCHER;
-        itemCatcher.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
 
     }
 

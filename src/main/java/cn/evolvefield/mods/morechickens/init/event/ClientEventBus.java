@@ -33,15 +33,5 @@ public class ClientEventBus {
     }
 
 
-    @SubscribeEvent
-    public static void onRenderTypeSetup(FMLClientSetupEvent event) {
-        event.enqueueWork(() -> {
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.BLOCK_ROOST, RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.BLOCK_COLLECTOR, RenderType.cutout());
-            ItemBlockRenderTypes.setRenderLayer(ModBlocks.BLOCK_BREEDER, RenderType.cutout());
-
-        });
-    }
-
 
 }

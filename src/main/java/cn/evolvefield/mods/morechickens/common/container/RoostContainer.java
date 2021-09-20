@@ -101,7 +101,6 @@ public class RoostContainer extends ContainerBase {
 
     @Override
     public void broadcastChanges() {
-        List<ContainerListener> containerListeners = ObfuscationReflectionHelper.getPrivateValue(AbstractContainerMenu.class,null,"f_38848_");
         for (int i = 0; i < containerListeners.size(); ++i) {
             ContainerListener listener = containerListeners.get(i);
             if (progress != data.get(0)) {

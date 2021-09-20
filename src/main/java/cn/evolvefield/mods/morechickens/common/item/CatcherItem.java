@@ -15,7 +15,9 @@ import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.animal.Chicken;
 import net.minecraft.world.entity.item.ItemEntity;
 import net.minecraft.world.entity.player.Player;
@@ -37,7 +39,6 @@ public class CatcherItem extends Item {
                 .durability(238)
                 .craftRemainder(Items.BUCKET)
                 .tab(ModItemGroups.INSTANCE)
-
         );
         setRegistryName("catcher");
     }
@@ -88,7 +89,7 @@ public class CatcherItem extends Item {
                     ItemStack chickenItem = new ItemStack(ModItems.ITEM_CHICKEN);
                     CompoundTag tagCompound = chickenItem.getOrCreateTagElement("ChickenData");
                     chickenEntity.addAdditionalSaveData(tagCompound);
-                    chickenEntity.remove(null);
+                    chickenEntity.remove(Entity.RemovalReason.KILLED);
                     tagCompound.putString("Type", "modded");
                     chickenItem.setTag(tagCompound);
                     ItemEntity item = entity.spawnAtLocation(chickenItem, 1.0F);

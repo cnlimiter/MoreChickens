@@ -38,6 +38,7 @@ public class ChickenItem extends Item {
                 .stacksTo(1)
                 .tab(ModItemGroups.INSTANCE)
         );
+        setRegistryName("chicken");
     }
 
 

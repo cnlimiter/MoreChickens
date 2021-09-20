@@ -19,6 +19,7 @@ import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.projectile.ThrowableItemProjectile;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.Level;
@@ -42,7 +43,6 @@ public class ColorEggEntity extends ThrowableItemProjectile {
     private int spawnChance;
     private int manySpawnChance;
     private String animal;
-    private ChickenType breed;
 
     public ColorEggEntity(EntityType<? extends ColorEggEntity> type, net.minecraft.world.level.Level world) {
         super(type,world);
@@ -85,8 +85,7 @@ public class ColorEggEntity extends ThrowableItemProjectile {
     public void handleEntityEvent(byte id) {
         if (id == 3) {
             for(int i = 0; i < 8; ++i) {
-                this.level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, this.getItem()) {
-                }, this.getX(), this.getY(), this.getZ(), ((double) this.random.nextFloat() - 0.5D) * 0.08D, ((double) this.random.nextFloat() - 0.5D) * 0.08D, ((double) this.random.nextFloat() - 0.5D) * 0.08D);
+                this.level.addParticle(new ItemParticleOption(ParticleTypes.ITEM, this.getItem()), this.getX(), this.getY(), this.getZ(), ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D, ((double)this.random.nextFloat() - 0.5D) * 0.08D);
             }
         }
     }
@@ -103,13 +102,9 @@ public class ColorEggEntity extends ThrowableItemProjectile {
     }
 
 
-
-
     /**
      * Called when this egg hits a block or entity.
      */
-
-
     @Override
     protected void onHit(HitResult result) {
         super.onHit(result);
@@ -121,6 +116,8 @@ public class ColorEggEntity extends ThrowableItemProjectile {
                 }
 
                 for(int j = 0; j < i; ++j) {
+
+
                     this.level.getServer().getCommands().performCommand(new CommandSourceStack(CommandSource.NULL, new Vec3(getX(),getY(),getZ()),  Vec2.ZERO,(ServerLevel) level,4, "",
                             new TextComponent(""), Objects.requireNonNull(level.getServer()), null),"summon chickens:base_chicken ~ ~ ~ {Name:'"+ animal +"'}");
 
@@ -157,6 +154,8 @@ public class ColorEggEntity extends ThrowableItemProjectile {
     }
 
 
-
+//    @Override
+//    public Packet<?> getAddEntityPacket() {
+//        return NetworkHooks.getEntitySpawningPacket(this);    }
 
 }
