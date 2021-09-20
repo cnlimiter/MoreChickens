@@ -18,7 +18,7 @@ public abstract class ContainerBase extends Container {
     protected IInventory inventory;
     protected IInventory playerInventory;
 
-    public ContainerBase(ContainerType containerType, int id, IInventory playerInventory, IInventory inventory) {
+    public ContainerBase(@Nullable ContainerType<?> containerType, int id, IInventory playerInventory, IInventory inventory) {
         super(containerType, id);
         this.playerInventory = playerInventory;
         this.inventory = inventory;
@@ -45,15 +45,15 @@ public abstract class ContainerBase extends Container {
     }
 
 
-    public static TileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
-        Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
-        Objects.requireNonNull(data, "data cannot be null!");
-        final TileEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
-        if (tileAtPos != null) {
-            return  tileAtPos;
-        }
-        throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
-    }
+//    public static TileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
+//        Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
+//        Objects.requireNonNull(data, "data cannot be null!");
+//        final TileEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
+//        if (tileAtPos != null) {
+//            return  tileAtPos;
+//        }
+//        throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
+//    }
 
     public int getInventorySize() {
         return this.inventory == null ? 0 : this.inventory.getContainerSize();

@@ -2,13 +2,16 @@ package cn.evolvefield.mods.morechickens.common.container.base;
 
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.inventory.IInventory;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.inventory.ItemStackHelper;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Direction;
 import net.minecraft.util.NonNullList;
 
+import javax.annotation.Nullable;
 import java.util.function.Function;
 
-public class ItemListInventory implements IInventory {
+public class ItemListInventory implements IInventory, ISidedInventory {
     protected NonNullList<ItemStack> items;
     private Runnable onMarkDirty;
     private Function<PlayerEntity, Boolean> onIsUsableByPlayer;
@@ -34,6 +37,7 @@ public class ItemListInventory implements IInventory {
     public boolean isEmpty() {
         return this.items.stream().allMatch(ItemStack::isEmpty);
     }
+
 
     public ItemStack getItem(int index) {
         return this.items.get(index);
@@ -74,5 +78,24 @@ public class ItemListInventory implements IInventory {
 
     public void clearContent() {
         this.items.clear();
+    }
+
+    @Override
+    public int[] getSlotsForFace(Direction direction) {
+        int count = getContainerSize();
+        int[] itemSlots = new int[count];
+        for (int i = 0; i < count; i++) {
+            itemSlots[i] = i;
+        }
+        return itemSlots;
+    }
+
+    @Override
+    public boolean canPlaceItemThroughFace(int index, ItemStack itemStack, @Nullable Direction direction) {
+        return canPlaceItem(index, itemStack);    }
+
+    @Override
+    public boolean canTakeItemThroughFace(int index, ItemStack itemStack, Direction direction) {
+        return index >= 0;
     }
 }

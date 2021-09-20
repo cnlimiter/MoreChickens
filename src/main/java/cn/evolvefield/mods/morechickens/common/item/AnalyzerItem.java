@@ -76,14 +76,4 @@ public class AnalyzerItem extends Item {
     }
 
 
-//    @Override
-//    public ActionResultType useOn(ItemUseContext context) {
-//        BlockPos pos = context.getClickedPos();
-//        World world = context.getLevel();
-//        if(world.isClientSide)
-//            return ActionResultType.FAIL;
-//        TileEntity entity = world.getBlockEntity(pos);
-//
-//        return ActionResultType.FAIL;
-//    }
 }

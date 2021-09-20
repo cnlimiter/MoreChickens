@@ -2,6 +2,7 @@ package cn.evolvefield.mods.morechickens.init;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.client.render.tile.BreederRenderer;
+import cn.evolvefield.mods.morechickens.client.render.tile.RoostRenderer;
 import cn.evolvefield.mods.morechickens.common.tile.BaitTileEntity;
 import cn.evolvefield.mods.morechickens.common.tile.CollectorTileEntity;
 import cn.evolvefield.mods.morechickens.common.tile.BreederTileEntity;
@@ -70,7 +71,7 @@ public class ModTileEntities {
     public static void clientSetup() {
 
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.BREEDER, BreederRenderer::new);
-
+        ClientRegistry.bindTileEntityRenderer(ModTileEntities.ROOST, RoostRenderer::new);
     }
 
 }

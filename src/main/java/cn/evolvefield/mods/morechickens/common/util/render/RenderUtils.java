@@ -1,4 +1,4 @@
-package cn.evolvefield.mods.morechickens.common.util;
+package cn.evolvefield.mods.morechickens.common.util.render;
 
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;

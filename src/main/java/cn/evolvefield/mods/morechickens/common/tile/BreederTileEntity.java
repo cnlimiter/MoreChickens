@@ -1,22 +1,26 @@
 package cn.evolvefield.mods.morechickens.common.tile;
 
+import cn.evolvefield.mods.morechickens.common.container.BreederContainer;
 import cn.evolvefield.mods.morechickens.common.container.base.ItemListInventory;
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
 import cn.evolvefield.mods.morechickens.common.tile.base.FakeWorldTileEntity;
 import cn.evolvefield.mods.morechickens.common.util.main.Gene;
-import cn.evolvefield.mods.morechickens.init.ModBlocks;
-import cn.evolvefield.mods.morechickens.init.ModEntities;
-import cn.evolvefield.mods.morechickens.init.ModItems;
-import cn.evolvefield.mods.morechickens.init.ModTileEntities;
+import cn.evolvefield.mods.morechickens.init.*;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.*;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.common.capabilities.Capability;
@@ -25,10 +29,11 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 
+import javax.annotation.Nullable;
 import java.text.DecimalFormat;
 import java.util.Random;
 
-public class BreederTileEntity extends FakeWorldTileEntity implements ITickableTileEntity {
+public class BreederTileEntity extends FakeWorldTileEntity implements ITickableTileEntity, INamedContainerProvider {
 
     private NonNullList<ItemStack> foodInventory;
     private NonNullList<ItemStack> outputInventory;
@@ -63,6 +68,17 @@ public class BreederTileEntity extends FakeWorldTileEntity implements ITickableT
             return 2;
         }
     };
+
+    @Override
+    public ITextComponent getDisplayName() {
+        return new TranslationTextComponent(getBlockState().getBlock().getDescriptionId());
+    }
+
+    @Nullable
+    @Override
+    public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity player) {
+        return new BreederContainer(ModContainers.BREEDER_CONTAINER,id, playerInventory, getFoodInventory(), getOutputInventory(),dataAccess,this);
+    }
 
     public BreederTileEntity() {
         super(ModTileEntities.BREEDER, ModBlocks.BLOCK_BREEDER.defaultBlockState());

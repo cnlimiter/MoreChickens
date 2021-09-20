@@ -14,6 +14,7 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.INamedContainerProvider;
@@ -29,6 +30,7 @@ import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
@@ -73,20 +75,17 @@ public class RoostBlock extends HorizontalRotatableBlock {
             worldIn.playSound(null, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
             return ActionResultType.SUCCESS;
         } else {
-            player.openMenu(new INamedContainerProvider() {
-                @Override
-                public ITextComponent getDisplayName() {
-                    return new TranslationTextComponent(state.getBlock().getDescriptionId());
-                }
+            if (!worldIn.isClientSide())
+            {
+                openGui((ServerPlayerEntity) player, (RoostTileEntity) tileEntity);
 
-                @Nullable
-                @Override
-                public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity player) {
-                    return new RoostContainer(ModContainers.ROOST_CONTAINER,id, playerInventory, breeder.getOutputInventory(),breeder.dataAccess);
-                }
-            });
+            }
             return ActionResultType.SUCCESS;
         }
+    }
+
+    public void openGui(ServerPlayerEntity player, RoostTileEntity tileEntity) {
+        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
     }
 
     @Override

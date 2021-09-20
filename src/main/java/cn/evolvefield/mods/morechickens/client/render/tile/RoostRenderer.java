@@ -28,17 +28,14 @@ public class RoostRenderer extends RendererBase<RoostTileEntity> {
 
         if (roost.getChickenEntity() != null) {
             matrixStack.pushPose();
-            matrixStack.translate(0.5D, 1D / 16D, 0.5D);
+            matrixStack.translate(0.4D, 1D / 16D, 0.2D);
             matrixStack.mulPose(Vector3f.YP.rotationDegrees(direction.toYRot()));
             matrixStack.translate(-5D / 16D, 0D, 0D);
-            matrixStack.scale(0.45F, 0.45F, 0.45F);
+            matrixStack.mulPose(Vector3f.YP.rotationDegrees(180));
+            matrixStack.scale(0.8F, 0.8F, 0.8F);
             baseChickenEntityRender.render(chicken, 0F, 1F, matrixStack, buffer, combinedLight);
             matrixStack.popPose();
         }
-
-
-
-
         matrixStack.popPose();
     }
 }

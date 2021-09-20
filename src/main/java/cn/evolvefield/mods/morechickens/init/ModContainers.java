@@ -34,13 +34,19 @@ public class ModContainers
         registry.register(
                 CONTAINER_COLLECTOR = register("collector", CollectorContainer::new));
 
-        BREEDER_CONTAINER = new ContainerType<>(BreederContainer::new);
-        BREEDER_CONTAINER.setRegistryName(new ResourceLocation(MoreChickens.MODID, "breeder"));
-        event.getRegistry().register(BREEDER_CONTAINER);
+        registry.register(
+                ROOST_CONTAINER = register("roost", RoostContainer::new));
 
-        ROOST_CONTAINER = new ContainerType<>(RoostContainer::new);
-        ROOST_CONTAINER.setRegistryName(new ResourceLocation(MoreChickens.MODID, "roost"));
-        event.getRegistry().register(ROOST_CONTAINER);
+        registry.register(
+                BREEDER_CONTAINER = register("breeder", BreederContainer::new));
+
+//        BREEDER_CONTAINER = new ContainerType<>(BreederContainer::new);
+//        BREEDER_CONTAINER.setRegistryName(new ResourceLocation(MoreChickens.MODID, "breeder"));
+//        event.getRegistry().register(BREEDER_CONTAINER);
+
+//        ROOST_CONTAINER = new ContainerType<>(RoostContainer::new);
+//        ROOST_CONTAINER.setRegistryName(new ResourceLocation(MoreChickens.MODID, "roost"));
+//        event.getRegistry().register(ROOST_CONTAINER);
 
 
     }

@@ -186,9 +186,6 @@ public class ModItems {
         grayEgg.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
         ColorEggItem brownEgg = (ColorEggItem)BROWN_EGG;
         brownEgg.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
-        ColorEggItem itemCatcher = (ColorEggItem)ITEM_CATCHER;
-        itemCatcher.updateOdds(ModConfig.COMMON.chickenEggChance.get(), ModConfig.COMMON.chickenEggMultiChance.get());
-
     }
 
 

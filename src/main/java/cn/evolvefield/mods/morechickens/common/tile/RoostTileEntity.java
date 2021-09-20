@@ -1,24 +1,32 @@
 package cn.evolvefield.mods.morechickens.common.tile;
 
+import cn.evolvefield.mods.morechickens.common.container.RoostContainer;
 import cn.evolvefield.mods.morechickens.common.container.base.ItemListInventory;
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
 import cn.evolvefield.mods.morechickens.common.tile.base.FakeWorldTileEntity;
 import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
 import cn.evolvefield.mods.morechickens.init.ModBlocks;
+import cn.evolvefield.mods.morechickens.init.ModContainers;
 import cn.evolvefield.mods.morechickens.init.ModEntities;
 import cn.evolvefield.mods.morechickens.init.ModTileEntities;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.ChickenEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.ItemStackHelper;
+import net.minecraft.inventory.container.Container;
+import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.*;
+import net.minecraft.util.text.ITextComponent;
+import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.util.LazyOptional;
@@ -26,15 +34,16 @@ import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-public class RoostTileEntity extends FakeWorldTileEntity implements ITickableTileEntity{
+public class RoostTileEntity extends FakeWorldTileEntity implements ITickableTileEntity, INamedContainerProvider {
 
 
     private ItemStack chickenItem;
-    private NonNullList<ItemStack> outputInventory;
+    public NonNullList<ItemStack> outputInventory;
     private AnimalEntity chickenEntity;
     Random rand = new Random();
     private int progress;
@@ -62,6 +71,17 @@ public class RoostTileEntity extends FakeWorldTileEntity implements ITickableTil
             return 2;
         }
     };
+
+    @Override
+    public ITextComponent getDisplayName() {
+        return new TranslationTextComponent(getBlockState().getBlock().getDescriptionId());
+    }
+
+    @Nullable
+    @Override
+    public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity player) {
+        return new RoostContainer(ModContainers.ROOST_CONTAINER,id, playerInventory, getOutputInventory(),dataAccess,this);
+    }
 
     public RoostTileEntity() {
         super(ModTileEntities.ROOST, ModBlocks.BLOCK_ROOST.defaultBlockState());

@@ -72,13 +72,6 @@ public class ChickenItem extends Item {
         CompoundNBT chickenTag = chickenItem.getTagElement("ChickenData");
 
         if (!world.isClientSide) {
-            TileEntity tileEntity = world.getBlockEntity(pos);
-
-//            if (tileEntity instanceof RoostTileEntity) {
-//                putChickenIn(player.getItemInHand(hand), (RoostTileEntity) tileEntity);
-//            }
-
-            //else {
                 if(typeTag.equals("vanilla")){
                     ChickenEntity chicken =  new ChickenEntity(EntityType.CHICKEN,world);
                     chicken.setPos(pos.getX() + 0.5, pos.getY(), pos.getZ() + 0.5);
@@ -98,7 +91,6 @@ public class ChickenItem extends Item {
 
                     chickenItem.shrink(1);
                 }
-            //}
         }
 
         return ActionResultType.SUCCESS;

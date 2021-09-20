@@ -2,6 +2,7 @@ package cn.evolvefield.mods.morechickens.common.container;
 
 import cn.evolvefield.mods.morechickens.common.container.base.ContainerBase;
 import cn.evolvefield.mods.morechickens.common.container.base.LockedSlot;
+import cn.evolvefield.mods.morechickens.common.tile.RoostTileEntity;
 import cn.evolvefield.mods.morechickens.init.ModContainers;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
@@ -15,15 +16,20 @@ import net.minecraft.util.IntArray;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nullable;
 import java.text.DecimalFormat;
+import java.util.Objects;
 
 public class RoostContainer extends ContainerBase {
     private int progress;
     private final IIntArray data;
     private static final DecimalFormat FORMATTER = new DecimalFormat("0.0%");
 
+    public final RoostTileEntity tileRoost;
 
-    public RoostContainer(ContainerType type, int id, PlayerInventory playerInventory, IInventory outputInventory, IIntArray data) {
+
+
+    public RoostContainer(@Nullable ContainerType<?> containerType, int id, IInventory playerInventory, IInventory outputInventory, IIntArray data, RoostTileEntity tileEntity) {
         super(ModContainers.ROOST_CONTAINER, id, playerInventory, null);
         checkContainerDataCount(data, 2);
 
@@ -36,15 +42,27 @@ public class RoostContainer extends ContainerBase {
         addPlayerInventorySlots();
         this.data = data;
         this.addDataSlots(data);
-
+        this.tileRoost = tileEntity;
     }
 
-    public RoostContainer(int id, PlayerInventory playerInventory) {
-        this(ModContainers.ROOST_CONTAINER, id, playerInventory, new Inventory(4),new IntArray(2));
+    public RoostContainer(int id, IInventory playerInventory,final RoostTileEntity tileEntity) {
+        this(ModContainers.ROOST_CONTAINER, id, playerInventory, new Inventory(4),new IntArray(2),tileEntity);
+    }
+
+    public RoostContainer(int id, PlayerInventory playerInventory, final PacketBuffer data){
+        this(id,playerInventory,getTileEntity(playerInventory,data));
     }
 
 
-
+    private static RoostTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
+        Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
+        Objects.requireNonNull(data, "data cannot be null!");
+        final TileEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
+        if (tileAtPos instanceof RoostTileEntity) {
+            return (RoostTileEntity) tileAtPos;
+        }
+        throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
+    }
 
     @Override
     public int getInvOffset() {

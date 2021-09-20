@@ -2,8 +2,10 @@ package cn.evolvefield.mods.morechickens.client.gui;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.client.gui.base.ScreenBase;
+import cn.evolvefield.mods.morechickens.client.render.ingredient.ChickenRenderer;
 import cn.evolvefield.mods.morechickens.common.container.BreederContainer;
 import cn.evolvefield.mods.morechickens.common.container.RoostContainer;
+import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.entity.player.PlayerInventory;
@@ -35,6 +37,10 @@ public class RoostScreen extends ScreenBase<RoostContainer> {
         int x = getGuiLeft();
         int y = (height - getYSize()) / 2;
 
+//        if (this.menu.tileRoost.hasChickenItem()){
+//            ChickenRenderer.render(matrixStack, this.menu.tileRoost.getChickenEntity(),26,28,minecraft);
+//        }
+
         if (mouseX > x + 69 && mouseX < x + 95 && mouseY > y + 31 && mouseY < y + 46) {
             List<IReorderingProcessor> tooltip = new ArrayList<IReorderingProcessor>();;
             tooltip.add(new StringTextComponent(this.menu.getFormattedProgress()).getVisualOrderText());
@@ -50,7 +56,6 @@ public class RoostScreen extends ScreenBase<RoostContainer> {
         this.minecraft.getTextureManager().bind(BACKGROUND);
         int x = getGuiLeft();
         int y = (height - getYSize()) / 2;
-
 
 
 

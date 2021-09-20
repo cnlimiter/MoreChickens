@@ -3,33 +3,28 @@ package cn.evolvefield.mods.morechickens.common.block;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.common.block.base.HorizontalRotatableBlock;
-import cn.evolvefield.mods.morechickens.common.container.BreederContainer;
 import cn.evolvefield.mods.morechickens.common.item.ChickenItem;
 import cn.evolvefield.mods.morechickens.common.tile.BreederTileEntity;
 import cn.evolvefield.mods.morechickens.common.util.ItemUtils;
 import cn.evolvefield.mods.morechickens.init.ModBlocks;
-import cn.evolvefield.mods.morechickens.init.ModContainers;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
+import net.minecraft.entity.player.ServerPlayerEntity;
 import net.minecraft.inventory.InventoryHelper;
-import net.minecraft.inventory.container.Container;
-import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.text.ITextComponent;
-import net.minecraft.util.text.TranslationTextComponent;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.fml.network.NetworkHooks;
 
 import javax.annotation.Nullable;
 
@@ -91,22 +86,17 @@ public class BreederBlock extends HorizontalRotatableBlock  {
             worldIn.playSound(null, pos, SoundEvents.ITEM_FRAME_REMOVE_ITEM, SoundCategory.BLOCKS, 1.0F, 1.0F);
             return ActionResultType.SUCCESS;
         } else {
-            player.openMenu(new INamedContainerProvider() {
-                @Override
-                public ITextComponent getDisplayName() {
-                    return new TranslationTextComponent(state.getBlock().getDescriptionId());
-                }
+            if (!worldIn.isClientSide())
+            {
+                openGui((ServerPlayerEntity) player, (BreederTileEntity) tileEntity);
 
-                @Nullable
-                @Override
-                public Container createMenu(int id, PlayerInventory playerInventory, PlayerEntity player) {
-                    return new BreederContainer(ModContainers.BREEDER_CONTAINER,id, playerInventory, breeder.getFoodInventory(), breeder.getOutputInventory(),breeder.dataAccess);
-                }
-            });
+            }
             return ActionResultType.SUCCESS;
         }
     }
-
+    public void openGui(ServerPlayerEntity player, BreederTileEntity tileEntity) {
+        NetworkHooks.openGui(player, tileEntity, packetBuffer -> packetBuffer.writeBlockPos(tileEntity.getBlockPos()));
+    }
 
 
     @Override

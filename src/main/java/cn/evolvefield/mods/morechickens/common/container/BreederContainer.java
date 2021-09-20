@@ -2,7 +2,8 @@ package cn.evolvefield.mods.morechickens.common.container;
 
 import cn.evolvefield.mods.morechickens.common.container.base.ContainerBase;
 import cn.evolvefield.mods.morechickens.common.container.base.LockedSlot;
-import cn.evolvefield.mods.morechickens.common.container.base.SlotSeeds;
+import cn.evolvefield.mods.morechickens.common.container.base.SeedsSlot;
+import cn.evolvefield.mods.morechickens.common.tile.BreederTileEntity;
 import cn.evolvefield.mods.morechickens.init.ModContainers;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
@@ -10,20 +11,25 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.inventory.container.IContainerListener;
 import net.minecraft.inventory.container.Slot;
+import net.minecraft.network.PacketBuffer;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIntArray;
 import net.minecraft.util.IntArray;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 
+import javax.annotation.Nullable;
 import java.text.DecimalFormat;
+import java.util.Objects;
 
 public  class BreederContainer extends ContainerBase {
 
     private int progress;
     private final IIntArray data;
     private static final DecimalFormat FORMATTER = new DecimalFormat("0.0%");
+    public BreederTileEntity breeder;
 
-    public BreederContainer(ContainerType type, int id, PlayerInventory playerInventory, IInventory inputInventory, IInventory outputInventory, IIntArray data) {
+    public BreederContainer(@Nullable ContainerType<?> containerType, int id, IInventory playerInventory, IInventory inputInventory, IInventory outputInventory, IIntArray data,BreederTileEntity tileEntity) {
         super(ModContainers.BREEDER_CONTAINER, id, playerInventory, null);
         checkContainerDataCount(data, 2);
 
@@ -38,13 +44,27 @@ public  class BreederContainer extends ContainerBase {
         addPlayerInventorySlots();
         this.data = data;
         this.addDataSlots(data);
+        this.breeder = tileEntity;
     }
 
-    public BreederContainer(int id, PlayerInventory playerInventory) {
-        this(ModContainers.BREEDER_CONTAINER, id, playerInventory, new Inventory(1), new Inventory(4),new IntArray(2));
+    public BreederContainer(int id, IInventory playerInventory,BreederTileEntity tileEntity) {
+        this(ModContainers.BREEDER_CONTAINER, id, playerInventory, new Inventory(1), new Inventory(4),new IntArray(2),tileEntity);
+    }
+
+    public BreederContainer(int id, PlayerInventory playerInventory, final PacketBuffer data){
+        this(id,playerInventory,getTileEntity(playerInventory,data));
     }
 
 
+    private static BreederTileEntity getTileEntity(final PlayerInventory playerInventory, final PacketBuffer data) {
+        Objects.requireNonNull(playerInventory, "playerInventory cannot be null!");
+        Objects.requireNonNull(data, "data cannot be null!");
+        final TileEntity tileAtPos = playerInventory.player.level.getBlockEntity(data.readBlockPos());
+        if (tileAtPos instanceof BreederTileEntity) {
+            return (BreederTileEntity) tileAtPos;
+        }
+        throw new IllegalStateException("Tile entity is not correct! " + tileAtPos);
+    }
 
 
     @Override
@@ -58,7 +78,7 @@ public  class BreederContainer extends ContainerBase {
     }
 
     public  Slot getInputSlot(IInventory inventory, int id, int x, int y){
-        return new SlotSeeds(inventory, id, x, y);
+        return new SeedsSlot(inventory, id, x, y);
     };
 
 

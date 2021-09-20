@@ -7,8 +7,8 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 
-public class SlotSeeds extends Slot {
-    public SlotSeeds(IInventory inventoryIn, int index, int xPosition, int yPosition) {
+public class SeedsSlot extends Slot {
+    public SeedsSlot(IInventory inventoryIn, int index, int xPosition, int yPosition) {
         super(inventoryIn, index, xPosition, yPosition);
     }
 

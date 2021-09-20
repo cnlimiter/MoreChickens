@@ -1,7 +1,7 @@
 package cn.evolvefield.mods.morechickens.client.render.tile;
 
 import cn.evolvefield.mods.morechickens.common.tile.base.FakeWorldTileEntity;
-import cn.evolvefield.mods.morechickens.common.util.RenderUtils;
+import cn.evolvefield.mods.morechickens.common.util.render.RenderUtils;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.Minecraft;
