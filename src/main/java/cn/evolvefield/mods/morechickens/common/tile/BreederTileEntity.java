@@ -173,10 +173,10 @@ public class BreederTileEntity extends FakeWorldTileEntity implements IServerTic
         if (level.isClientSide) {
             return;
         }
-        if (hasChicken1() || hasChicken2()) {
-            setChanged();
-            getLevel().playSound(null, getBlockPos(), SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.NEUTRAL, 0.5F, 0.8F);
-        }
+//        if (hasChicken1() || hasChicken2()) {
+//            setChanged();
+//            getLevel().playSound(null, getBlockPos(), SoundEvents.ITEM_FRAME_ADD_ITEM, SoundSource.NEUTRAL, 0.5F, 0.8F);
+//        }
         updateProgress();
         updateTimerIfNeeded();
         spawnChickenDropIfNeeded();

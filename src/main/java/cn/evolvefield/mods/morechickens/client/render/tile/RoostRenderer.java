@@ -30,7 +30,7 @@ public class RoostRenderer extends RendererBase<RoostTileEntity> {
 
         if (roost.getChickenEntity() != null) {
             PoseStack.pushPose();
-            PoseStack.translate(0.4D, 1D / 16D, 0D);
+            PoseStack.translate(0.2D, 1D / 16D, 0.4D);
             PoseStack.mulPose(Vector3f.YP.rotationDegrees(direction.toYRot()));
             PoseStack.translate(-5D / 16D, 0D, 0D);
             PoseStack.mulPose(Vector3f.YP.rotationDegrees(0));

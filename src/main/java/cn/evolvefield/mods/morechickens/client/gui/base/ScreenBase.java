@@ -48,7 +48,6 @@ public class ScreenBase<T extends AbstractContainerMenu> extends AbstractContain
 
     @Override
     protected void renderLabels(PoseStack matrixStack, int mouseX, int mouseY) {
-
     }
 
     public void drawHoverAreas(PoseStack matrixStack, int mouseX, int mouseY) {

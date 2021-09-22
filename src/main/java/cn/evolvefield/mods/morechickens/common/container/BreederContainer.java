@@ -113,7 +113,6 @@ public class BreederContainer extends ContainerBase {
                 listener.dataChanged(this, 0, data.get(0));
             }
         }
-
         progress = data.get(0);
     }
 

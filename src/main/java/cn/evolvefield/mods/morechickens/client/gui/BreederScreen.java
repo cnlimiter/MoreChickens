@@ -4,6 +4,7 @@ import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.client.gui.base.ScreenBase;
 import cn.evolvefield.mods.morechickens.common.container.BreederContainer;
 
+import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.renderer.GameRenderer;
@@ -42,22 +43,37 @@ public class BreederScreen extends ScreenBase<BreederContainer> {
             tooltip.add(new TextComponent(this.menu.getFormattedProgress()).getVisualOrderText());
             renderTooltip(PoseStack, tooltip, mouseX - x, mouseY - y);
         }
+        if (mouseX > x + 19 && mouseX < x + 37 && mouseY > y + 25 && mouseY < y + 43) {
+            List<FormattedCharSequence> tooltip = new ArrayList<FormattedCharSequence>();
+            tooltip.add(new TranslatableComponent("text.chickens.name."+((BaseChickenEntity)this.menu.breeder.getChickenEntity1()).getChickenName()).getVisualOrderText());
+            renderTooltip(PoseStack, tooltip, mouseX - x, mouseY - y);
+        }
 
+        if (mouseX > x + 19 && mouseX < x + 37 && mouseY > y + 46 && mouseY < y + 64) {
+            List<FormattedCharSequence> tooltip = new ArrayList<FormattedCharSequence>();
+            tooltip.add(new TranslatableComponent("text.chickens.name."+((BaseChickenEntity)this.menu.breeder.getChickenEntity2()).getChickenName()).getVisualOrderText());
+            renderTooltip(PoseStack, tooltip, mouseX - x, mouseY - y);
+        }
     }
 
 
     @Override
     protected void renderBg(PoseStack PoseStack, float partialTicks, int mouseX, int mouseY) {
+        int x = getGuiLeft();
+        int y = (height - getYSize()) / 2;
         RenderSystem.setShader(GameRenderer::getPositionTexShader);
         RenderSystem.setShaderColor(1F, 1F, 1F, 1F);
         RenderSystem.setShaderTexture(0, BACKGROUND);
         blit(PoseStack, leftPos, topPos, 0, 0, imageWidth, imageHeight);
-
-        int x = getGuiLeft();
-        int y = (height - getYSize()) / 2;
-
         GuiUtils.drawTexturedModalRect(PoseStack,x, y, 0, 0, getXSize(), getYSize(),100);
         GuiUtils.drawTexturedModalRect(PoseStack,x + 81, y + 34, 176, 0, getProgressWidth(), 12,100);
+
+        if (this.menu.breeder.hasChicken1()){
+            this.itemRenderer.renderAndDecorateItem(this.menu.breeder.getChicken1(),x + 19 , y + 25 ,18, 18);
+        }
+        if (this.menu.breeder.hasChicken2()){
+            this.itemRenderer.renderAndDecorateItem(this.menu.breeder.getChicken2(),x + 19 , y + 46 ,18, 18);
+        }
     }
 
     private int getProgressWidth() {

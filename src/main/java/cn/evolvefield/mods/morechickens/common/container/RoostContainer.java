@@ -97,24 +97,22 @@ public class RoostContainer extends ContainerBase {
     }
 
 
-
-
-    @Override
-    public void broadcastChanges() {
-        for (int i = 0; i < containerListeners.size(); ++i) {
-            ContainerListener listener = containerListeners.get(i);
-            if (progress != data.get(0)) {
-                listener.dataChanged(this, 0, data.get(0));
-            }
-        }
-
-        progress = data.get(0);
-    }
+//    @Override
+//    public void broadcastChanges() {
+//        for (int i = 0; i < containerListeners.size(); ++i) {
+//            ContainerListener listener = containerListeners.get(i);
+//            if (progress != data.get(0)) {
+//                listener.dataChanged(this, 0, data.get(0));
+//            }
+//        }
+//        progress = data.get(0);
+//    }
 
 
     @Override
     public void setData(int id, int data1) {
         data.set(id, data1);
+        broadcastChanges();
     }
 
 

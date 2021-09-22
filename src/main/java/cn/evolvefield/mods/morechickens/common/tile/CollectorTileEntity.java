@@ -4,6 +4,7 @@ package cn.evolvefield.mods.morechickens.common.tile;
 import cn.evolvefield.mods.morechickens.MoreChickens;
 
 import cn.evolvefield.mods.morechickens.common.container.CollectorContainer;
+import cn.evolvefield.mods.morechickens.common.util.blockentity.IServerTickableBlockEntity;
 import cn.evolvefield.mods.morechickens.init.ModTileEntities;
 import cn.evolvefield.mods.morechickens.init.util.InventoryUtil;
 
@@ -33,7 +34,7 @@ import net.minecraftforge.items.wrapper.InvWrapper;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class CollectorTileEntity extends BlockEntity implements WorldlyContainer, BlockEntityTicker, MenuProvider {
+public class CollectorTileEntity extends BlockEntity implements WorldlyContainer,  MenuProvider , IServerTickableBlockEntity {
 
     private NonNullList<ItemStack> inventory = NonNullList.<ItemStack>withSize(getContainerSize(), ItemStack.EMPTY);
     private int searchOffset = 0;
@@ -43,18 +44,11 @@ public class CollectorTileEntity extends BlockEntity implements WorldlyContainer
     }
 
 
-    public String getName() {
-        return "container." + MoreChickens.MODID + ".collector";
-    }
-
     @Override
     public Component getDisplayName() {
-        return new TranslatableComponent(getName());
+        return new TranslatableComponent("container." + MoreChickens.MODID + ".collector");
     }
 
-    
-    
-    
     @Nullable
     @Override
     public AbstractContainerMenu createMenu(int id, Inventory playerInventory, Player player) {
@@ -97,7 +91,6 @@ public class CollectorTileEntity extends BlockEntity implements WorldlyContainer
             stack.setCount(getMaxStackSize());
         }
     }
-
 
     @Override
     public int getMaxStackSize() {
@@ -142,9 +135,6 @@ public class CollectorTileEntity extends BlockEntity implements WorldlyContainer
     }
 
 
-
-
-
     @Override
     public int[] getSlotsForFace(Direction direction) {
         int[] itemSlots = new int[27];
@@ -155,7 +145,7 @@ public class CollectorTileEntity extends BlockEntity implements WorldlyContainer
     }
 
     @Override
-    public void tick(Level level, BlockPos pos, BlockState state, BlockEntity entity) {
+    public void tickServer() {
         if (!getLevel().isClientSide) {
             updateSearchOffset();
             gatherItems();
@@ -166,7 +156,7 @@ public class CollectorTileEntity extends BlockEntity implements WorldlyContainer
     @Override
     public void load( CompoundTag nbt) {
         super.load( nbt);
-        //ItemStackHelper.loadAllItems(nbt, inventory);
+        ContainerHelper.loadAllItems(nbt, inventory);
     }
 
     @Override
@@ -207,7 +197,6 @@ public class CollectorTileEntity extends BlockEntity implements WorldlyContainer
         RoostTileEntity tileEntityRoost = (RoostTileEntity) getLevel().getBlockEntity(pos);
 
         int[] slots =new int[4];
-
         for (int i : slots) {
             if (pullItemFromSlot(tileEntityRoost, i)) return;
         }

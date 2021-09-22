@@ -82,25 +82,20 @@ public class InventoryUtil {
                 if (flag1 && destination instanceof HopperBlockEntity)
                 {
                     HopperBlockEntity tileentityhopper1 = (HopperBlockEntity)destination;
-
                     if (!tileentityhopper1.isOnCustomCooldown())
                     {
                         int k = 0;
-
-                        if (source != null && source instanceof HopperBlockEntity)
+                        if (source instanceof HopperBlockEntity)
                         {
                             HopperBlockEntity tileentityhopper = (HopperBlockEntity)source;
-
                             if (tileentityhopper1.getLastUpdateTime() >= tileentityhopper.getLastUpdateTime())
                             {
                                 k = 1;
                             }
                         }
-
                         tileentityhopper1.setCooldown(8 - k);
                     }
                 }
-
                 destination.setChanged();
             }
         }
@@ -164,7 +159,7 @@ public class InventoryUtil {
         return stack;
     }
 
-    public static ItemStack putStackInInventoryAllSlots(BlockEntity source, Container destination, ItemStack stack, @Nullable Direction direction)
+    public static ItemStack putStackInInventoryAllSlots(BlockEntity fromSource, Container destination, ItemStack stack, @Nullable Direction direction)
     {
         if (destination instanceof WorldlyContainer && direction != null)
         {
@@ -173,7 +168,7 @@ public class InventoryUtil {
 
             for (int k = 0; k < aint.length && !stack.isEmpty(); ++k)
             {
-                stack = insertStack(source, destination,stack, aint[k],direction);
+                stack = insertStack(fromSource, destination,stack, aint[k],direction);
             }
         }
         else
@@ -182,7 +177,7 @@ public class InventoryUtil {
 
             for (int j = 0; j < i && !stack.isEmpty(); ++j)
             {
-                stack = insertStack(source, destination, stack, j, direction);
+                stack = insertStack(fromSource, destination, stack, j, direction);
             }
         }
 
