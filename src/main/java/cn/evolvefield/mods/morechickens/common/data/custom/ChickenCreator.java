@@ -6,6 +6,8 @@ import cn.evolvefield.mods.morechickens.common.util.math.UnorderedPair;
 import cn.evolvefield.mods.morechickens.init.ModConfig;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonSyntaxException;
+import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.JSONUtils;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -52,7 +54,7 @@ public class ChickenCreator {
         LayTime = json.has("LayTime") ? JSONUtils.getAsInt(json, "LayTime") : 0;
         DeathAmount = json.has("DeathAmount") ? JSONUtils.getAsInt(json, "DeathAmount") : 0;
         Tier = json.has("Tier") ? JSONUtils.getAsInt(json, "Tier") : 0;
-        Enable = json.has("Enable") ? JSONUtils.getAsBoolean(json, "Enable") : true;
+        Enable = !json.has("Enable") || JSONUtils.getAsBoolean(json, "Enable");
         Type = json.has("Type") ? JSONUtils.getAsString(json, "Type") : "base";
 
 
@@ -66,6 +68,11 @@ public class ChickenCreator {
                 DeathItem,DeathAmount,Enable,Parent1,Parent2,Tier);
 
         return chicken;
+    }
+
+    public static void setTag(String type, ItemStack stack) {
+        CompoundNBT tag = stack.getOrCreateTagElement("EntityTag");
+        tag.putString("type", type);
     }
 
 }

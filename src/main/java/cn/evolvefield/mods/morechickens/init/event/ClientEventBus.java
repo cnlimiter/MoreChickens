@@ -5,8 +5,11 @@ import cn.evolvefield.mods.morechickens.MoreChickens;
 
 import cn.evolvefield.mods.morechickens.client.render.entity.BaseChickenEntityRender;
 import cn.evolvefield.mods.morechickens.client.render.tile.BaitRenderer;
+import cn.evolvefield.mods.morechickens.common.entity.ColorEggEntity;
 import cn.evolvefield.mods.morechickens.init.ModEntities;
+import cn.evolvefield.mods.morechickens.init.ModItems;
 import cn.evolvefield.mods.morechickens.init.ModTileEntities;
+import net.minecraft.client.renderer.entity.SpriteRenderer;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
@@ -21,6 +24,7 @@ public class ClientEventBus {
     public static void init(final FMLClientSetupEvent event) {
         //entity
         RenderingRegistry.registerEntityRenderingHandler(ModEntities.BASE_CHICKEN.get(), BaseChickenEntityRender::new);
+        RenderingRegistry.registerEntityRenderingHandler(ModEntities.COLOR_EGG.get(), (entityRendererManager) -> new SpriteRenderer<ColorEggEntity>(entityRendererManager, event.getMinecraftSupplier().get().getItemRenderer()));
 
         //tile
         ClientRegistry.bindTileEntityRenderer(ModTileEntities.BAIT, BaitRenderer::new);

@@ -3,11 +3,14 @@ package cn.evolvefield.mods.morechickens.common.util.main;
 import cn.evolvefield.mods.morechickens.common.util.math.RandomPool;
 import cn.evolvefield.mods.morechickens.common.util.math.UnorderedPair;
 import cn.evolvefield.mods.morechickens.init.ModConfig;
+import cn.evolvefield.mods.morechickens.init.ModEntities;
+import cn.evolvefield.mods.morechickens.integrations.jei.ingredients.ChickenIngredient;
 import com.electronwill.nightconfig.core.Config;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
@@ -15,6 +18,7 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.registries.ForgeRegistries;
 
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 public class ChickenType {
@@ -68,6 +72,37 @@ public class ChickenType {
     public ChickenType(String name, String itemID, int amt, int rAmt, int time){
         this(name, itemID, amt, rAmt, time, "", 0);
     }
+
+    public ChickenType(String name){
+        this(name, "", 0, 0, 3000, "", 0);
+    }
+
+//////////////jei used//////////////
+    public static Supplier<ChickenType> getIngredient(String name) {
+        return () -> getTypes().get(name);
+    }
+
+    public static Map<String, ChickenType> getTypes(){
+        return Types;
+    }
+
+    public static ChickenType fromNetwork(PacketBuffer buffer) {
+        String chickenName = buffer.readUtf();
+
+        return Types.get(chickenName);
+    }
+
+    public final void toNetwork(PacketBuffer buffer) {
+        buffer.writeUtf(name);
+    }
+
+    @Override
+    public String toString() {
+        return "ChickenIngredient{" +
+                "chicken=" + name +
+                '}';
+    }
+////////////////////////////////
 
     public ChickenType disable(){
         enabled = false;

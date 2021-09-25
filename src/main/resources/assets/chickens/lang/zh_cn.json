@@ -2,7 +2,9 @@
 
   "itemGroup.chickens": "更多鸡",
   "jei.chickens.chicken_breeding": "鸡繁殖",
-  "entity.Chicken.name": "原版鸡",
+  "jei.chickens.roost_recipe": "鸡产出",
+
+
 
   "item.chickens.egg_white": "骨白鸡蛋",
   "item.chickens.egg_blue": "蓝鸡蛋",

@@ -2,75 +2,67 @@ package cn.evolvefield.mods.morechickens.integrations.jei.ingredients;
 
 import cn.evolvefield.mods.morechickens.common.data.custom.ChickenReloadListener;
 import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
+import cn.evolvefield.mods.morechickens.init.ModEntities;
 import mezz.jei.api.ingredients.IIngredientHelper;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.text.TranslationTextComponent;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
+import java.util.Objects;
 
-public class ChickenIngredientHelper implements IIngredientHelper<ChickenIngredient>
+public class ChickenIngredientHelper implements IIngredientHelper<ChickenType>
 {
+
+
     @Nullable
     @Override
-    public ChickenIngredient getMatch(Iterable<ChickenIngredient> iterable, ChickenIngredient ChickenIngredient) {
-        for (ChickenIngredient ingredient : iterable) {
-            if (ingredient.getChickenType() == ChickenIngredient.getChickenType()) {
+    public ChickenType getMatch(Iterable<ChickenType> iterable, ChickenType type) {
+        for (ChickenType ingredient : iterable) {
+            if (Objects.equals(ingredient.name, type.name)) {
                 return ingredient;
             }
         }
         return null;
     }
 
-    @Nonnull
     @Override
-    public String getDisplayName(ChickenIngredient ChickenIngredient) {
-        ChickenType chickenType = ChickenReloadListener.INSTANCE.getData(ChickenIngredient.getChickenType().toString());
+    public String getDisplayName(ChickenType type) {
+        ChickenType chickenType = ChickenReloadListener.INSTANCE.getData(type.name);
         if (chickenType != null) {
-            return new TranslationTextComponent("text.chickens.name"+ chickenType.name).getString();
+            return new TranslationTextComponent("text.chickens.name"+ type.name).getString();
         }
-        return ChickenIngredient.getChickenEntity().getDescription().getString();
+        return "ChickenType:chicken:" + type.name;
     }
 
-    @Nonnull
     @Override
-    public String getUniqueId(ChickenIngredient ChickenIngredient) {
-        return "ChickenIngredient:" + ChickenIngredient.getChickenType();
+    public String getUniqueId(ChickenType type) {
+        return "ChickenType:" + type.name;
     }
 
-    @Nonnull
     @Override
-    public String getWildcardId(@Nonnull ChickenIngredient ChickenIngredient) {
-        return getUniqueId(ChickenIngredient);
+    public String getModId(ChickenType type) {
+        return ModEntities.BASE_CHICKEN.get().getRegistryName().getNamespace();
     }
 
-    @Nonnull
     @Override
-    public String getModId(ChickenIngredient ChickenIngredient) {
-        return ChickenIngredient.getChickenType().getNamespace();
+    public String getResourceId(ChickenType type) {
+        return ModEntities.BASE_CHICKEN.get().getRegistryName().getPath();
     }
 
-    @Nonnull
     @Override
-    public String getResourceId(ChickenIngredient ChickenIngredient) {
-        return ChickenIngredient.getChickenType().getPath();
+    public ChickenType copyIngredient(ChickenType type) {
+            return ChickenType.Types.get(type.name);
     }
 
-    @Nonnull
     @Override
-    public ChickenIngredient copyIngredient(ChickenIngredient ChickenIngredient) {
-        return new ChickenIngredient(ChickenIngredient.getChickenEntity(), ChickenIngredient.getChickenType());
-    }
-
-    @Nonnull
-    @Override
-    public String getErrorInfo(@Nullable ChickenIngredient ChickenIngredient) {
-        if (ChickenIngredient == null) {
-            return "ChickenIngredient:null";
+    public String getErrorInfo(@Nullable ChickenType type) {
+        if (type == null) {
+            return "ChickenType:null";
         }
-        if (ChickenIngredient.getChickenEntity() == null) {
-            return "ChickenIngredient:chicken:null";
+        if (type.name == null) {
+            return "ChickenType:chicken:null";
         }
-        return "ChickenIngredient:" + ChickenIngredient.getChickenType();
+        return "ChickenType:chicken:" + type.name;
     }
 }

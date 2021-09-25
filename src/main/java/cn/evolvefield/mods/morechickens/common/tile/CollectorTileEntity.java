@@ -172,7 +172,7 @@ public class CollectorTileEntity extends TileEntity implements ISidedInventory, 
     @Override
     public void load(BlockState state, CompoundNBT nbt) {
         super.load(state, nbt);
-        //ItemStackHelper.loadAllItems(nbt, inventory);
+        ItemStackHelper.loadAllItems(nbt, inventory);
     }
 
     @Override

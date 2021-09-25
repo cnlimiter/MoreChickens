@@ -18,32 +18,29 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChickenIngredientRenderer implements IIngredientRenderer<ChickenIngredient>
+public class ChickenIngredientRenderer implements IIngredientRenderer<ChickenType>
 {
+
     @Override
-    public void render(@Nonnull MatrixStack matrixStack, int xPosition, int yPosition, @Nullable ChickenIngredient ChickenIngredient) {
-        if (ChickenIngredient == null) {
+    public void render(MatrixStack matrixStack, int xPosition, int yPosition, @Nullable ChickenType type) {
+        if (type == null) {
             return;
         }
 
         Minecraft minecraft = Minecraft.getInstance();
         if (minecraft.level != null) {
-            ChickenRenderer.render(matrixStack, xPosition, yPosition, ChickenIngredient, minecraft);
+            ChickenRenderer.render(matrixStack, xPosition, yPosition, type, minecraft);
         }
     }
 
-    @Nonnull
     @Override
-    public List<ITextComponent> getTooltip(ChickenIngredient ChickenIngredient, ITooltipFlag iTooltipFlag) {
+    public List<ITextComponent> getTooltip(ChickenType type, ITooltipFlag iTooltipFlag) {
         List<ITextComponent> list = new ArrayList<>();
-        ChickenType chickenType = ChickenReloadListener.INSTANCE.getData(ChickenIngredient.getChickenType().toString());
+        ChickenType chickenType = ChickenReloadListener.INSTANCE.getData(type.name);
         if (chickenType != null) {
-            list.add(new TranslationTextComponent("text.chickens.name", chickenType.name));
+            list.add(new TranslationTextComponent("text.chickens.name." + type.name));
         }
-        else {
-            list.add(ChickenIngredient.getChickenEntity().getDescription());
-        }
-        list.add(new StringTextComponent(ChickenIngredient.getChickenType().toString()).withStyle(TextFormatting.DARK_GRAY));
+        list.add(new TranslationTextComponent("text.chickens.name." + type.name).withStyle(TextFormatting.DARK_GRAY));
         return list;
     }
 }

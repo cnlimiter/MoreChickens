@@ -6,6 +6,7 @@ import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
 import cn.evolvefield.mods.morechickens.init.*;
 import cn.evolvefield.mods.morechickens.init.registry.CommonRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
@@ -62,11 +63,11 @@ public class MoreChickens {
 
     public void onCommonSetup(FMLCommonSetupEvent event) {
         DeferredWorkQueue.runLater(() -> {
-            //Entity attribute assignments
             GlobalEntityTypeAttributes.put(ModEntities.BASE_CHICKEN.get(), BaseChickenEntity.setAttributes().build());
             ChickenType.matchConfig();
             ModItems.matchConfig();
             ModEntities.registerPlacements();
+
 
         });
         SIMPLE_CHANNEL = CommonRegistry.registerChannel(MODID, "default");
@@ -83,12 +84,6 @@ public class MoreChickens {
         ModTileEntities.clientSetup();
         ModContainers.clientSetup();
 
-//        MinecraftForge.EVENT_BUS.register(new ModSoundEvents());
-//        MinecraftForge.EVENT_BUS.register(new GuiEvents());
-
-//        PICKUP_KEY = ClientRegistry.registerKeyBinding("key.easy_villagers.pick_up", "category.easy_villagers", GLFW.GLFW_KEY_V);
-//        CYCLE_TRADES_KEY = ClientRegistry.registerKeyBinding("key.easy_villagers.cycle_trades", "category.easy_villagers", GLFW.GLFW_KEY_C);
-//
     }
 
 }

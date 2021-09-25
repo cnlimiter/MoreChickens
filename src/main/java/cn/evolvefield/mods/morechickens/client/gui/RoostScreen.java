@@ -37,13 +37,16 @@ public class RoostScreen extends ScreenBase<RoostContainer> {
         int x = getGuiLeft();
         int y = (height - getYSize()) / 2;
 
-//        if (this.menu.tileRoost.hasChickenItem()){
-//            ChickenRenderer.render(matrixStack, this.menu.tileRoost.getChickenEntity(),26,28,minecraft);
-//        }
+
 
         if (mouseX > x + 69 && mouseX < x + 95 && mouseY > y + 31 && mouseY < y + 46) {
             List<IReorderingProcessor> tooltip = new ArrayList<IReorderingProcessor>();;
             tooltip.add(new StringTextComponent(this.menu.getFormattedProgress()).getVisualOrderText());
+            renderTooltip(matrixStack, tooltip, mouseX - x, mouseY - y);
+        }
+        if (mouseX > x + 31 && mouseX < x + 49 && mouseY > y + 32 && mouseY < y + 50) {
+            List<IReorderingProcessor> tooltip = new ArrayList<IReorderingProcessor>();
+            tooltip.add(new TranslationTextComponent("text.chickens.name."+((BaseChickenEntity)this.menu.tileRoost.getChickenEntity()).getChickenName()).getVisualOrderText());
             renderTooltip(matrixStack, tooltip, mouseX - x, mouseY - y);
         }
 
@@ -61,6 +64,9 @@ public class RoostScreen extends ScreenBase<RoostContainer> {
 
         GuiUtils.drawTexturedModalRect(matrixStack,x, y, 0, 0, getXSize(), getYSize(),100);
         GuiUtils.drawTexturedModalRect(matrixStack,x + 69, y + 31, 176, 0, getProgressWidth(), 12,100);
+        if (this.menu.tileRoost.hasChickenItem()){
+            this.itemRenderer.renderAndDecorateItem(this.menu.tileRoost.getChickenItem(),x + 31 , y + 32 );
+        }
     }
 
     private int getProgressWidth() {

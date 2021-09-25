@@ -1,7 +1,8 @@
 {
   "itemGroup.chickens": "More Chickens",
   "jei.chickens.chicken_breeding": "Chicken Breeding",
-  "entity.Chicken.name": "Vanilla CHICKEN",
+  "jei.chickens.roost_recipe": "Chicken Produce",
+
 
   "item.chickens.egg_white": "WHITE CHICKEN EGG",
   "item.chickens.egg_blue": "BLUE CHICKEN EGG",

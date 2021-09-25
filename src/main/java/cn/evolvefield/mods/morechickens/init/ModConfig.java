@@ -3,6 +3,7 @@ package cn.evolvefield.mods.morechickens.init;
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
 import com.electronwill.nightconfig.core.Config;
+import com.google.common.collect.ImmutableList;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
@@ -47,6 +48,7 @@ public class ModConfig {
 
         public final ForgeConfigSpec.IntValue breedingTime;
         //public final ForgeConfigSpec.BooleanValue renderChickenIngredientAsEntity;
+        public final ForgeConfigSpec.ConfigValue<List<? extends String>> preferredTagSource;
 
 
 
@@ -54,6 +56,10 @@ public class ModConfig {
             chickenType = new HashMap<>();
             tierOdds = new ForgeConfigSpec.DoubleValue[7];
 
+
+            preferredTagSource = builder
+                    .comment("A priority list of Mod IDs that results of comb output should stem from, aka which mod you want the copper to come from.")
+                    .defineList("preferredTagSource", ImmutableList.of("minecraft", MoreChickens.MODID, "thermal", "tconstruct", "immersiveengineering", "create", "mekanism", "silents_mechanisms"), obj -> true);
 
 
             builder.comment("Odds of successful cross-breeding to ascend one tier").push("Tiers");

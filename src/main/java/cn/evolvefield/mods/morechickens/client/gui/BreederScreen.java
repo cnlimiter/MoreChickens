@@ -3,6 +3,7 @@ package cn.evolvefield.mods.morechickens.client.gui;
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.client.gui.base.ScreenBase;
 import cn.evolvefield.mods.morechickens.common.container.BreederContainer;
+import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.entity.player.PlayerInventory;
@@ -39,6 +40,17 @@ public class BreederScreen extends ScreenBase<BreederContainer> {
             tooltip.add(new StringTextComponent(this.menu.getFormattedProgress()).getVisualOrderText());
             renderTooltip(matrixStack, tooltip, mouseX - x, mouseY - y);
         }
+        if ((mouseX > x + 19 && mouseX < x + 37 && mouseY > y + 25 && mouseY < y + 43) && this.menu.breeder.hasChicken1()) {
+            List<IReorderingProcessor> tooltip = new ArrayList<IReorderingProcessor>();
+            tooltip.add(new TranslationTextComponent("text.chickens.name."+((BaseChickenEntity)this.menu.breeder.getChickenEntity1()).getChickenName()).getVisualOrderText());
+            renderTooltip(matrixStack, tooltip, mouseX - x, mouseY - y);
+        }
+
+        if ((mouseX > x + 19 && mouseX < x + 37 && mouseY > y + 46 && mouseY < y + 64) && this.menu.breeder.hasChicken2()) {
+            List<IReorderingProcessor> tooltip = new ArrayList<IReorderingProcessor>();
+            tooltip.add(new TranslationTextComponent("text.chickens.name."+((BaseChickenEntity)this.menu.breeder.getChickenEntity2()).getChickenName()).getVisualOrderText());
+            renderTooltip(matrixStack, tooltip, mouseX - x, mouseY - y);
+        }
 
     }
 
@@ -52,6 +64,12 @@ public class BreederScreen extends ScreenBase<BreederContainer> {
 
         GuiUtils.drawTexturedModalRect(matrixStack,x, y, 0, 0, getXSize(), getYSize(),100);
         GuiUtils.drawTexturedModalRect(matrixStack,x + 81, y + 34, 176, 0, getProgressWidth(), 12,100);
+        if (this.menu.breeder.hasChicken1()){
+            this.itemRenderer.renderAndDecorateItem(this.menu.breeder.getChicken1(),x + 19 , y + 25 );
+        }
+        if (this.menu.breeder.hasChicken2()){
+            this.itemRenderer.renderAndDecorateItem(this.menu.breeder.getChicken2(),x + 19 , y + 46 );
+        }
     }
 
     private int getProgressWidth() {
