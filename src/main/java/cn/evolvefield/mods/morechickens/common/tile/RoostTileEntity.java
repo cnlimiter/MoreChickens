@@ -149,9 +149,6 @@ public class RoostTileEntity extends FakeWorldTileEntity implements IServerTicka
         return v;
     }
 
-
-
-
     @Override
     public CompoundTag save(CompoundTag compound) {
         if (hasChickenItem()) {

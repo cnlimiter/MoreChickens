@@ -106,13 +106,7 @@ public class CollectorTileEntity extends BlockEntity implements WorldlyContainer
         }
     }
 
-    @Override
-    public void startOpen(Player p_174889_1_) {
-    }
 
-    @Override
-    public void stopOpen(Player p_174886_1_) {
-    }
 
     @Override
     public boolean canPlaceItemThroughFace(int index, ItemStack itemStackIn, @Nullable Direction direction) {

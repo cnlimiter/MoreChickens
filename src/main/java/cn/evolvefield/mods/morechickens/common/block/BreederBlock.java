@@ -2,16 +2,12 @@ package cn.evolvefield.mods.morechickens.common.block;
 
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.client.render.item.BreederItemRenderer;
 import cn.evolvefield.mods.morechickens.common.block.base.HorizontalRotatableBlock;
 import cn.evolvefield.mods.morechickens.common.item.ChickenItem;
 import cn.evolvefield.mods.morechickens.common.tile.BreederTileEntity;
 import cn.evolvefield.mods.morechickens.common.util.ItemUtils;
 import cn.evolvefield.mods.morechickens.common.util.blockentity.SimpleBlockEntityTicker;
-import cn.evolvefield.mods.morechickens.common.util.render.CustomRendererBlockItem;
-import cn.evolvefield.mods.morechickens.common.util.render.ItemRenderer;
 import cn.evolvefield.mods.morechickens.init.ModBlocks;
-import cn.evolvefield.mods.morechickens.init.ModItemGroups;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;
@@ -22,7 +18,6 @@ import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;

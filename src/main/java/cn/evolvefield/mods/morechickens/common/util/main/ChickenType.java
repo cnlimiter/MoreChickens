@@ -78,6 +78,10 @@ public class ChickenType {
     }
 
 
+    public  String getChickenTypeName(){
+        return name;
+    }
+
     public static Item getItem(String id, Random rand){
         Item item;
         if("#@".contains(id.substring(0, 1))){
