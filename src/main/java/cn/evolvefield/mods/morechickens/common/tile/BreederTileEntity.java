@@ -110,6 +110,14 @@ public class BreederTileEntity extends FakeWorldTileEntity implements ITickableT
         return chicken2;
     }
 
+    public String getChicken1Name(){
+        return getChicken1().getOrCreateTag().getString("Name");
+    }
+
+    public String getChicken2Name(){
+        return getChicken2().getOrCreateTag().getString("Name");
+    }
+
     public boolean hasChicken1() {
         return !chicken1.isEmpty();
     }

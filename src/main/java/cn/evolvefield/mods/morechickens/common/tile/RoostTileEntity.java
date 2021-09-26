@@ -132,6 +132,10 @@ public class RoostTileEntity extends FakeWorldTileEntity implements ITickableTil
         return chickenItem;
     }
 
+    public String getChickenItemName(){
+       return getChickenItem().getOrCreateTag().getString("Name");
+    }
+
     public boolean hasChickenItem() {
         return !chickenItem.isEmpty();
     }

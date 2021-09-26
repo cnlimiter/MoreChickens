@@ -98,18 +98,6 @@ public  class BreederContainer extends ContainerBase {
     }
 
 
-//    @Override//detectAndSendChanges
-//    public void broadcastChanges() {
-//        super.broadcastChanges();
-//        for (int i = 0; i < containerListeners.size(); ++i) {
-//            IContainerListener listener = containerListeners.get(i);
-//            if (progress != data.get(0)) {
-//                listener.setContainerData(this, 0, data.get(0));
-//            }
-//        }
-//
-//        progress = data.get(0);
-//    }
 
 
     @Override//updateProgressBar

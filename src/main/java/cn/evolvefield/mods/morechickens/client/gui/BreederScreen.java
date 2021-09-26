@@ -2,8 +2,10 @@ package cn.evolvefield.mods.morechickens.client.gui;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.client.gui.base.ScreenBase;
+import cn.evolvefield.mods.morechickens.client.render.ingredient.ChickenRenderer;
 import cn.evolvefield.mods.morechickens.common.container.BreederContainer;
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
+import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.entity.player.PlayerInventory;
@@ -65,10 +67,12 @@ public class BreederScreen extends ScreenBase<BreederContainer> {
         GuiUtils.drawTexturedModalRect(matrixStack,x, y, 0, 0, getXSize(), getYSize(),100);
         GuiUtils.drawTexturedModalRect(matrixStack,x + 81, y + 34, 176, 0, getProgressWidth(), 12,100);
         if (this.menu.breeder.hasChicken1()){
-            this.itemRenderer.renderAndDecorateItem(this.menu.breeder.getChicken1(),x + 19 , y + 25 );
+            ChickenRenderer.render(matrixStack,x + 19,y + 25, ChickenType.Types.get(this.menu.breeder.getChicken1Name()),minecraft);
+            //this.itemRenderer.renderAndDecorateItem(this.menu.breeder.getChicken1(),x + 19 , y + 25 );
         }
         if (this.menu.breeder.hasChicken2()){
-            this.itemRenderer.renderAndDecorateItem(this.menu.breeder.getChicken2(),x + 19 , y + 46 );
+            ChickenRenderer.render(matrixStack,x + 19,y + 46, ChickenType.Types.get(this.menu.breeder.getChicken2Name()),minecraft);
+            //this.itemRenderer.renderAndDecorateItem(this.menu.breeder.getChicken2(),x + 19 , y + 46 );
         }
     }
 
