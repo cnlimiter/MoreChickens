@@ -83,9 +83,7 @@ public class CatcherItem extends Item {
                         spawnParticles(pos, world, ParticleTypes.SMOKE);
                     }
                     world.playSound(player, pos.x, pos.y, pos.z, SoundEvents.CHICKEN_HURT, entity.getSoundSource(), 1.0F, 1.0F);
-                    itemStack.hurtAndBreak(1, player, (playerIn) -> {
-                        playerIn.animateHurt();
-                    });
+                    itemStack.hurtAndBreak(1, player, LivingEntity::animateHurt);
                 } else {
                     if (world.isClientSide) {
                         spawnParticles(pos, world, ParticleTypes.EXPLOSION);
@@ -97,7 +95,7 @@ public class CatcherItem extends Item {
                         tagCompound.putString("Type", "modded");
                         chickenItem.setTag(tagCompound);
                         ItemEntity item = entity.spawnAtLocation(chickenItem, 1.0F);
-                        item.lerpMotion(0, 0.2D, 0);
+                        item.setDeltaMovement(0,0.2d,0);
                     }
                     world.playSound(player, pos.x, pos.y, pos.z, SoundEvents.CHICKEN_EGG, entity.getSoundSource(), 1.0F, 1.0F);
                 }

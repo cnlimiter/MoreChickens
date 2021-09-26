@@ -3,9 +3,6 @@ package cn.evolvefield.mods.morechickens.common.util.main;
 import cn.evolvefield.mods.morechickens.common.util.math.RandomPool;
 import cn.evolvefield.mods.morechickens.common.util.math.UnorderedPair;
 import cn.evolvefield.mods.morechickens.init.ModConfig;
-import cn.evolvefield.mods.morechickens.init.ModEntities;
-import cn.evolvefield.mods.morechickens.integrations.jei.ingredients.ChickenIngredient;
-import com.electronwill.nightconfig.core.Config;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,9 +20,8 @@ import java.util.stream.Collectors;
 
 public class ChickenType {
     public static Map<String, ChickenType> Types = new HashMap<>();
+
     public static Map<UnorderedPair<String>, RandomPool<String>> Pairings = new HashMap<>();
-
-
 
     public static void preRegisterPair(ChickenType mother, ChickenType father, ChickenType child, int tier){
         child.parent1 = mother.name;
@@ -88,7 +84,6 @@ public class ChickenType {
 
     public static ChickenType fromNetwork(PacketBuffer buffer) {
         String chickenName = buffer.readUtf();
-
         return Types.get(chickenName);
     }
 
@@ -152,8 +147,6 @@ public class ChickenType {
     }
 
 
-
-
     public static void matchConfig(){
         List<Float> tiers = Arrays.stream(ModConfig.COMMON.tierOdds)
                 .map(ForgeConfigSpec.DoubleValue::get)
@@ -198,14 +191,6 @@ public class ChickenType {
             SLIME = new ChickenType("slime", "minecraft:slime_balls", 1, 0, 4800),
 
             MAGMA_CREAM = new ChickenType("magma_cream", "minecraft:magma_cream", 1, 0, 12000),
-
-    //modded
-            COPPER = new ChickenType("copper", "#forge:ingots/copper", 1, 0, 4800).disable(),
-            TIN = new ChickenType("tin", "#forge:ingots/tin", 1, 0, 4800).disable(),
-            ALUMINUM = new ChickenType("aluminum", "#forge:ingots/aluminum", 1, 0, 4800).disable(),
-            LEAD = new ChickenType("lead", "#forge:ingots/lead", 1, 0, 4800).disable(),
-            RUBBER = new ChickenType("rubber", "#forge:rubber", 1, 0, 4800).disable(),
-            SILICON = new ChickenType("silicon", "#forge:silicon", 1, 0, 4800).disable(),
 
     // Primary dyes
             WHITE_DYE = new ChickenType("dye_white", "minecraft:white_dye", 2, 2, 3000),

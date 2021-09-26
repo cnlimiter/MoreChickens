@@ -1,13 +1,13 @@
 buildscript {
     repositories {
-        maven { url = 'https://maven.minecraftforge.net' }
+        maven { url = 'https://maven.minecraftforge.net'}
+        jcenter()
         mavenCentral()
     }
     dependencies {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '4.1.+', changing: true
     }
 }
-
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'java'
 apply plugin: 'idea'
@@ -29,11 +29,8 @@ minecraft {
     runs {
         client {
             workingDirectory project.file('run')
-
             property 'forge.logging.markers', 'REGISTRIES'
-
             property 'forge.logging.console.level', 'debug'
-
             mods {
                 chickens {
                     source sourceSets.main
@@ -43,9 +40,7 @@ minecraft {
 
         server {
             workingDirectory project.file('run')
-
             property 'forge.logging.markers', 'REGISTRIES'
-
             property 'forge.logging.console.level', 'debug'
 
             mods {
@@ -57,13 +52,9 @@ minecraft {
 
         data {
             workingDirectory project.file('run')
-
             property 'forge.logging.markers', 'REGISTRIES'
-
             property 'forge.logging.console.level', 'debug'
-
             args '--mod', 'chickens', '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
-
             mods {
                 chickens {
                     source sourceSets.main
@@ -76,7 +67,6 @@ minecraft {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
-
     maven {
         url "https://www.cursemaven.com"
     }
@@ -102,20 +92,21 @@ repositories {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.5-36.1.65'
+    minecraft "net.minecraftforge:forge:${mc_version}-${forge_version}"
 
-    compileOnly fg.deobf("mezz.jei:jei-1.16.4:7.6.1.71:api")
+    compileOnly fg.deobf("mezz.jei:jei-${jei_version}:api")
     // at runtime, use the full JEI jar
-    runtimeOnly fg.deobf("mezz.jei:jei-1.16.4:7.6.1.71")
+    runtimeOnly fg.deobf("mezz.jei:jei-${jei_version}")
+
     compileOnly fg.deobf ("mcjty.theoneprobe:TheOneProbe-${top_version}:api")
     runtime fg.deobf ("mcjty.theoneprobe:TheOneProbe-${top_version}")
-    runtime fileTree(dir:'libs', includes: ['*.jar'])
-//    compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
-//    runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
+    //runtime fileTree(dir:'libs', includes: ['*.jar'])
+    //compileOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}:api")
+    //runtimeOnly fg.deobf("vazkii.patchouli:Patchouli:${patchouli_version}")
 
-
-    implementation fg.deobf("curse.maven:cofh-core-69162:3249453")
-    implementation fg.deobf("curse.maven:thermal-foundation-222880:3248150")
+    //implementation fg.deobf("curse.maven:jade-324717:3228325")
+    implementation fg.deobf("curse.maven:cofh-core-69162:3407019")
+    implementation fg.deobf("curse.maven:thermal-foundation-222880:3412300")
 }
 
 publishing {

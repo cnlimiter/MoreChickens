@@ -30,7 +30,7 @@ public class ChickenIngredientHelper implements IIngredientHelper<ChickenType>
     public String getDisplayName(ChickenType type) {
         ChickenType chickenType = ChickenReloadListener.INSTANCE.getData(type.name);
         if (chickenType != null) {
-            return new TranslationTextComponent("text.chickens.name"+ type.name).getString();
+            return new TranslationTextComponent("text.chickens.name."+ type.name).getString();
         }
         return "ChickenType:chicken:" + type.name;
     }

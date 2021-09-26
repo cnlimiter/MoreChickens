@@ -1,15 +1,12 @@
 package cn.evolvefield.mods.morechickens.client.render.ingredient;
 
-import cn.evolvefield.mods.morechickens.client.render.entity.BaseChickenEntityRender;
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
 import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
 import cn.evolvefield.mods.morechickens.init.ModEntities;
-import cn.evolvefield.mods.morechickens.integrations.jei.ingredients.ChickenIngredient;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.util.math.vector.Vector3f;
 
 public class ChickenRenderer {

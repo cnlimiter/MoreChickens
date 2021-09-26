@@ -6,7 +6,6 @@ import cn.evolvefield.mods.morechickens.common.recipe.RoostRecipe;
 import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
 import cn.evolvefield.mods.morechickens.init.ModBlocks;
 import cn.evolvefield.mods.morechickens.integrations.jei.JEIPlugin;
-import cn.evolvefield.mods.morechickens.integrations.jei.ingredients.ChickenIngredient;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.IRecipeLayout;
 import mezz.jei.api.gui.drawable.IDrawable;
