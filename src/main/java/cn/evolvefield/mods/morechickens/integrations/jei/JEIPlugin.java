@@ -2,7 +2,7 @@ package cn.evolvefield.mods.morechickens.integrations.jei;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.common.recipe.RoostRecipe;
-import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
+import cn.evolvefield.mods.morechickens.common.data.ChickenData;
 import cn.evolvefield.mods.morechickens.init.ModBlocks;
 import cn.evolvefield.mods.morechickens.init.ModItems;
 import cn.evolvefield.mods.morechickens.integrations.jei.ingredients.ChickenIngredientHelper;
@@ -28,12 +28,12 @@ import java.util.Map;
 
 @JeiPlugin
 public class JEIPlugin implements IModPlugin {
-    public static final IIngredientType<ChickenType> CHICKEN_INGREDIENT = () -> ChickenType.class;
+    public static final IIngredientType<ChickenData> CHICKEN_INGREDIENT = () -> ChickenData.class;
     public static final ResourceLocation CATEGORY_ROOST_UID = new ResourceLocation(MoreChickens.MODID, "roost_recipe");
 
 
     public JEIPlugin(){
-        ChickenType.getTypes();
+        ChickenData.getTypes();
     }
 
     @Override
@@ -49,8 +49,8 @@ public class JEIPlugin implements IModPlugin {
         Map<ResourceLocation, IRecipe<IInventory>> advancedBeehiveRecipesMap = recipeManager.byType(RoostRecipe.ROOST);
         registration.addRecipes(advancedBeehiveRecipesMap.values(), CATEGORY_ROOST_UID);
 
-        Map<String, ChickenType> chickenList = ChickenType.getTypes();
-        for (Map.Entry<String, ChickenType> entry : chickenList.entrySet()) {
+        Map<String, ChickenData> chickenList = ChickenData.getTypes();
+        for (Map.Entry<String, ChickenData> entry : chickenList.entrySet()) {
             String id = entry.getKey();
             registration.addIngredientInfo(entry.getValue(), CHICKEN_INGREDIENT, "chickens.ingredient.description." + (id));
         }
@@ -66,7 +66,7 @@ public class JEIPlugin implements IModPlugin {
 
     @Override
     public void registerIngredients(IModIngredientRegistration registration) {
-        Collection<ChickenType> ingredients = ChickenType.Types.values();
+        Collection<ChickenData> ingredients = ChickenData.Types.values();
         registration.register(CHICKEN_INGREDIENT, new ArrayList<>(ingredients), new ChickenIngredientHelper(), new ChickenIngredientRenderer());
     }
 

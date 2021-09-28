@@ -2,23 +2,18 @@ package cn.evolvefield.mods.morechickens.common.item;
 
 
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
-import cn.evolvefield.mods.morechickens.common.util.main.VirtualChicken;
 import cn.evolvefield.mods.morechickens.init.ModItemGroups;
 import cn.evolvefield.mods.morechickens.init.ModItems;
 import com.sun.javafx.geom.Vec3d;
 import net.minecraft.client.util.ITooltipFlag;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.item.ItemEntity;
-import net.minecraft.entity.merchant.villager.VillagerEntity;
-import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.nbt.ListNBT;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.ActionResultType;
@@ -32,7 +27,6 @@ import net.minecraft.world.World;
 import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Random;
-import java.util.Stack;
 
 public class CatcherItem extends Item {
 
@@ -68,7 +62,7 @@ public class CatcherItem extends Item {
                 tagCompound.putString("Type", "vanilla");
                 chickenItem.setTag(tagCompound);
                 ItemEntity item = entity.spawnAtLocation(chickenItem, 1.0F);
-                item.lerpMotion(0, 0.2D, 0);
+                item.setDeltaMovement(0, 0.2D, 0);
                 entity.getServer().overworld().removeEntity(entity,false);
             }
             world.playSound(player, pos.x, pos.y, pos.z, SoundEvents.CHICKEN_EGG, entity.getSoundSource(), 1.0F, 1.0F);

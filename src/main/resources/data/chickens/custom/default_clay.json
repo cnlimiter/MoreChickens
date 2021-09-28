@@ -1,0 +1,23 @@
+{
+  "Name": "clay",
+
+  "LayItem": "minecraft:clay_ball",
+  "LayAmount": 1,
+
+  "DeathItem": "",
+  "DeathAmount": 1,
+
+  "LayTime": 3000,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "sand",
+  "Parent2": "snowball",
+  "Tier": 2,
+
+  "Enable": true
+
+
+}

@@ -1,0 +1,23 @@
+{
+  "Name": "slime",
+
+  "LayItem": "minecraft:slime_balls",
+  "LayAmount": 1,
+
+  "DeathItem": "minecraft:beef",
+  "DeathAmount": 1,
+
+  "LayTime": 4800,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "dye_green",
+  "Parent2": "clay",
+  "Tier": 2,
+
+  "Enable": true
+
+
+}

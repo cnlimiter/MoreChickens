@@ -1,0 +1,23 @@
+{
+  "Name": "string",
+
+  "LayItem": "minecraft:string",
+  "LayAmount": 1,
+
+  "DeathItem": "minecraft:mutton",
+  "DeathAmount": 1,
+
+  "LayTime": 3000,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "dye_black",
+  "Parent2": "oak",
+  "Tier": 1,
+
+  "Enable": true
+
+
+}

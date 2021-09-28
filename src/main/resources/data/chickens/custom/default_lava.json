@@ -1,0 +1,23 @@
+{
+  "Name": "lava",
+
+  "LayItem": "chickens:ball_lava",
+  "LayAmount": 1,
+
+  "DeathItem": "",
+  "DeathAmount": 1,
+
+  "LayTime": 3000,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "quartz",
+  "Parent2": "coal",
+  "Tier" : 2,
+
+  "Enable": true
+
+
+}

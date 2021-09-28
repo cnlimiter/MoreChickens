@@ -1,0 +1,23 @@
+{
+  "Name": "gunpowder",
+
+  "LayItem": "minecraft:gunpowder",
+  "LayAmount": 1,
+
+  "DeathItem": "",
+  "DeathAmount": 1,
+
+  "LayTime": 4800,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "sand",
+  "Parent2": "flint",
+  "Tier" : 2,
+
+  "Enable": true
+
+
+}

@@ -1,0 +1,23 @@
+{
+  "Name": "dye_pink",
+
+  "LayItem": "minecraft:pink_dye",
+  "LayAmount": 2,
+
+  "DeathItem": "",
+  "DeathAmount": 1,
+
+  "LayTime": 3000,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "",
+  "Parent2": "",
+  "Tier": 0,
+
+  "Enable": true
+
+
+}

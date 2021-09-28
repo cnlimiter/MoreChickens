@@ -1,0 +1,23 @@
+{
+  "Name": "prism_shard",
+
+  "LayItem": "minecraft:prismarine_shard",
+  "LayAmount": 2,
+
+  "DeathItem": "minecraft:prismarine_crystals",
+  "DeathAmount": 1,
+
+  "LayTime": 18000,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "dye_blue",
+  "Parent2": "water",
+  "Tier" : 4,
+
+  "Enable": true
+
+
+}

@@ -1,0 +1,23 @@
+{
+  "Name": "wart",
+
+  "LayItem": "minecraft:nether_wart",
+  "LayAmount": 2,
+
+  "DeathItem": "",
+  "DeathAmount": 1,
+
+  "LayTime": 6000,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "glowstone",
+  "Parent2": "dye_brown",
+  "Tier" : 4,
+
+  "Enable": true
+
+
+}

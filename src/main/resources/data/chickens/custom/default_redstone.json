@@ -1,0 +1,23 @@
+{
+  "Name": "redstone",
+
+  "LayItem": "minecraft:redstone",
+  "LayAmount": 1,
+
+  "DeathItem": "",
+  "DeathAmount": 1,
+
+  "LayTime": 6000,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "dye_red",
+  "Parent2": "sand",
+  "Tier" : 2,
+
+  "Enable": true
+
+
+}

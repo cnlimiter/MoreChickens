@@ -1,0 +1,23 @@
+{
+  "Name": "emerald",
+
+  "LayItem": "minecraft:emerald",
+  "LayAmount": 1,
+
+  "DeathItem": "minecraft:saddle",
+  "DeathAmount": 1,
+
+  "LayTime": 24000,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "dye_green",
+  "Parent2": "diamond",
+  "Tier" : 4,
+
+  "Enable": true
+
+
+}

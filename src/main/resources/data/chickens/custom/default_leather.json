@@ -1,0 +1,23 @@
+{
+  "Name": "leather",
+
+  "LayItem": "minecraft:leather",
+  "LayAmount": 1,
+
+  "DeathItem": "minecraft:beef",
+  "DeathAmount": 1,
+
+  "LayTime": 4800,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "dye_brown",
+  "Parent2": "string",
+  "Tier": 2,
+
+  "Enable": true
+
+
+}

@@ -1,0 +1,23 @@
+{
+  "Name": "glass",
+
+  "LayItem": "minecraft:glass",
+  "LayAmount": 1,
+
+  "DeathItem": "",
+  "DeathAmount": 1,
+
+  "LayTime": 4800,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "sand",
+  "Parent2": "coal",
+  "Tier" : 3,
+
+  "Enable": true
+
+
+}

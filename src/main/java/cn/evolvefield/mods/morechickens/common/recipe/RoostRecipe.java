@@ -2,7 +2,7 @@ package cn.evolvefield.mods.morechickens.common.recipe;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.common.util.main.ChickenHelper;
-import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
+import cn.evolvefield.mods.morechickens.common.data.ChickenData;
 import cn.evolvefield.mods.morechickens.init.ModRecipeTypes;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -28,9 +28,9 @@ import java.util.stream.IntStream;
 public class RoostRecipe extends TagOutputRecipe implements IRecipe<IInventory> {
     public static final IRecipeType<RoostRecipe> ROOST = IRecipeType.register(MoreChickens.MODID + ":roost_recipe");
     public final ResourceLocation id;
-    public final Lazy<ChickenType> ingredient;
+    public final Lazy<ChickenData> ingredient;
 
-    public RoostRecipe(ResourceLocation id, Lazy<ChickenType> ingredient, Map<Ingredient, IntArrayNBT> itemOutput) {
+    public RoostRecipe(ResourceLocation id, Lazy<ChickenData> ingredient, Map<Ingredient, IntArrayNBT> itemOutput) {
         super(itemOutput);
         this.id = id;
         this.ingredient = ingredient;
@@ -107,7 +107,7 @@ public class RoostRecipe extends TagOutputRecipe implements IRecipe<IInventory> 
         public T fromJson(ResourceLocation id, JsonObject json) {
             String chickenName = JSONUtils.getAsString(json, "ingredient");
 
-            Lazy<ChickenType> beeIngredient = Lazy.of(ChickenType.getIngredient(chickenName));
+            Lazy<ChickenData> beeIngredient = Lazy.of(ChickenData.getIngredient(chickenName));
 
             Map<Ingredient, IntArrayNBT> itemOutputs = new LinkedHashMap<>();
 
@@ -137,7 +137,7 @@ public class RoostRecipe extends TagOutputRecipe implements IRecipe<IInventory> 
 
         public T fromNetwork(@Nonnull ResourceLocation id, @Nonnull PacketBuffer buffer) {
             try {
-                ChickenType ingredient = ChickenType.fromNetwork(buffer);
+                ChickenData ingredient = ChickenData.fromNetwork(buffer);
                 Map<Ingredient, IntArrayNBT> itemOutput = new LinkedHashMap<>();
                 IntStream.range(0, buffer.readInt()).forEach(
                         i -> itemOutput.put(Ingredient.fromNetwork(buffer), new IntArrayNBT(new int[]{buffer.readInt(), buffer.readInt(), buffer.readInt()}))
@@ -173,7 +173,7 @@ public class RoostRecipe extends TagOutputRecipe implements IRecipe<IInventory> 
 
         public interface IRecipeFactory<T extends RoostRecipe>
         {
-            T create(ResourceLocation id, Lazy<ChickenType> input, Map<Ingredient, IntArrayNBT> itemOutput);
+            T create(ResourceLocation id, Lazy<ChickenData> input, Map<Ingredient, IntArrayNBT> itemOutput);
         }
     }
 }

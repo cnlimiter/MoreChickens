@@ -1,0 +1,22 @@
+{
+  "Name": "sand",
+
+  "LayItem": "minecraft:sand",
+  "LayAmount": 1,
+
+  "DeathItem": "minecraft:kelp",
+  "DeathAmount": 2,
+
+  "LayTime": 4800,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "",
+  "Parent2": "",
+
+  "Enable": true
+
+
+}

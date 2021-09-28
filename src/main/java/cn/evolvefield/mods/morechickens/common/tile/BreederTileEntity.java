@@ -4,9 +4,12 @@ import cn.evolvefield.mods.morechickens.common.container.BreederContainer;
 import cn.evolvefield.mods.morechickens.common.container.base.ItemListInventory;
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
 import cn.evolvefield.mods.morechickens.common.tile.base.FakeWorldTileEntity;
-import cn.evolvefield.mods.morechickens.common.util.main.Gene;
+import cn.evolvefield.mods.morechickens.common.data.Gene;
 import cn.evolvefield.mods.morechickens.init.*;
 import net.minecraft.block.BlockState;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.passive.AnimalEntity;
+import net.minecraft.entity.passive.ChickenEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.IInventory;
@@ -16,7 +19,6 @@ import net.minecraft.inventory.container.INamedContainerProvider;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tileentity.AbstractFurnaceTileEntity;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.*;
 import net.minecraft.util.text.ITextComponent;
@@ -30,7 +32,6 @@ import net.minecraftforge.items.IItemHandlerModifiable;
 import net.minecraftforge.items.ItemStackHandler;
 
 import javax.annotation.Nullable;
-import java.text.DecimalFormat;
 import java.util.Random;
 
 public class BreederTileEntity extends FakeWorldTileEntity implements ITickableTileEntity, INamedContainerProvider {
@@ -89,16 +90,28 @@ public class BreederTileEntity extends FakeWorldTileEntity implements ITickableT
     }
 
     public BaseChickenEntity getChicken(World world, ItemStack stack) {
+        String type = getChicken1().getOrCreateTag().getString("Type");
         CompoundNBT compound = stack.getOrCreateTag();
+//        AnimalEntity chicken;
+//        if (type.equals("vanilla")){
+//            chicken = EntityType.CHICKEN.create(world);
+//            return chicken;
+//        }
+
         BaseChickenEntity chicken = new BaseChickenEntity(ModEntities.BASE_CHICKEN.get(), world);
         chicken.readAdditionalSaveData(compound);
         return chicken;
     }
 
-    public void setChicken(ItemStack stack, BaseChickenEntity chickenEntity) {
-        CompoundNBT compound = stack.getOrCreateTag();
-        chickenEntity.addAdditionalSaveData(compound);
-        compound.putString("Type","modded");
+    public void setChicken(ItemStack stack, AnimalEntity chickenEntity) {
+        CompoundNBT compound = stack.getOrCreateTagElement("ChickenData");
+        if (chickenEntity instanceof ChickenEntity){
+            compound.putString("Type", "vanilla");
+        }
+        else {
+            chickenEntity.addAdditionalSaveData(compound);
+            compound.putString("Type", "modded");
+        }
         stack.setTag(compound);
     }
 
@@ -179,10 +192,7 @@ public class BreederTileEntity extends FakeWorldTileEntity implements ITickableT
         if (level.isClientSide) {
             return;
         }
-        if (hasChicken1() || hasChicken2()) {
-            setChanged();
-            getLevel().playSound(null, getBlockPos(), SoundEvents.ITEM_FRAME_ADD_ITEM, SoundCategory.NEUTRAL, 0.5F, 0.8F);
-        }
+
         updateProgress();
         updateTimerIfNeeded();
         spawnChickenDropIfNeeded();
@@ -247,7 +257,7 @@ public class BreederTileEntity extends FakeWorldTileEntity implements ITickableT
                 String typeA = getChicken1().getOrCreateTag().getString("Type");
                 String typeB = getChicken2().getOrCreateTag().getString("Type");
                 ItemStack chickenItem = new ItemStack(ModItems.ITEM_CHICKEN);
-                if(typeA.equals("modded") && typeB.equals("modded")) {
+                if(!typeA.equals("vanilla") && !typeB.equals("vanilla")) {
                     BaseChickenEntity child = ModEntities.BASE_CHICKEN.get().create(level);
                     if(child != null) {
                         Gene childA = getChickenEntity1().alleleA.crossover(getChickenEntity1().alleleB, random);
@@ -261,7 +271,7 @@ public class BreederTileEntity extends FakeWorldTileEntity implements ITickableT
                     chickenItem.setTag(tagCompound);
 
                 }
-                else if(typeA.equals("vanilla")|| typeB.equals("vanilla")){
+                else {
                     CompoundNBT tagCompound = chickenItem.getOrCreateTagElement("ChickenData");
                     tagCompound.putString("Type", "vanilla");
                     chickenItem.setTag(tagCompound);

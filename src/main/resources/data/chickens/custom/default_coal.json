@@ -1,0 +1,23 @@
+{
+  "Name": "coal",
+
+  "LayItem": "minecraft:coal",
+  "LayAmount": 1,
+
+  "DeathItem": "",
+  "DeathAmount": 1,
+
+  "LayTime": 6000,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "oak",
+  "Parent2": "flint",
+  "Tier" : 2,
+
+  "Enable": true
+
+
+}

@@ -1,0 +1,23 @@
+{
+  "Name": "water",
+
+  "LayItem": "chickens:ball_water",
+  "LayAmount": 1,
+
+  "DeathItem": "",
+  "DeathAmount": 1,
+
+  "LayTime": 4800,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "snowball",
+  "Parent2": "flint",
+  "Tier" : 2,
+
+  "Enable": true
+
+
+}

@@ -61,7 +61,6 @@
 
 
 
-  "chickens.subtitle.chicken_milk": "鸡饮水的声音",
 
   "chickens.tooltip.baitCanSpawn": "这个诱饵将在这种环境中工作。你要离开工作范围才不会吓跑这些动物！",
   "chickens.tooltip.baitNearbyBait": "这里有太多的诱饵，太可疑了。",
@@ -74,13 +73,13 @@
   
   "text.chickens.multiplier": "%s x%d",
   "text.chickens.stat.amount": "基础产出值: %f",
-  "text.chickens.stat.amountRandom": "产出变异值: %f",
   "text.chickens.stat.time": "生产时间值: %f",
-  "text.chickens.stat.timeRandom": "生产时间变异值: %f",
+  "text.chickens.stat.gain": "产出值: %f",
+  "text.chickens.stat.growth": "成长度: %f",
+  "text.chickens.stat.strength": "基因强度: %f",
   "text.chickens.stat.eggTimer": "距离产出下个鸡蛋: %f 分钟",
   
-  "text.chickens.empty": "空的",
-  "text.chickens.onetime": "一次性使用的",
+
 
 
 

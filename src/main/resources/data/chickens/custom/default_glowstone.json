@@ -1,0 +1,23 @@
+{
+  "Name": "glowstone",
+
+  "LayItem": "minecraft:glowstone_dust",
+  "LayAmount": 2,
+
+  "DeathItem": "",
+  "DeathAmount": 1,
+
+  "LayTime": 6000,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "dye_yellow",
+  "Parent2": "quartz",
+  "Tier" : 3,
+
+  "Enable": true
+
+
+}

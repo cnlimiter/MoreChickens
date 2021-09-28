@@ -1,0 +1,23 @@
+{
+  "Name": "obsidian",
+
+  "LayItem": "minecraft:obsidian",
+  "LayAmount": 1,
+
+  "DeathItem": "",
+  "DeathAmount": 1,
+
+  "LayTime": 12000,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "water",
+  "Parent2": "lava",
+  "Tier" : 4,
+
+  "Enable": true
+
+
+}

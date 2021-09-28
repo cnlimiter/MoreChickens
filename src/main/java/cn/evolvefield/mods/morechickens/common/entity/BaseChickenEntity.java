@@ -1,9 +1,10 @@
 package cn.evolvefield.mods.morechickens.common.entity;
 
-import cn.evolvefield.mods.morechickens.common.util.main.Gene;
+import cn.evolvefield.mods.morechickens.common.data.ChickenData;
+import cn.evolvefield.mods.morechickens.common.data.ChickenUtils;
+import cn.evolvefield.mods.morechickens.common.data.Gene;
 import cn.evolvefield.mods.morechickens.init.ModConfig;
 import cn.evolvefield.mods.morechickens.init.ModEntities;
-import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -51,14 +52,14 @@ public class BaseChickenEntity extends ModAnimalEntity {
     private Gene gene;
     public Gene alleleA;
     public Gene alleleB;
-    public ChickenType type;
+    public ChickenData type;
     private int layTimer;
 
     public float oFlap, oFlapSpeed, wingRotation, wingRotDelta = 1.0f, destPos;
 
     public BaseChickenEntity(EntityType<? extends AnimalEntity> type, World worldIn) {
         super(type, worldIn);
-        this.type = ChickenType.RED_DYE;
+        this.type = ChickenData.Types.get("oak");
         setAlleles(new Gene(random), new Gene(random));
         randomBreed();
     }
@@ -66,27 +67,22 @@ public class BaseChickenEntity extends ModAnimalEntity {
     public static AttributeModifierMap.MutableAttribute setAttributes(){
         return MobEntity.createMobAttributes()
                 .add(Attributes.MAX_HEALTH, 4)
-                .add(Attributes.MOVEMENT_SPEED, 0.25);
+                .add(Attributes.MOVEMENT_SPEED, 0.25d);
     }
 
     public Gene getGene(){
         return gene;
     }
 
-    private void layLoot(){
-        spawnAtLocation(type.getLoot(random, gene));
-    }
-
     public void setAlleles(Gene a, Gene b){
         alleleA = a;
         alleleB = b;
-        gene = alleleA.dominance >= alleleB.dominance ? alleleA : alleleB;
+        gene = alleleA.STRENGTH >= alleleB.STRENGTH ? alleleA : alleleB;
         resetTimer();
     }
 
     private void resetTimer(){
-        layTimer = type.layTime + random.nextInt(type.layTime + 1);
-        layTimer *=  gene.layTime + random.nextFloat() * gene.layRandomTime;
+        layTimer = ChickenUtils.calcNewEggLayTime(random, type, gene.GROWTH);
         layTimer = Math.max(600, layTimer);
     }
 
@@ -98,7 +94,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
         this.entityData.set(NAME, data);
     }
 
-    public void setType(ChickenType type){
+    public void setType(ChickenData type){
         this.type = type;
         this.entityData.set(NAME, type.name);
     }
@@ -110,13 +106,13 @@ public class BaseChickenEntity extends ModAnimalEntity {
     public void randomBreed(){
         switch(random.nextInt(4)){
             case 0:
-                type = ChickenType.OAK; break;
+                type = ChickenUtils.getChickenDataByName("oak"); break;
             case 1:
-                type = ChickenType.SAND; break;
+                type = ChickenUtils.getChickenDataByName("sand"); break;
             case 2:
-                type = ChickenType.FLINT; break;
+                type = ChickenUtils.getChickenDataByName("flint"); break;
             default:
-                type = ChickenType.QUARTZ; break;
+                type = ChickenUtils.getChickenDataByName("quartz"); break;
         }
         entityData.set(NAME, type.name);
     }
@@ -197,7 +193,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
                 if(type != null) {
                     resetTimer();
                     this.playSound(SoundEvents.CHICKEN_EGG, 1.0F, (this.random.nextFloat() - this.random.nextFloat()) * 0.2F + 1.0F);
-                    layLoot();
+                    ChickenUtils.calcDrops(gene.GAIN, type, 0, random).forEach(this::spawnAtLocation);
                 }
             }
         }
@@ -241,12 +237,11 @@ public class BaseChickenEntity extends ModAnimalEntity {
         this.playSound(SoundEvents.CHICKEN_STEP, 0.15F, 1.0F);
     }
 
-
     @Override
     public void readAdditionalSaveData(CompoundNBT nbt) {
         super.readAdditionalSaveData(nbt);
         if(nbt.contains("Name")) {
-            setType(ChickenType.Types.get(nbt.getString("Name")));
+            setType(ChickenData.Types.get(nbt.getString("Name")));
         }
         if(nbt.contains("AlleleA"))
             alleleA.readFromTag(nbt.getCompound("AlleleA"));
@@ -278,7 +273,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
             return;
         int lootingLevel = ForgeHooks.getLootingLevel(this, source.getEntity(), source);
         int amount = type.deathAmount + random.nextInt(Math.max(1, type.deathAmount) + lootingLevel);
-        Item dieItem = ChickenType.getItem(type.deathItem, random);
+        Item dieItem = ChickenUtils.getItem(type.deathItem, random);
         if(dieItem != null)
             spawnAtLocation(new ItemStack(dieItem, amount));
     }
@@ -287,7 +282,7 @@ public class BaseChickenEntity extends ModAnimalEntity {
     @Override
     public ActionResultType mobInteract(PlayerEntity player, Hand hand) {
         ItemStack itemStack = player.getItemInHand(hand);
-        if(itemStack.getItem() == Items.BUCKET && !this.isBaby() && this.type == ChickenType.LEATHER){
+        if(itemStack.getItem() == Items.BUCKET && !this.isBaby() && this.type == ChickenUtils.getChickenDataByName("leather")){
             player.playSound(SoundEvents.COW_MILK, 1.0f, 1.0f);
             ItemStack leftover = DrinkHelper.createFilledResult(itemStack, player, Items.MILK_BUCKET.getDefaultInstance());
             player.setItemInHand(hand, leftover);

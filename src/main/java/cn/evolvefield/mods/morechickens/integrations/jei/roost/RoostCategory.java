@@ -3,7 +3,7 @@ package cn.evolvefield.mods.morechickens.integrations.jei.roost;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.common.recipe.RoostRecipe;
-import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
+import cn.evolvefield.mods.morechickens.common.data.ChickenData;
 import cn.evolvefield.mods.morechickens.init.ModBlocks;
 import cn.evolvefield.mods.morechickens.integrations.jei.JEIPlugin;
 import mezz.jei.api.constants.VanillaTypes;
@@ -87,7 +87,7 @@ public class RoostCategory implements IRecipeCategory<RoostRecipe> {
     @Override
     public void setRecipe(@Nonnull IRecipeLayout recipeLayout, @Nonnull RoostRecipe recipe, @Nonnull IIngredients ingredients) {
         IGuiItemStackGroup itemStacks = recipeLayout.getItemStacks();
-        IGuiIngredientGroup<ChickenType> ingredientStacks = recipeLayout.getIngredientsGroup(JEIPlugin.CHICKEN_INGREDIENT);
+        IGuiIngredientGroup<ChickenData> ingredientStacks = recipeLayout.getIngredientsGroup(JEIPlugin.CHICKEN_INGREDIENT);
 
         ingredientStacks.init(0, true, 5, 27);
         ingredientStacks.set(ingredients);

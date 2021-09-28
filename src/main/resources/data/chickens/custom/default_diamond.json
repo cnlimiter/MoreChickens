@@ -1,0 +1,23 @@
+{
+  "Name": "diamond",
+
+  "LayItem": "minecraft:diamond",
+  "LayAmount": 1,
+
+  "DeathItem": "",
+  "DeathAmount": 1,
+
+  "LayTime": 18000,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "gold",
+  "Parent2": "glass",
+  "Tier" : 5,
+
+  "Enable": true
+
+
+}

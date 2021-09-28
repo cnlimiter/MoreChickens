@@ -1,0 +1,23 @@
+{
+  "Name": "ender_pearl",
+
+  "LayItem": "minecraft:ender_pearl",
+  "LayAmount": 1,
+
+  "DeathItem": "",
+  "DeathAmount": 1,
+
+  "LayTime": 24000,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "diamond",
+  "Parent2": "wart",
+  "Tier" : 5,
+
+  "Enable": true
+
+
+}

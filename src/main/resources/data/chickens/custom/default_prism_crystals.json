@@ -1,0 +1,23 @@
+{
+  "Name": "prism_crystals",
+
+  "LayItem": "minecraft:prismarine_crystals",
+  "LayAmount": 1,
+
+  "DeathItem": "",
+  "DeathAmount": 1,
+
+  "LayTime": 16000,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "water",
+  "Parent2": "emerald",
+  "Tier" : 5,
+
+  "Enable": true
+
+
+}

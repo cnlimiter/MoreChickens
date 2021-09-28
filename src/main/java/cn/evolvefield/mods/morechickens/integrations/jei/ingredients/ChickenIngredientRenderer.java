@@ -2,7 +2,7 @@ package cn.evolvefield.mods.morechickens.integrations.jei.ingredients;
 
 import cn.evolvefield.mods.morechickens.client.render.ingredient.ChickenRenderer;
 import cn.evolvefield.mods.morechickens.common.data.custom.ChickenReloadListener;
-import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
+import cn.evolvefield.mods.morechickens.common.data.ChickenData;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import mezz.jei.api.ingredients.IIngredientRenderer;
 import net.minecraft.client.Minecraft;
@@ -15,11 +15,11 @@ import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ChickenIngredientRenderer implements IIngredientRenderer<ChickenType>
+public class ChickenIngredientRenderer implements IIngredientRenderer<ChickenData>
 {
 
     @Override
-    public void render(MatrixStack matrixStack, int xPosition, int yPosition, @Nullable ChickenType type) {
+    public void render(MatrixStack matrixStack, int xPosition, int yPosition, @Nullable ChickenData type) {
         if (type == null) {
             return;
         }
@@ -31,10 +31,10 @@ public class ChickenIngredientRenderer implements IIngredientRenderer<ChickenTyp
     }
 
     @Override
-    public List<ITextComponent> getTooltip(ChickenType type, ITooltipFlag iTooltipFlag) {
+    public List<ITextComponent> getTooltip(ChickenData type, ITooltipFlag iTooltipFlag) {
         List<ITextComponent> list = new ArrayList<>();
-        ChickenType chickenType = ChickenReloadListener.INSTANCE.getData(type.name);
-        if (chickenType != null) {
+        ChickenData chickenData = ChickenReloadListener.INSTANCE.getData(type.name);
+        if (chickenData != null) {
             list.add(new TranslationTextComponent("text.chickens.name." + type.name));
         }
         list.add(new TranslationTextComponent("text.chickens.name." + type.name).withStyle(TextFormatting.DARK_GRAY));

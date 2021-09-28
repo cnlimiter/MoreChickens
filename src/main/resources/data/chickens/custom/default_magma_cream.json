@@ -1,0 +1,23 @@
+{
+  "Name": "magma_cream",
+
+  "LayItem": "minecraft:magma_cream",
+  "LayAmount": 1,
+
+  "DeathItem": "",
+  "DeathAmount": 1,
+
+  "LayTime": 12000,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "blaze",
+  "Parent2": "slime",
+  "Tier": 4,
+
+  "Enable": true
+
+
+}

@@ -1,0 +1,23 @@
+{
+  "Name": "snowball",
+
+  "LayItem": "minecraft:snowball",
+  "LayAmount": 1,
+
+  "DeathItem": "",
+  "DeathAmount": 1,
+
+  "LayTime": 4800,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "dye_blue",
+  "Parent2": "oak",
+  "Tier" : 1,
+
+  "Enable": true
+
+
+}

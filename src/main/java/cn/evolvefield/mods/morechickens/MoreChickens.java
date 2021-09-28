@@ -2,11 +2,10 @@ package cn.evolvefield.mods.morechickens;
 
 import cn.evolvefield.mods.morechickens.common.data.custom.ChickenReloadListener;
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
-import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
+import cn.evolvefield.mods.morechickens.common.data.ChickenData;
 import cn.evolvefield.mods.morechickens.init.*;
 import cn.evolvefield.mods.morechickens.init.registry.CommonRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.inventory.container.ContainerType;
 import net.minecraft.item.Item;
@@ -26,7 +25,6 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.fml.network.simple.SimpleChannel;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.lwjgl.glfw.GLFW;
 
 
 @Mod("chickens")
@@ -64,7 +62,7 @@ public class MoreChickens {
     public void onCommonSetup(FMLCommonSetupEvent event) {
         DeferredWorkQueue.runLater(() -> {
             GlobalEntityTypeAttributes.put(ModEntities.BASE_CHICKEN.get(), BaseChickenEntity.setAttributes().build());
-            ChickenType.matchConfig();
+            ChickenData.matchConfig();
             ModItems.matchConfig();
             ModEntities.registerPlacements();
 

@@ -1,11 +1,11 @@
-package cn.evolvefield.mods.morechickens.common.util.main;
+package cn.evolvefield.mods.morechickens.common.data;
 
 import net.minecraft.nbt.CompoundNBT;
 
 import java.util.Random;
 
 public class VirtualChicken {
-    public final ChickenType breed;
+    public final ChickenData breed;
     public final Gene gene;
     private final Gene alleleA;
     private final Gene alleleB;
@@ -13,7 +13,7 @@ public class VirtualChicken {
     public float layTimer;
     public VirtualChicken(CompoundNBT nbt){
         extraNBT = nbt.copy();
-        breed = ChickenType.Types.get(extraNBT.getString("Name"));
+        breed = ChickenData.Types.get(extraNBT.getString("Name"));
         alleleA = new Gene().readFromTag(extraNBT.getCompound("AlleleA"));
         alleleB = new Gene().readFromTag(extraNBT.getCompound("AlleleB"));
         layTimer = extraNBT.getInt("EggLayTime");
@@ -21,7 +21,7 @@ public class VirtualChicken {
         extraNBT.remove("Name");
         extraNBT.remove("AlleleA");
         extraNBT.remove("AlleleB");
-        gene = alleleA.dominance >= alleleB.dominance ? alleleA : alleleB;
+        gene = alleleA.STRENGTH >= alleleB.STRENGTH ? alleleA : alleleB;
     }
 
     public CompoundNBT writeToTag(){
@@ -35,7 +35,6 @@ public class VirtualChicken {
 
     public void resetTimer(Random rand){
         layTimer = breed.layTime + rand.nextInt(breed.layTime + 1);
-        layTimer *=  gene.layTime + rand.nextFloat() * gene.layRandomTime;
         layTimer = Math.max(600, layTimer);
     }
 }

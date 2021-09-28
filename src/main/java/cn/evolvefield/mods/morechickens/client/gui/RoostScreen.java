@@ -3,10 +3,9 @@ package cn.evolvefield.mods.morechickens.client.gui;
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.client.gui.base.ScreenBase;
 import cn.evolvefield.mods.morechickens.client.render.ingredient.ChickenRenderer;
-import cn.evolvefield.mods.morechickens.common.container.BreederContainer;
 import cn.evolvefield.mods.morechickens.common.container.RoostContainer;
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
-import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
+import cn.evolvefield.mods.morechickens.common.data.ChickenData;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.entity.player.PlayerInventory;
@@ -66,7 +65,7 @@ public class RoostScreen extends ScreenBase<RoostContainer> {
         GuiUtils.drawTexturedModalRect(matrixStack,x, y, 0, 0, getXSize(), getYSize(),100);
         GuiUtils.drawTexturedModalRect(matrixStack,x + 69, y + 31, 176, 0, getProgressWidth(), 12,100);
         if (this.menu.tileRoost.hasChickenItem()){
-            ChickenRenderer.render(matrixStack,x + 31,y + 32, ChickenType.Types.get(this.menu.tileRoost.getChickenItemName()),minecraft);
+            ChickenRenderer.render(matrixStack,x + 31,y + 32, ChickenData.Types.get(this.menu.tileRoost.getChickenItemName()),minecraft);
             //this.itemRenderer.renderAndDecorateItem(this.menu.tileRoost.getChickenItem(),x + 31 , y + 32 );
         }
     }

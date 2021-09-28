@@ -2,9 +2,10 @@ package cn.evolvefield.mods.morechickens.common.tile;
 
 import cn.evolvefield.mods.morechickens.common.container.RoostContainer;
 import cn.evolvefield.mods.morechickens.common.container.base.ItemListInventory;
+import cn.evolvefield.mods.morechickens.common.data.ChickenData;
+import cn.evolvefield.mods.morechickens.common.data.ChickenUtils;
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
 import cn.evolvefield.mods.morechickens.common.tile.base.FakeWorldTileEntity;
-import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
 import cn.evolvefield.mods.morechickens.init.ModBlocks;
 import cn.evolvefield.mods.morechickens.init.ModContainers;
 import cn.evolvefield.mods.morechickens.init.ModEntities;
@@ -23,7 +24,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.*;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -238,44 +238,54 @@ public class RoostTileEntity extends FakeWorldTileEntity implements ITickableTil
 
     private void resetTimer() {
         String type = getChickenItem().getOrCreateTag().getString("Type");
+        String name = getChickenItem().getOrCreateTag().getString("Name");
+        ChickenData data = ChickenUtils.getChickenDataByName(name);
+        int growth = getChickenItem().getOrCreateTag().getInt("ChickenGrowth");
         timeElapsed = 0;
-        if (type.equals("modded")){
-            BaseChickenEntity chicken = (BaseChickenEntity) getChickenEntity();
-            timeUntilNextLay = chicken.type.layTime + rand.nextInt(chicken.type.layTime + 1);
-            timeUntilNextLay *= chicken.getGene().layTime + rand.nextFloat() * chicken.getGene().layRandomTime;
-            timeUntilNextLay = Math.max(600, timeUntilNextLay) + 6000;
-            setChanged();
-        }
-        else if(type.equals("vanilla")){
+        if (type.equals("vanilla")){
             timeUntilNextLay = rand.nextInt(6000) + 6000;
-            setChanged();
         }
+        else
+            if(type.equals("modded"))
+            {
+                BaseChickenEntity chicken = (BaseChickenEntity) getChickenEntity();
+                timeUntilNextLay = ChickenUtils.calcNewEggLayTime(rand, data, growth);
+                timeUntilNextLay = Math.max(600, timeUntilNextLay) + 6000;
+            }
+        setChanged();
     }
 
     private boolean addLoot() {
         for (int i = 0; i < outputInventory.size(); i++) {
             if (outputInventory.get(i).isEmpty()) {
                 String type = getChickenItem().getOrCreateTag().getString("Type");
+                String name = getChickenItem().getOrCreateTag().getString("Name");
+                ChickenData data = ChickenUtils.getChickenDataByName(name);
+                int gain = getChickenItem().getOrCreateTag().getInt("ChickenGain");
                 if(type.equals("modded")) {
                     BaseChickenEntity chicken = (BaseChickenEntity) getChickenEntity();
-                    ItemStack layItem = chicken.type.getLoot(rand,chicken.getGene());
+                    ItemStack layItem = getRandItemStack(ChickenUtils.calcDrops(gain, data, 0, rand),rand);
                     outputInventory.set(i, layItem);
-                    return true;
 
                 }
-                else if(type.equals("vanilla")){
+                else
+                    if(type.equals("vanilla"))
+                    {
                     List<ItemStack> vanillaLay = new ArrayList<>();
                     vanillaLay.add(new ItemStack(Items.EGG));
                     vanillaLay.add(new ItemStack(Items.FEATHER));
-                    outputInventory.set(i, new ItemStack(Items.EGG));
-                    return true;
-                }
+                    outputInventory.set(i, getRandItemStack(vanillaLay,rand));
+                    }
+                return true;
             }
         }
         return false;
     }
 
 
+    private ItemStack getRandItemStack(List<ItemStack> list, Random random){
+       return list.get(random.nextInt(list.size()));
+    }
 
 
     private boolean outputIsFull() {

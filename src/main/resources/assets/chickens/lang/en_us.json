@@ -53,8 +53,6 @@
   "container.roost.breeder.seedless": "Seedless",
 
 
-  "chickens.subtitle.chicken_milk": "Chicken milked",
-
   "chickens.tooltip.baitCanSpawn": "This bait will work in this environment. Move out of range so you don't scare the animals away!",
   "chickens.tooltip.baitNearbyBait": "There's too many baits in this area. Way too suspicious.",
   "chickens.tooltip.baitWrongEnv": "Place more blocks from the animals' home biome here.",
@@ -66,13 +64,11 @@
   
   "text.chickens.multiplier": "%s x%d",
   "text.chickens.stat.amount": "Base Lay Amount Modifier: %f",
-  "text.chickens.stat.amountRandom": "Lay Amount Modifier Variation: %f",
   "text.chickens.stat.time": "Lay Timeout Modifier: %f",
-  "text.chickens.stat.timeRandom": "Lay Timeout Modifier Variation: %f",
+  "text.chickens.stat.gain": "Gain: %f",
+  "text.chickens.stat.growth": "Growth: %f",
+  "text.chickens.stat.strength": "Strength: %f",
   "text.chickens.stat.eggTimer": "Minutes Until Next Egg: %f minutes",
-
-  "text.chickens.empty": "Empty",
-  "text.chickens.onetime": "One-time use",
 
 
   "text.chickens.name.": "ITEM CHICKEN",

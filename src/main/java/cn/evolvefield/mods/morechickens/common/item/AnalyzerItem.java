@@ -3,19 +3,16 @@ package cn.evolvefield.mods.morechickens.common.item;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
-import cn.evolvefield.mods.morechickens.common.util.main.Gene;
+import cn.evolvefield.mods.morechickens.common.data.Gene;
 import cn.evolvefield.mods.morechickens.init.ModItemGroups;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Util;
-import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.util.text.TranslationTextComponent;
@@ -51,25 +48,27 @@ public class AnalyzerItem extends Item {
             return ActionResultType.FAIL;
         BaseChickenEntity chickenEntity = (BaseChickenEntity) target;
         Gene gene = chickenEntity.getGene();
-        TranslationTextComponent name=new TranslationTextComponent("text." + MoreChickens.MODID + ".name." + chickenEntity.getChickenName());
-        name.getStyle().withColor(TextFormatting.GOLD);
         playerIn.sendMessage(
-                name, Util.NIL_UUID
+                new TranslationTextComponent("text." + MoreChickens.MODID + ".name." + chickenEntity.getChickenName()).withStyle(TextFormatting.GOLD),
+                Util.NIL_UUID
         );
+//        playerIn.sendMessage(
+//                new TranslationTextComponent("text." + MoreChickens.MODID + ".stat.amount", gene.layAmount),
+//                Util.NIL_UUID);
+//        playerIn.sendMessage(
+//                new TranslationTextComponent("text." + MoreChickens.MODID + ".stat.time", gene.layTime),
+//                Util.NIL_UUID);
         playerIn.sendMessage(
-                new TranslationTextComponent("text." + MoreChickens.MODID + ".stat.amount", gene.layAmount),
+                new TranslationTextComponent("text." + MoreChickens.MODID + ".stat.gain", gene.GAIN).withStyle(TextFormatting.BLUE),
                 Util.NIL_UUID);
         playerIn.sendMessage(
-                new TranslationTextComponent("text." + MoreChickens.MODID + ".stat.amountRandom", gene.layRandomAmount),
+                new TranslationTextComponent("text." + MoreChickens.MODID + ".stat.growth", gene.GROWTH).withStyle(TextFormatting.GREEN),
                 Util.NIL_UUID);
         playerIn.sendMessage(
-                new TranslationTextComponent("text." + MoreChickens.MODID + ".stat.time", gene.layTime),
+                new TranslationTextComponent("text." + MoreChickens.MODID + ".stat.strength", gene.STRENGTH).withStyle(TextFormatting.AQUA),
                 Util.NIL_UUID);
         playerIn.sendMessage(
-                new TranslationTextComponent("text." + MoreChickens.MODID + ".stat.timeRandom", gene.layRandomTime),
-                Util.NIL_UUID);
-        playerIn.sendMessage(
-                new TranslationTextComponent("text." + MoreChickens.MODID + ".stat.eggTimer", chickenEntity.getLayTimer() / 1200f),
+                new TranslationTextComponent("text." + MoreChickens.MODID + ".stat.eggTimer", chickenEntity.getLayTimer() / 1200f).withStyle(TextFormatting.BLACK),
                 Util.NIL_UUID);
         return ActionResultType.PASS;
 

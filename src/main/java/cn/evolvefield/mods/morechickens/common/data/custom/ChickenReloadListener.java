@@ -1,7 +1,7 @@
 package cn.evolvefield.mods.morechickens.common.data.custom;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
+import cn.evolvefield.mods.morechickens.common.data.ChickenData;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
@@ -22,17 +22,17 @@ public class ChickenReloadListener extends JsonReloadListener {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
     public static final ChickenReloadListener INSTANCE = new ChickenReloadListener();
-    private Map<String, ChickenType> CHICKEN_DATA = new HashMap<>();
+    private Map<String, ChickenData> CHICKEN_DATA = new HashMap<>();
 
     public ChickenReloadListener() {
-        super(GSON, "custom_chickens");
+        super(GSON, "custom");
     }
 
     @Override
     protected void apply(Map<ResourceLocation, JsonElement> dataMap, @Nonnull IResourceManager resourceManager, IProfiler profiler) {
         profiler.push("ChickenReloadListener");
 
-        Map<String, ChickenType> data = new HashMap<>();
+        Map<String, ChickenData> data = new HashMap<>();
         for (Map.Entry<ResourceLocation, JsonElement> entry : dataMap.entrySet()) {
             ResourceLocation id = entry.getKey();
 
@@ -47,7 +47,7 @@ public class ChickenReloadListener extends JsonReloadListener {
             }
 
             ResourceLocation simpleId = id.getPath().contains("/") ? new ResourceLocation(id.getNamespace(), id.getPath().substring(id.getPath().lastIndexOf("/") + 1)) : id;
-            ChickenType chicken = ChickenCreator.create(simpleId,entry.getValue().getAsJsonObject());
+            ChickenData chicken = ChickenCreator.create(simpleId,entry.getValue().getAsJsonObject());
 
             data.remove(simpleId.toString());
             data.put(simpleId.toString(), chicken);
@@ -60,15 +60,15 @@ public class ChickenReloadListener extends JsonReloadListener {
         profiler.popPush("ChickenReloadListener");
     }
 
-    public ChickenType getData(String id) {
+    public ChickenData getData(String id) {
         return CHICKEN_DATA.get(id);
     }
 
-    public Map<String, ChickenType> getData() {
+    public Map<String, ChickenData> getData() {
         return CHICKEN_DATA;
     }
 
-    public void setData(Map<String, ChickenType> data) {
+    public void setData(Map<String, ChickenData> data) {
         CHICKEN_DATA = data;
         if (ModList.get().isLoaded("patchouli")) {
             //ProductiveBeesPatchouli.setBeeFlags();

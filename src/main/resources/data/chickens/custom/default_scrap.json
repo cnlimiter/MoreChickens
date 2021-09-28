@@ -1,0 +1,23 @@
+{
+  "Name": "netherite_scrap",
+
+  "LayItem": "minecraft:netherite_scrap",
+  "LayAmount": 1,
+
+  "DeathItem": "minecraft:ancient_debris",
+  "DeathAmount": 1,
+
+  "LayTime": 20000,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "ender_pearl",
+  "Parent2": "ghast_tear",
+  "Tier" : 6,
+
+  "Enable": true
+
+
+}

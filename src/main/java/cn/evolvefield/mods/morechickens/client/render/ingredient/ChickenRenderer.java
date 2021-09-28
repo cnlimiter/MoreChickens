@@ -1,7 +1,7 @@
 package cn.evolvefield.mods.morechickens.client.render.ingredient;
 
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
-import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
+import cn.evolvefield.mods.morechickens.common.data.ChickenData;
 import cn.evolvefield.mods.morechickens.init.ModEntities;
 import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
@@ -13,11 +13,11 @@ public class ChickenRenderer {
     private ChickenRenderer() {
     }
 
-    public static void render(MatrixStack matrixStack, int xPosition, int yPosition, ChickenType chickenType, Minecraft minecraft) {
+    public static void render(MatrixStack matrixStack, int xPosition, int yPosition, ChickenData chickenData, Minecraft minecraft) {
         BaseChickenEntity chicken = ModEntities.BASE_CHICKEN.get().create(minecraft.level);
 
             if (minecraft.player != null && chicken != null) {
-                chicken.setType(chickenType);
+                chicken.setType(chickenData);
                 chicken.tickCount = minecraft.player.tickCount;
                 chicken.yBodyRot = -20;
 

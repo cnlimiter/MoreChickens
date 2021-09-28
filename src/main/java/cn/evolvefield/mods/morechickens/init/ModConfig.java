@@ -1,15 +1,13 @@
 package cn.evolvefield.mods.morechickens.init;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.common.util.main.ChickenType;
-import com.electronwill.nightconfig.core.Config;
+import cn.evolvefield.mods.morechickens.common.data.ChickenData;
 import com.google.common.collect.ImmutableList;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import org.apache.commons.lang3.tuple.Pair;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,7 +20,7 @@ public class ModConfig {
         private static final double[] TIER_DEFAULTS = {0.5, 1, 0.75, 0.5, 0.25, 0.125, 0.0625};
 
         public static class ChickenTypeConfig {
-            public ForgeConfigSpec.IntValue amount, amountRand, time, onDieAmount, tier;
+            public ForgeConfigSpec.IntValue amount, time, onDieAmount, tier;
             public ForgeConfigSpec.ConfigValue<String> dropItem, deathItem, parent1, parent2;
             public ForgeConfigSpec.BooleanValue enabled;
         }
@@ -47,7 +45,6 @@ public class ModConfig {
         public final ForgeConfigSpec.DoubleValue breederSpeed;
 
         public final ForgeConfigSpec.IntValue breedingTime;
-        //public final ForgeConfigSpec.BooleanValue renderChickenIngredientAsEntity;
         public final ForgeConfigSpec.ConfigValue<List<? extends String>> preferredTagSource;
 
 
@@ -140,17 +137,13 @@ public class ModConfig {
             builder.pop();
 
             builder.comment("Settings for each type of Chicken").push("ChickenTypes");
-            for(Map.Entry<String, ChickenType> type : ChickenType.Types.entrySet()){
+            for(Map.Entry<String, ChickenData> type : ChickenData.Types.entrySet()){
                 builder.comment("Config values for Chicken type " + type.getKey()).push(type.getKey());
                 ChickenTypeConfig config = new ChickenTypeConfig();
                 config.amount = builder
                         .comment("Base amount of loot laid")
                         .worldRestart()
                         .defineInRange("Amount", type.getValue().layAmount, 0, 64);
-                config.amountRand = builder
-                        .comment("Size of range of loot variance")
-                        .worldRestart()
-                        .defineInRange("RandomAmount", type.getValue().layRandomAmount, 0, 64);
                 config.time = builder
                         .comment("Minimum ticks between laying")
                         .worldRestart()

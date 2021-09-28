@@ -1,0 +1,23 @@
+{
+  "Name": "gold",
+
+  "LayItem": "minecraft:gold_ingot",
+  "LayAmount": 1,
+
+  "DeathItem": "",
+  "DeathAmount": 1,
+
+  "LayTime": 12000,
+
+  "Gain" : 1,
+  "Growth" : 1,
+  "Strength" : 1,
+
+  "Parent1": "dye_yellow",
+  "Parent2": "iron",
+  "Tier" : 3,
+
+  "Enable": true
+
+
+}
