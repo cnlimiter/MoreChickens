@@ -5,6 +5,10 @@ import cn.evolvefield.mods.morechickens.common.data.ChickenUtils;
 import cn.evolvefield.mods.morechickens.common.data.Gene;
 import cn.evolvefield.mods.morechickens.init.ModConfig;
 import cn.evolvefield.mods.morechickens.init.ModEntities;
+import cn.evolvefield.mods.morechickens.integrations.top.ITOPInfoEntityProvider;
+import mcjty.theoneprobe.api.IProbeHitEntityData;
+import mcjty.theoneprobe.api.IProbeInfo;
+import mcjty.theoneprobe.api.ProbeMode;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.*;
 import net.minecraft.entity.ai.attributes.AttributeModifierMap;
@@ -38,7 +42,7 @@ import org.apache.logging.log4j.Logger;
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
 
-public class BaseChickenEntity extends ModAnimalEntity {
+public class BaseChickenEntity extends ModAnimalEntity implements ITOPInfoEntityProvider {
     private static final Lazy<Integer> breedingTimeout = Lazy.of(ModConfig.COMMON.chickenBreedingTime::get);
 
 
@@ -293,4 +297,20 @@ public class BaseChickenEntity extends ModAnimalEntity {
     }
 
 
+    @Override
+    public void addProbeEntityInfo(ProbeMode mode, IProbeInfo probeInfo, PlayerEntity player, World world, Entity entity, IProbeHitEntityData data) {
+        BaseChickenEntity chicken = (BaseChickenEntity) entity;
+
+            probeInfo.text(new TranslationTextComponent("text.chickens.stat.growth", chicken.gene.GROWTH));
+            probeInfo.text(new TranslationTextComponent("text.chickens.stat.gain", chicken.gene.GAIN));
+            probeInfo.text(new TranslationTextComponent("text.chickens.stat.strength", chicken.gene.STRENGTH));
+
+
+        if (! chicken.isBaby()) {
+            if (chicken.type.layTime != 0) {
+                int secs = chicken.layTimer / 20;
+                probeInfo.text(new TranslationTextComponent("text.chickens.stat.eggTimer", String.format("%02d:%02d", secs / 60, secs % 60)));
+            }
+        }
+    }
 }

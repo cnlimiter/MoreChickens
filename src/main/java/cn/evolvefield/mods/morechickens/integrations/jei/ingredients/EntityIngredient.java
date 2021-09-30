@@ -1,6 +1,7 @@
 package cn.evolvefield.mods.morechickens.integrations.jei.ingredients;
 
 
+import cn.evolvefield.mods.morechickens.common.data.ChickenUtils;
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
 import cn.evolvefield.mods.morechickens.common.data.ChickenData;
 import cn.evolvefield.mods.morechickens.init.ModEntities;
@@ -8,12 +9,16 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.nbt.CompoundNBT;
+import net.minecraft.network.PacketBuffer;
 import net.minecraft.util.text.ITextComponent;
 import net.minecraft.util.text.TranslationTextComponent;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
 
 public class EntityIngredient {
 
@@ -26,24 +31,56 @@ public class EntityIngredient {
 
 
     public EntityIngredient(ChickenData chickenData) {
-
+        this.chickenData =chickenData;
         Minecraft mc = Minecraft.getInstance();
         if (mc.level != null) {
             entity = new BaseChickenEntity(ModEntities.BASE_CHICKEN.get(),mc.level);
             CompoundNBT nbt = new CompoundNBT();
             nbt.putString("Name", chickenData.name);
-            if (entity != null) entity.readAdditionalSaveData(nbt);
+            entity.readAdditionalSaveData(nbt);
         }else {
             entity = null;
         }
     }
 
+    @Override
+    public String toString() {
+        return "ChickenIngredient{" +
+                "chicken=" + chickenData.name +
+                '}';
+    }
 
     public @Nullable Entity getEntity() {
         return entity;
     }
 
+    public ChickenData getChickenData() {
+        return chickenData;
+    }
 
+    public static Supplier<EntityIngredient> getIngredient(String name) {
+        return () -> getTypes().get(name);
+    }
+
+    public static Map<String, EntityIngredient> getTypes(){
+        Map<String, EntityIngredient> list = new HashMap<>();
+        for (Map.Entry<String, ChickenData> entry : ChickenData.Types.entrySet()) {
+            String id = entry.getKey();
+            list.put(id,new EntityIngredient(entry.getValue()));
+        }
+        return list;
+    }
+
+    public static ChickenData fromNetwork(PacketBuffer buffer) {
+        String chickenName = buffer.readUtf();
+        return ChickenUtils.getChickenDataByName(chickenName);
+    }
+
+    public final void toNetwork(PacketBuffer buffer) {
+        buffer.writeUtf(chickenData.name);
+    }
+
+    
     public ITextComponent getDisplayName() {
         return new TranslationTextComponent("text.chickens.name." + chickenData.name);
     }
@@ -77,8 +114,5 @@ public class EntityIngredient {
         return tooltip;
     }
 
-    @Override
-    public String toString() {
-        return chickenData.name;
-    }
+
 }

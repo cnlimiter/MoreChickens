@@ -1,13 +1,12 @@
 package cn.evolvefield.mods.morechickens.integrations.jei;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
-import cn.evolvefield.mods.morechickens.common.recipe.RoostRecipe;
 import cn.evolvefield.mods.morechickens.common.data.ChickenData;
 import cn.evolvefield.mods.morechickens.init.ModBlocks;
 import cn.evolvefield.mods.morechickens.init.ModItems;
 import cn.evolvefield.mods.morechickens.integrations.jei.ingredients.ChickenIngredientHelper;
 import cn.evolvefield.mods.morechickens.integrations.jei.ingredients.ChickenIngredientRenderer;
-import cn.evolvefield.mods.morechickens.integrations.jei.roost.RoostCategory;
+import cn.evolvefield.mods.morechickens.integrations.jei.ingredients.EntityIngredient;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.JeiPlugin;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -15,25 +14,23 @@ import mezz.jei.api.helpers.IJeiHelpers;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.registration.*;
 import net.minecraft.client.Minecraft;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.item.crafting.RecipeManager;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @JeiPlugin
 public class JEIPlugin implements IModPlugin {
-    public static final IIngredientType<ChickenData> CHICKEN_INGREDIENT = () -> ChickenData.class;
-    public static final ResourceLocation CATEGORY_ROOST_UID = new ResourceLocation(MoreChickens.MODID, "roost_recipe");
-
+    public static final IIngredientType<EntityIngredient> ENTITY_INGREDIENT = () -> EntityIngredient.class;
 
     public JEIPlugin(){
-        ChickenData.getTypes();
+        EntityIngredient.getTypes();
     }
 
     @Override
@@ -45,14 +42,15 @@ public class JEIPlugin implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         RecipeManager recipeManager = Minecraft.getInstance().level.getRecipeManager();
+        World clientWorld = Minecraft.getInstance().level;
+        if (clientWorld != null) {
+            registration.addRecipes(BreederCategory.getBreedingRecipes(), BreederCategory.ID);
+        }
 
-        Map<ResourceLocation, IRecipe<IInventory>> advancedBeehiveRecipesMap = recipeManager.byType(RoostRecipe.ROOST);
-        registration.addRecipes(advancedBeehiveRecipesMap.values(), CATEGORY_ROOST_UID);
-
-        Map<String, ChickenData> chickenList = ChickenData.getTypes();
-        for (Map.Entry<String, ChickenData> entry : chickenList.entrySet()) {
+        Map<String, EntityIngredient> chickenList = EntityIngredient.getTypes();
+        for (Map.Entry<String, EntityIngredient> entry : chickenList.entrySet()) {
             String id = entry.getKey();
-            registration.addIngredientInfo(entry.getValue(), CHICKEN_INGREDIENT, "chickens.ingredient.description." + (id));
+            registration.addIngredientInfo(entry.getValue(), ENTITY_INGREDIENT, "chickens.ingredient.description." + (id));
         }
     }
 
@@ -61,13 +59,13 @@ public class JEIPlugin implements IModPlugin {
         IJeiHelpers jeiHelpers = registration.getJeiHelpers();
         IGuiHelper guiHelper = jeiHelpers.getGuiHelper();
 
-        registration.addRecipeCategories(new RoostCategory(guiHelper));
+        registration.addRecipeCategories(new BreederCategory(guiHelper));
     }
 
     @Override
     public void registerIngredients(IModIngredientRegistration registration) {
-        Collection<ChickenData> ingredients = ChickenData.Types.values();
-        registration.register(CHICKEN_INGREDIENT, new ArrayList<>(ingredients), new ChickenIngredientHelper(), new ChickenIngredientRenderer());
+        Collection<EntityIngredient> ingredients = ChickenData.Types.values().stream().map(EntityIngredient::new).collect(Collectors.toList());
+        registration.register(ENTITY_INGREDIENT, new ArrayList<>(ingredients), new ChickenIngredientHelper(), new ChickenIngredientRenderer());
     }
 
     @Override
@@ -79,7 +77,8 @@ public class JEIPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(ModBlocks.BLOCK_ROOST), CATEGORY_ROOST_UID);
+        registration.addRecipeCatalyst(new ItemStack(ModBlocks.BLOCK_BREEDER.asItem()), BreederCategory.ID);
+
     }
 
 

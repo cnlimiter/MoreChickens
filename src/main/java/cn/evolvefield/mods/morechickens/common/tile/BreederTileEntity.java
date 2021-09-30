@@ -257,7 +257,7 @@ public class BreederTileEntity extends FakeWorldTileEntity implements ITickableT
                 String typeA = getChicken1().getOrCreateTag().getString("Type");
                 String typeB = getChicken2().getOrCreateTag().getString("Type");
                 ItemStack chickenItem = new ItemStack(ModItems.ITEM_CHICKEN);
-                if(!typeA.equals("vanilla") && !typeB.equals("vanilla")) {
+                if(typeA.equals("modded") && typeB.equals("modded")) {
                     BaseChickenEntity child = ModEntities.BASE_CHICKEN.get().create(level);
                     if(child != null) {
                         Gene childA = getChickenEntity1().alleleA.crossover(getChickenEntity1().alleleB, random);
@@ -271,7 +271,7 @@ public class BreederTileEntity extends FakeWorldTileEntity implements ITickableT
                     chickenItem.setTag(tagCompound);
 
                 }
-                else {
+                else if(typeA.equals("vanilla") || typeB.equals("vanilla")){
                     CompoundNBT tagCompound = chickenItem.getOrCreateTagElement("ChickenData");
                     tagCompound.putString("Type", "vanilla");
                     chickenItem.setTag(tagCompound);

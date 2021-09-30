@@ -66,7 +66,7 @@ public class ChickenCreator {
         if(!Parent1.equals("") && !Parent2.equals("") && Enable){
                 UnorderedPair<String> pair = new UnorderedPair<>(Parent1, Parent2);
                 RandomPool<String> pool = Pairings.computeIfAbsent(pair, keyPair -> new RandomPool<>((String)null));
-                pool.add(id.getPath(), tiers.get(Tier));
+                pool.add(Name, tiers.get(Tier));
             }
 
         ChickenData chicken = new ChickenData(

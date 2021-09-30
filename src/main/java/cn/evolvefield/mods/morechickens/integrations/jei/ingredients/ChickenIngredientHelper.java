@@ -9,15 +9,15 @@ import net.minecraft.util.text.TranslationTextComponent;
 import javax.annotation.Nullable;
 import java.util.Objects;
 
-public class ChickenIngredientHelper implements IIngredientHelper<ChickenData>
+public class ChickenIngredientHelper implements IIngredientHelper<EntityIngredient>
 {
 
 
     @Nullable
     @Override
-    public ChickenData getMatch(Iterable<ChickenData> iterable, ChickenData type) {
-        for (ChickenData ingredient : iterable) {
-            if (Objects.equals(ingredient.name, type.name)) {
+    public EntityIngredient getMatch(Iterable<EntityIngredient> iterable, EntityIngredient type) {
+        for (EntityIngredient ingredient : iterable) {
+            if (Objects.equals(ingredient.getChickenData().name, type.getChickenData().name)) {
                 return ingredient;
             }
         }
@@ -25,42 +25,42 @@ public class ChickenIngredientHelper implements IIngredientHelper<ChickenData>
     }
 
     @Override
-    public String getDisplayName(ChickenData type) {
-        ChickenData chickenData = ChickenReloadListener.INSTANCE.getData(type.name);
+    public String getDisplayName(EntityIngredient type) {
+        ChickenData chickenData = ChickenReloadListener.INSTANCE.getData(type.getChickenData().name);
         if (chickenData != null) {
-            return new TranslationTextComponent("text.chickens.name."+ type.name).getString();
+            return new TranslationTextComponent("text.chickens.name."+ type.getChickenData().name).getString();
         }
-        return "ChickenType:chicken:" + type.name;
+        return "ChickenType:chicken:" + type.getChickenData().name;
     }
 
     @Override
-    public String getUniqueId(ChickenData type) {
-        return "ChickenType:" + type.name;
+    public String getUniqueId(EntityIngredient type) {
+        return "ChickenType:" + type.getChickenData().name;
     }
 
     @Override
-    public String getModId(ChickenData type) {
+    public String getModId(EntityIngredient type) {
         return ModEntities.BASE_CHICKEN.get().getRegistryName().getNamespace();
     }
 
     @Override
-    public String getResourceId(ChickenData type) {
+    public String getResourceId(EntityIngredient type) {
         return ModEntities.BASE_CHICKEN.get().getRegistryName().getPath();
     }
 
     @Override
-    public ChickenData copyIngredient(ChickenData type) {
-            return ChickenData.Types.get(type.name);
+    public EntityIngredient copyIngredient(EntityIngredient type) {
+            return type;
     }
 
     @Override
-    public String getErrorInfo(@Nullable ChickenData type) {
+    public String getErrorInfo(@Nullable EntityIngredient type) {
         if (type == null) {
             return "ChickenType:null";
         }
-        if (type.name == null) {
+        if (type.getChickenData().name == null) {
             return "ChickenType:chicken:null";
         }
-        return "ChickenType:chicken:" + type.name;
+        return "ChickenType:chicken:" + type.getChickenData().name;
     }
 }

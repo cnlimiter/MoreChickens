@@ -61,29 +61,7 @@ public class ChickenData {
     }
 
 //////////////jei used//////////////
-    public static Supplier<ChickenData> getIngredient(String name) {
-        return () -> getTypes().get(name);
-    }
 
-    public static Map<String, ChickenData> getTypes(){
-        return Types;
-    }
-
-    public static ChickenData fromNetwork(PacketBuffer buffer) {
-        String chickenName = buffer.readUtf();
-        return Types.get(chickenName);
-    }
-
-    public final void toNetwork(PacketBuffer buffer) {
-        buffer.writeUtf(name);
-    }
-
-    @Override
-    public String toString() {
-        return "ChickenIngredient{" +
-                "chicken=" + name +
-                '}';
-    }
 ////////////////////////////////
 
     public ChickenData disable(){
