@@ -48,7 +48,7 @@ public class ModBlocks {
 
         //renderType
         if (FMLEnvironment.dist == Dist.CLIENT) {
-            RenderTypeLookup.setRenderLayer(ModBlocks.BLOCK_ROOST, RenderType.cutout());
+            RenderTypeLookup.setRenderLayer(ModBlocks.BLOCK_ROOST, RenderType.translucent());
             RenderTypeLookup.setRenderLayer(ModBlocks.BLOCK_COLLECTOR, RenderType.cutout());
             RenderTypeLookup.setRenderLayer(ModBlocks.BLOCK_BREEDER, RenderType.cutout());
         }

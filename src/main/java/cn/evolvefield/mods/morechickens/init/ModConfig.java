@@ -2,6 +2,7 @@ package cn.evolvefield.mods.morechickens.init;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.common.data.ChickenData;
+import cn.evolvefield.mods.morechickens.common.data.ChickenRegistry;
 import com.google.common.collect.ImmutableList;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -137,7 +138,7 @@ public class ModConfig {
             builder.pop();
 
             builder.comment("Settings for each type of Chicken").push("ChickenTypes");
-            for(Map.Entry<String, ChickenData> type : ChickenData.Types.entrySet()){
+            for(Map.Entry<String, ChickenData> type : ChickenRegistry.Types.entrySet()){
                 builder.comment("Config values for Chicken type " + type.getKey()).push(type.getKey());
                 ChickenTypeConfig config = new ChickenTypeConfig();
                 config.amount = builder

@@ -2,6 +2,10 @@
   "itemGroup.chickens": "More Chickens",
   "jei.chickens.category.breeding": "Chicken Breeding",
   "jei.chickens.roost_recipe": "Chicken Produce",
+  "jei.chickens.breed_chance.info": "Chance:",
+  "jei.chickens.info.base_health": "Base Health:",
+  "jei.chickens.info.breedable" : "Get by breeding:",
+  "jei.chickens.info.parents" : "Parents:\n",
 
 
   "item.chickens.egg_white": "WHITE CHICKEN EGG",
@@ -180,4 +184,5 @@
   "advancements.chickens.catcher.description": "Catch them,make them work for me",
   "advancements.chickens.analyze.title": "Analyze them",
   "advancements.chickens.analyze.description": "Use it on chickens to determine their stats"
+
 }

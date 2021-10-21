@@ -18,7 +18,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static cn.evolvefield.mods.morechickens.common.data.ChickenData.Pairings;
+import static cn.evolvefield.mods.morechickens.common.data.ChickenRegistry.Pairings;
 
 
 public class ChickenCreator {
@@ -44,7 +44,7 @@ public class ChickenCreator {
         int Strength;
         int Tier;
         boolean Enable;
-
+        int Weight;
 
 
         Name = json.has("Name") ? JSONUtils.getAsString(json, "Name") : "paint";
@@ -60,6 +60,7 @@ public class ChickenCreator {
         Strength = json.has("Strength") ? JSONUtils.getAsInt(json, "Strength") : 1;
         Tier = json.has("Tier") ? JSONUtils.getAsInt(json, "Tier") : 0;
         Enable = !json.has("Enable") || JSONUtils.getAsBoolean(json, "Enable");
+        Weight = json.has("Weight") ? JSONUtils.getAsInt(json, "Weight") : 10;
 
 
 
@@ -73,7 +74,8 @@ public class ChickenCreator {
                 Name, LayItem, LayAmount, LayTime,
                 DeathItem, DeathAmount,
                 Gain, Growth, Strength,
-                Enable, Parent1, Parent2, Tier);
+                Enable, Weight,
+                Parent1, Parent2, Tier);
 
         return chicken;
     }

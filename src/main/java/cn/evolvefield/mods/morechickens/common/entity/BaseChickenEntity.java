@@ -1,6 +1,7 @@
 package cn.evolvefield.mods.morechickens.common.entity;
 
 import cn.evolvefield.mods.morechickens.common.data.ChickenData;
+import cn.evolvefield.mods.morechickens.common.data.ChickenRegistry;
 import cn.evolvefield.mods.morechickens.common.data.ChickenUtils;
 import cn.evolvefield.mods.morechickens.common.data.Gene;
 import cn.evolvefield.mods.morechickens.init.ModConfig;
@@ -45,8 +46,7 @@ import javax.annotation.Nullable;
 public class BaseChickenEntity extends ModAnimalEntity implements ITOPInfoEntityProvider {
     private static final Lazy<Integer> breedingTimeout = Lazy.of(ModConfig.COMMON.chickenBreedingTime::get);
 
-
-
+    public static final DataParameter<Boolean> ANALYZED = EntityDataManager.defineId(BaseChickenEntity.class, DataSerializers.BOOLEAN);
     private static final DataParameter<String> NAME = EntityDataManager.defineId(BaseChickenEntity.class, DataSerializers.STRING);
 
     private static final Ingredient MATERIAL = Ingredient.of(Items.WHEAT_SEEDS, Items.PUMPKIN_SEEDS, Items.MELON_SEEDS, Items.BEETROOT_SEEDS);
@@ -63,7 +63,7 @@ public class BaseChickenEntity extends ModAnimalEntity implements ITOPInfoEntity
 
     public BaseChickenEntity(EntityType<? extends AnimalEntity> type, World worldIn) {
         super(type, worldIn);
-        this.type = ChickenData.Types.get("oak");
+        this.type = ChickenRegistry.Types.get("oak");
         setAlleles(new Gene(random), new Gene(random));
         randomBreed();
     }
@@ -154,7 +154,8 @@ public class BaseChickenEntity extends ModAnimalEntity implements ITOPInfoEntity
     @Override
     protected void defineSynchedData() {
         super.defineSynchedData();
-        entityData.define(NAME, "painted");
+        this.entityData.define(NAME, "painted");
+        this.entityData.define(ANALYZED, true);
     }
 
 
@@ -244,8 +245,11 @@ public class BaseChickenEntity extends ModAnimalEntity implements ITOPInfoEntity
     @Override
     public void readAdditionalSaveData(CompoundNBT nbt) {
         super.readAdditionalSaveData(nbt);
+        if (nbt.contains("Analyzed")) {
+            this.entityData.set(ANALYZED, nbt.getBoolean("Analyzed"));
+        }
         if(nbt.contains("Name")) {
-            setType(ChickenData.Types.get(nbt.getString("Name")));
+            setType(ChickenRegistry.Types.get(nbt.getString("Name")));
         }
         if(nbt.contains("AlleleA"))
             alleleA.readFromTag(nbt.getCompound("AlleleA"));
@@ -260,6 +264,7 @@ public class BaseChickenEntity extends ModAnimalEntity implements ITOPInfoEntity
     @Override
     public void addAdditionalSaveData(CompoundNBT nbt) {
         super.addAdditionalSaveData(nbt);
+        nbt.putBoolean("Analyzed", this.entityData.get(ANALYZED));
         nbt.putInt("EggLayTime", layTimer);
         nbt.putString("Name", type.name);
         nbt.put("AlleleA", alleleA.writeToTag());
@@ -300,11 +305,11 @@ public class BaseChickenEntity extends ModAnimalEntity implements ITOPInfoEntity
     @Override
     public void addProbeEntityInfo(ProbeMode mode, IProbeInfo probeInfo, PlayerEntity player, World world, Entity entity, IProbeHitEntityData data) {
         BaseChickenEntity chicken = (BaseChickenEntity) entity;
-
+        if (this.entityData.get(ANALYZED)) {
             probeInfo.text(new TranslationTextComponent("text.chickens.stat.growth", chicken.gene.GROWTH));
             probeInfo.text(new TranslationTextComponent("text.chickens.stat.gain", chicken.gene.GAIN));
             probeInfo.text(new TranslationTextComponent("text.chickens.stat.strength", chicken.gene.STRENGTH));
-
+        }
 
         if (! chicken.isBaby()) {
             if (chicken.type.layTime != 0) {

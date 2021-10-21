@@ -101,9 +101,8 @@ public class RoostBlock extends HorizontalRotatableBlock {
 
     @Override
     public BlockRenderType getRenderShape(BlockState p_149645_1_) {
-        return BlockRenderType.MODEL;
+        return BlockRenderType.INVISIBLE;
     }
-
 
     @Nullable
     @Override

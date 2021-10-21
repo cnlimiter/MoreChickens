@@ -37,7 +37,7 @@ public class ChickenIngredientRenderer implements IIngredientRenderer<EntityIngr
         if (chickenData != null) {
             list.add(new TranslationTextComponent("text.chickens.name." + type.getChickenData().name));
         }
-        list.add(new TranslationTextComponent("text.chickens.name." + type.getChickenData().name).withStyle(TextFormatting.DARK_GRAY));
+        list.add(new TranslationTextComponent("text.chickens.name." + type.getChickenData().name).withStyle(TextFormatting.BLUE));
         return list;
     }
 }

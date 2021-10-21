@@ -13,7 +13,7 @@ public class VirtualChicken {
     public float layTimer;
     public VirtualChicken(CompoundNBT nbt){
         extraNBT = nbt.copy();
-        breed = ChickenData.Types.get(extraNBT.getString("Name"));
+        breed = ChickenRegistry.Types.get(extraNBT.getString("Name"));
         alleleA = new Gene().readFromTag(extraNBT.getCompound("AlleleA"));
         alleleB = new Gene().readFromTag(extraNBT.getCompound("AlleleB"));
         layTimer = extraNBT.getInt("EggLayTime");

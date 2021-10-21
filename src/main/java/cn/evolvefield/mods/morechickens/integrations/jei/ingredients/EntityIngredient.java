@@ -1,6 +1,7 @@
 package cn.evolvefield.mods.morechickens.integrations.jei.ingredients;
 
 
+import cn.evolvefield.mods.morechickens.common.data.ChickenRegistry;
 import cn.evolvefield.mods.morechickens.common.data.ChickenUtils;
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
 import cn.evolvefield.mods.morechickens.common.data.ChickenData;
@@ -22,7 +23,6 @@ import java.util.function.Supplier;
 
 public class EntityIngredient {
 
-    private static final TranslationTextComponent CREATOR_PREFIX = new TranslationTextComponent("tooltip.resourcefulbees.bee.creator");
 
     @Nullable
     private final AnimalEntity entity;
@@ -64,7 +64,7 @@ public class EntityIngredient {
 
     public static Map<String, EntityIngredient> getTypes(){
         Map<String, EntityIngredient> list = new HashMap<>();
-        for (Map.Entry<String, ChickenData> entry : ChickenData.Types.entrySet()) {
+        for (Map.Entry<String, ChickenData> entry : ChickenRegistry.Types.entrySet()) {
             String id = entry.getKey();
             list.put(id,new EntityIngredient(entry.getValue()));
         }

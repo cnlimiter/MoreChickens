@@ -7,7 +7,9 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.IRenderTypeBuffer;
 import net.minecraft.client.renderer.entity.EntityRendererManager;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.math.vector.Vector3f;
+import net.minecraft.world.World;
 
 public class ChickenRenderer {
     private ChickenRenderer() {
@@ -38,6 +40,28 @@ public class ChickenRenderer {
                 matrixStack.popPose();
         }
 
+    }
+
+    public static void renderEntity(MatrixStack matrixStack, Entity entity, World world, float x, float y, float rotation, float renderScale) {
+        if (world == null) return;
+        float scaledSize;
+        Minecraft mc = Minecraft.getInstance();
+        if (mc.player != null) entity.tickCount = mc.player.tickCount;
+        scaledSize = 20 / (Math.max(entity.getBbWidth(), entity.getBbHeight()));
+        if (mc.player != null) {
+            matrixStack.pushPose();
+            matrixStack.translate(10, 20 * renderScale, 0.5);
+            matrixStack.translate(x, y, 1);
+            matrixStack.mulPose(Vector3f.ZP.rotationDegrees(180.0F));
+            matrixStack.translate(0, 0, 100);
+            matrixStack.scale(-(scaledSize * renderScale), (scaledSize * renderScale), 30);
+            matrixStack.mulPose(Vector3f.YP.rotationDegrees(rotation));
+            EntityRendererManager entityrenderermanager = mc.getEntityRenderDispatcher();
+            IRenderTypeBuffer.Impl renderTypeBuffer = mc.renderBuffers().bufferSource();
+            entityrenderermanager.render(entity, 0, 0, 0.0D, mc.getFrameTime(), 1, matrixStack, renderTypeBuffer, 15728880);
+            renderTypeBuffer.endBatch();
+        }
+        matrixStack.popPose();
     }
 
 }

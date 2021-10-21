@@ -4,6 +4,7 @@ import cn.evolvefield.mods.morechickens.MoreChickens;
 import cn.evolvefield.mods.morechickens.client.gui.base.ScreenBase;
 import cn.evolvefield.mods.morechickens.client.render.ingredient.ChickenRenderer;
 import cn.evolvefield.mods.morechickens.common.container.BreederContainer;
+import cn.evolvefield.mods.morechickens.common.data.ChickenRegistry;
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
 import cn.evolvefield.mods.morechickens.common.data.ChickenData;
 import com.mojang.blaze3d.matrix.MatrixStack;
@@ -33,7 +34,7 @@ public class BreederScreen extends ScreenBase<BreederContainer> {
 
     @Override
     protected void renderLabels(MatrixStack matrixStack, int mouseX, int mouseY) {
-        drawString(matrixStack,font,new TranslationTextComponent("container.chickens.breeder"),4,4,FONT_COLOR);
+        drawString(matrixStack,font,new TranslationTextComponent("container.chickens.breeder"),4,4, FONT_COLOR);
         int x = getGuiLeft();
         int y = (height - getYSize()) / 2;
 
@@ -59,7 +60,7 @@ public class BreederScreen extends ScreenBase<BreederContainer> {
 
     @Override
     protected void renderBg(MatrixStack matrixStack, float partialTicks, int mouseX, int mouseY) {
-        RenderSystem.color4f(1.0F, 1.0F, 1.0F, 1.0F);
+        RenderSystem.clearColor(1.0F, 1.0F, 1.0F, 1.0F);
         this.minecraft.getTextureManager().bind(BACKGROUND);
         int x = getGuiLeft();
         int y = (height - getYSize()) / 2;
@@ -67,11 +68,11 @@ public class BreederScreen extends ScreenBase<BreederContainer> {
         GuiUtils.drawTexturedModalRect(matrixStack,x, y, 0, 0, getXSize(), getYSize(),100);
         GuiUtils.drawTexturedModalRect(matrixStack,x + 81, y + 34, 176, 0, getProgressWidth(), 12,100);
         if (this.menu.breeder.hasChicken1()){
-            ChickenRenderer.render(matrixStack,x + 19,y + 25, ChickenData.Types.get(this.menu.breeder.getChicken1Name()),minecraft);
+            ChickenRenderer.render(matrixStack,x + 19,y + 25, ChickenRegistry.Types.get(this.menu.breeder.getChicken1Name()),minecraft);
             //this.itemRenderer.renderAndDecorateItem(this.menu.breeder.getChicken1(),x + 19 , y + 25 );
         }
         if (this.menu.breeder.hasChicken2()){
-            ChickenRenderer.render(matrixStack,x + 19,y + 46, ChickenData.Types.get(this.menu.breeder.getChicken2Name()),minecraft);
+            ChickenRenderer.render(matrixStack,x + 19,y + 46, ChickenRegistry.Types.get(this.menu.breeder.getChicken2Name()),minecraft);
             //this.itemRenderer.renderAndDecorateItem(this.menu.breeder.getChicken2(),x + 19 , y + 46 );
         }
     }

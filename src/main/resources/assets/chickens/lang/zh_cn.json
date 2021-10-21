@@ -3,6 +3,10 @@
   "itemGroup.chickens": "更多鸡",
   "jei.chickens.category.breeding": "鸡繁殖",
   "jei.chickens.roost_recipe": "鸡产出",
+  "jei.chickens.breed_chance.info": "几率:",
+  "jei.chickens.info.base_health": "基础生命:",
+  "jei.chickens.info.breedable" : "是否能通过繁殖获得:",
+  "jei.chickens.info.parents" : "父辈们:",
 
 
 

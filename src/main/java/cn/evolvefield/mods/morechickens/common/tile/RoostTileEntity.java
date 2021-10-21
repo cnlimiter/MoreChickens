@@ -49,6 +49,7 @@ public class RoostTileEntity extends FakeWorldTileEntity implements ITickableTil
     private int progress;
     private int timeElapsed = 0;
     private int timeUntilNextLay = 0;
+
     public final IIntArray dataAccess = new IIntArray() {
         public int get(int id) {
             switch (id) {

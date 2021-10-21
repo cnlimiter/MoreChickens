@@ -1,9 +1,12 @@
 package cn.evolvefield.mods.morechickens.integrations.jei;
 
 import cn.evolvefield.mods.morechickens.MoreChickens;
+import cn.evolvefield.mods.morechickens.init.ModBlocks;
+import cn.evolvefield.mods.morechickens.init.ModItems;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import org.jetbrains.annotations.NotNull;
 
@@ -18,6 +21,7 @@ public abstract class BaseCategory<T> implements IRecipeCategory<T> {
     private final Class<? extends T> recipeClass;
 
     public final IDrawable info;
+    public final IDrawable chickenRoost;
 
     public BaseCategory(IGuiHelper guiHelper, ResourceLocation categoryId, String localizedName, IDrawable background, IDrawable icon, Class<? extends T> recipeClass) {
         this.categoryId = categoryId;
@@ -26,7 +30,7 @@ public abstract class BaseCategory<T> implements IRecipeCategory<T> {
         this.icon = icon;
         this.recipeClass = recipeClass;
 
-
+        this.chickenRoost = guiHelper.createDrawableIngredient(new ItemStack(ModBlocks.BLOCK_ROOST.asItem()));
         this.info = guiHelper.createDrawable(ICONS, 16, 0, 9, 9);
     }
 

@@ -1,5 +1,6 @@
 package cn.evolvefield.mods.morechickens.common.data;
 
+import cn.evolvefield.mods.morechickens.common.util.math.RandomCollection;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
@@ -8,14 +9,17 @@ import net.minecraft.tags.ItemTags;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.registries.ForgeRegistries;
+import org.apache.commons.lang3.tuple.Pair;
 
 import java.util.List;
 import java.util.Random;
 
+import static cn.evolvefield.mods.morechickens.common.data.ChickenRegistry.FAMILY_TREE;
+
 public class ChickenUtils {
 
     public static ChickenData getChickenDataByName(String name){
-        return ChickenData.Types.get(name);
+        return ChickenRegistry.Types.get(name);
     }
 
     public static int calcNewEggLayTime(Random r, ChickenData type, int growth) {
@@ -79,5 +83,13 @@ public class ChickenUtils {
                 new ItemStack(Items.FEATHER));
 
         return lst;
+    }
+
+    public static Pair<String, String> sortParents(String parent1, String parent2) {
+        return parent1.compareTo(parent2) > 0 ? Pair.of(parent1, parent2) : Pair.of(parent2, parent1);
+    }
+
+    public static void addBreedPairToFamilyTree(ChickenData data) {
+        FAMILY_TREE.computeIfAbsent(data.getParents(), k -> new RandomCollection<>()).add(data.getWeight(), data);
     }
 }
