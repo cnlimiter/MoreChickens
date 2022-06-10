@@ -1,0 +1,23 @@
+{
+  "Name": "base_silver",
+  "LayAmount": 1,
+  "LayRandomAmount": 0,
+  "LayTime": 8000,
+  "DeathAmount": 0,
+  "Tier": 3,
+  "LayItem": "#forge:ingots/silver",
+  "DeathItem": "",
+  "Parent1": "iron",
+  "Parent2": "dye_white",
+  "Enable": true,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+          "type": "forge:tag_empty",
+          "tag": "forge:ingots/silver"
+      }
+    }
+  ]
+
+}

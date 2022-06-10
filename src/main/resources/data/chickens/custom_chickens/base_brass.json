@@ -1,0 +1,23 @@
+{
+  "Name": "base_brass",
+  "LayAmount": 1,
+  "LayRandomAmount": 0,
+  "LayTime": 8000,
+  "DeathAmount": 0,
+  "Tier": 3,
+  "LayItem": "#forge:ingots/brass",
+  "DeathItem": "",
+  "Parent1": "base_copper",
+  "Parent2": "base_zinc",
+  "Enable": true,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+          "type": "forge:tag_empty",
+          "tag": "forge:ingots/brass"
+      }
+    }
+  ]
+
+}

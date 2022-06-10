@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "WX ",
+    "   ",
+    "   "
+  ],
+  "key": {
+    "W": {
+      "item": "minecraft:egg"
+    },
+    "X": {
+      "item": "minecraft:brown_dye"
+    }
+  },
+  "result": {
+    "item": "chickens:egg_brown"
+  }
+}

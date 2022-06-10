@@ -1,0 +1,201 @@
+{
+  "parent": "chickens:chickens/get_eggs",
+  "display": {
+    "icon": {
+      "item": "chickens:egg_blue"
+    },
+    "title": {
+      "translate": "advancements.chickens.dye_eggs.title"
+    },
+    "description": {
+      "translate": "advancements.chickens.dye_eggs.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 100
+  },
+  "criteria": {
+    "chickens:egg_blue": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "item": {
+          "item": "chickens:egg_blue"
+        }
+      }
+    },
+    "chickens:egg_white": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "item": {
+          "item": "chickens:egg_white"
+        }
+      }
+    },
+    "chickens:egg_black": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "item": {
+          "item": "chickens:egg_black"
+        }
+      }
+    },
+    "chickens:egg_magenta": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "item": {
+          "item": "chickens:egg_magenta"
+        }
+      }
+    },
+    "chickens:egg_lime": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "item": {
+          "item": "chickens:egg_lime"
+        }
+      }
+    },
+    "chickens:egg_yellow": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "item": {
+          "item": "chickens:egg_yellow"
+        }
+      }
+    },
+    "chickens:egg_purple": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "item": {
+          "item": "chickens:egg_purple"
+        }
+      }
+    },
+    "chickens:egg_green": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "item": {
+          "item": "chickens:egg_green"
+        }
+      }
+    },
+    "chickens:egg_light_gray": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "item": {
+          "item": "chickens:egg_light_gray"
+        }
+      }
+    },
+    "chickens:egg_light_blue": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "item": {
+          "item": "chickens:egg_light_blue"
+        }
+      }
+    },
+    "chickens:egg_cyan": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "item": {
+          "item": "chickens:egg_cyan"
+        }
+      }
+    },
+    "chickens:egg_red": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "item": {
+          "item": "chickens:egg_red"
+        }
+      }
+    },
+    "chickens:egg_pink": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "item": {
+          "item": "chickens:egg_pink"
+        }
+      }
+    },
+    "chickens:egg_orange": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "item": {
+          "item": "chickens:egg_orange"
+        }
+      }
+    },
+    "chickens:egg_gray": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "item": {
+          "item": "chickens:egg_gray"
+        }
+      }
+    },
+    "chickens:egg_brown": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "item":{
+          "item": "chickens:egg_brown"
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "chickens:egg_white"
+    ],
+    [
+      "chickens:egg_blue"
+    ],
+    [
+      "chickens:egg_black"
+    ],
+    [
+      "chickens:egg_magenta"
+    ],
+    [
+      "chickens:egg_lime"
+    ],
+    [
+      "chickens:egg_yellow"
+    ],
+    [
+      "chickens:egg_purple"
+    ],
+    [
+      "chickens:egg_green"
+    ],
+    [
+      "chickens:egg_light_gray"
+    ],
+    [
+      "chickens:egg_light_blue"
+    ],
+    [
+      "chickens:egg_cyan"
+    ],
+    [
+      "chickens:egg_red"
+    ],
+    [
+      "chickens:egg_pink"
+    ],
+    [
+      "chickens:egg_orange"
+    ],
+    [
+      "chickens:egg_gray"
+    ],
+    [
+      "chickens:egg_brown"
+    ]
+  ]
+}

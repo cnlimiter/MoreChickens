@@ -1,0 +1,33 @@
+{
+  "display": {
+    "icon": {
+      "item": "chickens:catcher"
+    },
+    "title": {
+      "translate": "advancements.chickens.catcher.title"
+    },
+    "description": {
+      "translate": "advancements.chickens.catcher.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "parent": "chickens:chickens/get_eggs",
+  "criteria": {
+    "catcher": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "item": [
+          {
+            "item": "chickens:catcher"
+          }
+        ]
+      }
+    }
+  },
+  "requirements":[
+    ["catcher"]
+  ]
+}

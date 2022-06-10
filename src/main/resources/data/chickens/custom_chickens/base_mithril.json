@@ -1,0 +1,23 @@
+{
+  "Name": "base_mithril",
+  "LayAmount": 1,
+  "LayRandomAmount": 0,
+  "LayTime": 8000,
+  "DeathAmount": 0,
+  "Tier": 4,
+  "LayItem": "#forge:ingots/mithril",
+  "DeathItem": "",
+  "Parent1": "base_silver",
+  "Parent2": "diamond",
+  "Enable": true,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+          "type": "forge:tag_empty",
+          "tag": "forge:ingots/mithril"
+      }
+    }
+  ]
+
+}

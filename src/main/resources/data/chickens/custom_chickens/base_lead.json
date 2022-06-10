@@ -1,0 +1,27 @@
+{
+  "name": "base_lead",
+  "tier": 3,
+  "layCount": 1,
+  "layRandomCount": 0,
+  "layTime": 8000,
+  "deathCount": 0,
+  "layIngredient": {
+    "tag": "forge:ingots/lead"
+  },
+  "deathIngredient": {
+    "tag": ""
+  },
+  "parent1": "dye_cyan",
+  "parent2": "iron",
+  "enable": true,
+  "conditions": [
+    {
+      "type": "forge:not",
+      "value": {
+          "type": "forge:tag_empty",
+          "tag": "forge:ingots/lead"
+      }
+    }
+  ]
+
+}
