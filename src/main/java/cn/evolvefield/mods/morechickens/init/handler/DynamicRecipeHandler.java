@@ -1,7 +1,8 @@
 package cn.evolvefield.mods.morechickens.init.handler;
 
 import cn.evolvefield.mods.atomlib.init.event.RegisterRecipesEvent;
-import cn.evolvefield.mods.morechickens.common.item.ChickenIns;
+import cn.evolvefield.mods.morechickens.Static;
+import cn.evolvefield.mods.morechickens.common.entity.core.ChickenIns;
 import net.minecraft.core.NonNullList;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -30,7 +31,7 @@ public class DynamicRecipeHandler {
     @SubscribeEvent
     public static void onRegisterRecipes(RegisterRecipesEvent event) {
 
-        for (var singularity : ChickenRegistryHandler.getInstance().getChickens()) {
+        for (var singularity : ChickenInsRegistryHandler.getInstance().getChickenIns()) {
             var compressorRecipe = makeSingularityRecipe(singularity);
 
             if (compressorRecipe != null)

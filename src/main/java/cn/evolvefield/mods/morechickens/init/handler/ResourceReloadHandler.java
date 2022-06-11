@@ -39,7 +39,7 @@ public class ResourceReloadHandler {
     private record ChickenInsResourceReload(ICondition.IContext context) implements ResourceManagerReloadListener {
         @Override
         public void onResourceManagerReload(@NotNull ResourceManager manager) {
-            ChickenRegistryHandler.getInstance().onResourceManagerReload(manager, context);
+            ChickenInsRegistryHandler.getInstance().onResourceManagerReload(manager, context);
         }
     }
 

@@ -1,10 +1,9 @@
-package cn.evolvefield.mods.morechickens.init.util;
+package cn.evolvefield.mods.morechickens.common.entity.core;
 
 import cn.evolvefield.mods.atomlib.utils.NBTUtil;
 import cn.evolvefield.mods.morechickens.Static;
-import cn.evolvefield.mods.morechickens.common.item.ChickenIns;
 import cn.evolvefield.mods.morechickens.init.ModItems;
-import cn.evolvefield.mods.morechickens.init.handler.ChickenRegistryHandler;
+import cn.evolvefield.mods.morechickens.init.handler.ChickenInsRegistryHandler;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -22,7 +21,7 @@ import net.minecraftforge.common.crafting.conditions.ICondition;
  * Date: 2022/4/2 12:39
  * Version: 1.0
  */
-public class ChickenUtils {
+public class ChickenInsUtils {
     public static ChickenIns loadFromJson(ResourceLocation id, JsonObject json, ICondition.IContext context) {
         if (!CraftingHelper.processConditions(json, "conditions", context)) {
             Static.LOGGER.info("Skipping loading Chickens {} as its conditions were not met", id);
@@ -44,7 +43,7 @@ public class ChickenUtils {
         var tier = GsonHelper.getAsInt(json, "tier", 0);
         var layCount = GsonHelper.getAsInt(json, "layCount", 0);
         var layRandomCount = GsonHelper.getAsInt(json, "layRandomCount", 0);
-        var layTime = GsonHelper.getAsInt(json, "layTime", 6000;
+        var layTime = GsonHelper.getAsInt(json, "layTime", 6000);
 
 
 
@@ -118,17 +117,17 @@ public class ChickenUtils {
         return json;
     }
 
-    public static CompoundTag makeTag(ChickenIns singularity) {
+    public static CompoundTag makeTag(ChickenIns chickenIns) {
         var nbt = new CompoundTag();
 
-        nbt.putString("Id", singularity.getId().toString());
+        nbt.putString("Id", chickenIns.getId().toString());
 
         return nbt;
     }
 
     public static ItemStack getItemForChickenIns(ChickenIns chickenIns) {
         var nbt = makeTag(chickenIns);
-        var stack = new ItemStack(ModItems.singularity);
+        var stack = new ItemStack(ModItems.ITEM_CHICKEN);
 
         stack.setTag(nbt);
 
@@ -138,7 +137,7 @@ public class ChickenUtils {
     public static ChickenIns getChickenIns(ItemStack stack) {
         var id = NBTUtil.getString(stack, "Id");
         if (!id.isEmpty()) {
-            return ChickenRegistryHandler.getInstance().getChickensById(ResourceLocation.tryParse(id));
+            return ChickenInsRegistryHandler.getInstance().getChickensById(ResourceLocation.tryParse(id));
         }
 
         return null;

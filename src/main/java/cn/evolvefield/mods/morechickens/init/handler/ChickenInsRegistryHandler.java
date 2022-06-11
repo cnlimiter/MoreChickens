@@ -1,10 +1,10 @@
 package cn.evolvefield.mods.morechickens.init.handler;
 
 import cn.evolvefield.mods.morechickens.Static;
-import cn.evolvefield.mods.morechickens.common.item.ChickenIns;
+import cn.evolvefield.mods.morechickens.common.entity.core.ChickenIns;
 import cn.evolvefield.mods.morechickens.common.net.SyncChickenInsPacket;
 import cn.evolvefield.mods.morechickens.init.ModChickens;
-import cn.evolvefield.mods.morechickens.init.util.ChickenUtils;
+import cn.evolvefield.mods.morechickens.common.entity.core.ChickenInsUtils;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
@@ -39,20 +39,20 @@ import java.util.stream.Collectors;
  * Version: 1.0
  */
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class ChickenRegistryHandler {
+public class ChickenInsRegistryHandler {
 
-    private static final ChickenRegistryHandler INSTANCE = new ChickenRegistryHandler();
+    private static final ChickenInsRegistryHandler INSTANCE = new ChickenInsRegistryHandler();
     private static final Gson GSON = (new GsonBuilder()).setPrettyPrinting().create();
 
     private final Map<ResourceLocation, ChickenIns> chickenInsMap = new LinkedHashMap<>();
 
-    public static ChickenRegistryHandler getInstance() {
+    public static ChickenInsRegistryHandler getInstance() {
         return INSTANCE;
     }
 
     @SubscribeEvent
     public void onDatapackSync(OnDatapackSyncEvent event) {
-        var message = new SyncChickenInsPacket(this.getChickens());
+        var message = new SyncChickenInsPacket(this.getChickenIns());
         var player = event.getPlayer();
 
         if (player != null) {
@@ -88,7 +88,7 @@ public class ChickenRegistryHandler {
 
         if (!dir.exists() && dir.mkdirs()) {
             for (var chickenIns : ModChickens.getDefaults()) {
-                var json = ChickenUtils.writeToJson(chickenIns);
+                var json = ChickenInsUtils.writeToJson(chickenIns);
                 FileWriter writer = null;
 
                 try {
@@ -106,7 +106,7 @@ public class ChickenRegistryHandler {
         }
     }
 
-    public List<ChickenIns> getChickens() {
+    public List<ChickenIns> getChickenIns() {
         return Lists.newArrayList(this.chickenInsMap.values());
     }
 
@@ -163,7 +163,7 @@ public class ChickenRegistryHandler {
                 var name = file.getName().replace(".json", "");
                 json = parser.parse(reader).getAsJsonObject();
 
-                chickenIns = ChickenUtils.loadFromJson(new ResourceLocation(Static.MODID, name), json, context);
+                chickenIns = ChickenInsUtils.loadFromJson(new ResourceLocation(Static.MOD_ID, name), json, context);
 
                 reader.close();
             } catch (Exception e) {

@@ -1,11 +1,22 @@
-package cn.evolvefield.mods.morechickens.common.item;
+package cn.evolvefield.mods.morechickens.common.entity.core;
 
 import cn.evolvefield.mods.atomlib.utils.lang.Localizable;
+import cn.evolvefield.mods.morechickens.util.math.RandomPool;
+import cn.evolvefield.mods.morechickens.util.math.UnorderedPair;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraftforge.registries.ForgeRegistries;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
 
 /**
  * Description:
@@ -26,7 +37,9 @@ public class ChickenIns {
     private boolean enabled = true;
     private final String parent1;
     private final String parent2;
+    public static Map<UnorderedPair<String>, RandomPool<String>> Pairings = new HashMap<>();
 
+    public final static Map<String, ChickenIns> Types = new HashMap<>();
 
 
     public ChickenIns(ResourceLocation id, String name, int tier, int[] colors, Ingredient layIngredient,
@@ -42,6 +55,7 @@ public class ChickenIns {
         this.layRandomCount = layRandomCount;
         this.parent1 = parent1;
         this.parent2 = parent2;
+        Types.putIfAbsent(id.getPath(), this);
     }
 
 
@@ -59,7 +73,30 @@ public class ChickenIns {
         this.layRandomCount = layRandomCount;
         this.parent1 = parent1;
         this.parent2 = parent2;
+        Types.putIfAbsent(id.getPath(), this);
     }
+
+
+    public ItemStack getLoot(Random rand, Gene gene){
+        if(layTag == null)
+            return ItemStack.EMPTY;
+        Item item = ForgeRegistries.ITEMS.getValue(ResourceLocation.tryParse(layTag));
+        int amount = layCount + rand.nextInt(layRandomCount + 1);
+        amount = Math.max(1, (int)(amount * (gene.layCount + rand.nextFloat() * gene.layCount)));
+        ItemStack itemStack = new ItemStack(item, amount);
+        if(item == Items.BOOK){
+            itemStack = EnchantmentHelper.enchantItem(rand, itemStack, 30, true);
+        }
+        return itemStack;
+    }
+
+    public ChickenIns getOffspring(ChickenIns other, Random rand){
+        UnorderedPair<String> pair = new UnorderedPair<>(name, other.name);
+        RandomPool<String> pool = Pairings.getOrDefault(pair, null);
+        ChickenIns result = pool != null ? Types.get(pool.get(rand.nextFloat())) : null;
+        return result != null ? result : rand.nextBoolean() ? this : other;
+    }
+
 
     public static ChickenIns read(FriendlyByteBuf buffer) {
         var id = buffer.readResourceLocation();
@@ -196,6 +233,5 @@ public class ChickenIns {
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
     }
-
 
 }

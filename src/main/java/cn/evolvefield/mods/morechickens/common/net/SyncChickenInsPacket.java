@@ -1,8 +1,8 @@
 package cn.evolvefield.mods.morechickens.common.net;
 
 import cn.evolvefield.mods.atomlib.common.net.IPacket;
-import cn.evolvefield.mods.morechickens.common.item.ChickenIns;
-import cn.evolvefield.mods.morechickens.init.handler.ChickenRegistryHandler;
+import cn.evolvefield.mods.morechickens.common.entity.core.ChickenIns;
+import cn.evolvefield.mods.morechickens.init.handler.ChickenInsRegistryHandler;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraftforge.network.NetworkEvent;
 
@@ -32,14 +32,14 @@ public class SyncChickenInsPacket extends IPacket<SyncChickenInsPacket> {
 
     @Override
     public SyncChickenInsPacket read(FriendlyByteBuf buf) {
-        var singularities = ChickenRegistryHandler.getInstance().readFromBuffer(buf);
+        var singularities = ChickenInsRegistryHandler.getInstance().readFromBuffer(buf);
 
         return new SyncChickenInsPacket(singularities);
     }
 
     @Override
     public void write(SyncChickenInsPacket msg, FriendlyByteBuf buf) {
-        ChickenRegistryHandler.getInstance().writeToBuffer(buf);
+        ChickenInsRegistryHandler.getInstance().writeToBuffer(buf);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class SyncChickenInsPacket extends IPacket<SyncChickenInsPacket> {
             return;
 
         ctx.get().enqueueWork(() -> {
-            ChickenRegistryHandler.getInstance().loadSingularities(msg);
+            ChickenInsRegistryHandler.getInstance().loadSingularities(msg);
         });
 
         ctx.get().setPacketHandled(true);

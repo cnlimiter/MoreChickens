@@ -16,7 +16,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
  */
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class NetworkHandler {
-    public static final NetBaseHandler INSTANCE = new NetBaseHandler(new ResourceLocation(Static.MODID, "main"));
+    public static final NetBaseHandler INSTANCE = new NetBaseHandler(new ResourceLocation(Static.MOD_ID, "main"));
 
     @SubscribeEvent
     public static void init(FMLCommonSetupEvent event) {
