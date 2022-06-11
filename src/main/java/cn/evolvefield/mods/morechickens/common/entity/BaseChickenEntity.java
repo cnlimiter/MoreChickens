@@ -4,7 +4,7 @@ import cn.evolvefield.mods.morechickens.common.entity.core.ChickenIns;
 import cn.evolvefield.mods.morechickens.common.entity.core.Gene;
 import cn.evolvefield.mods.morechickens.init.ModChickens;
 import cn.evolvefield.mods.morechickens.init.ModConfig;
-import cn.evolvefield.mods.morechickens.init.ModEntities;
+import cn.evolvefield.mods.morechickens.init.registry.ModEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;

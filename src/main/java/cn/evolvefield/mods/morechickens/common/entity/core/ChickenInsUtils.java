@@ -2,7 +2,7 @@ package cn.evolvefield.mods.morechickens.common.entity.core;
 
 import cn.evolvefield.mods.atomlib.utils.NBTUtil;
 import cn.evolvefield.mods.morechickens.Static;
-import cn.evolvefield.mods.morechickens.init.ModItems;
+import cn.evolvefield.mods.morechickens.init.registry.ModItems;
 import cn.evolvefield.mods.morechickens.init.handler.ChickenInsRegistryHandler;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

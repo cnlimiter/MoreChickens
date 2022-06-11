@@ -6,7 +6,7 @@ import cn.evolvefield.mods.morechickens.common.item.ChickenItem;
 import cn.evolvefield.mods.morechickens.common.tile.RoostTileEntity;
 import cn.evolvefield.mods.morechickens.common.util.ItemUtils;
 import cn.evolvefield.mods.morechickens.common.util.blockentity.SimpleBlockEntityTicker;
-import cn.evolvefield.mods.morechickens.init.ModBlocks;
+import cn.evolvefield.mods.morechickens.init.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.resources.ResourceLocation;

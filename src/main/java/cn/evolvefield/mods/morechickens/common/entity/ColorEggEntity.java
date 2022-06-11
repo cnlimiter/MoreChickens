@@ -1,6 +1,6 @@
 package cn.evolvefield.mods.morechickens.common.entity;
 
-import cn.evolvefield.mods.morechickens.init.ModEntities;
+import cn.evolvefield.mods.morechickens.init.registry.ModEntities;
 import net.minecraft.commands.CommandSource;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.core.particles.ItemParticleOption;

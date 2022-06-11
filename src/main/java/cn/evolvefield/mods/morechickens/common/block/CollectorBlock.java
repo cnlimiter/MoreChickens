@@ -2,7 +2,7 @@ package cn.evolvefield.mods.morechickens.common.block;
 
 
 import cn.evolvefield.mods.morechickens.common.tile.CollectorTileEntity;
-import cn.evolvefield.mods.morechickens.init.ModBlocks;
+import cn.evolvefield.mods.morechickens.init.registry.ModBlocks;
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;

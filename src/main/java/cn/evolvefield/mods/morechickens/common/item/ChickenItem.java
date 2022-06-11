@@ -5,8 +5,8 @@ import cn.evolvefield.mods.atomlib.init.iface.IColored;
 import cn.evolvefield.mods.atomlib.utils.lang.Localizable;
 import cn.evolvefield.mods.morechickens.Static;
 import cn.evolvefield.mods.morechickens.common.entity.BaseChickenEntity;
-import cn.evolvefield.mods.morechickens.init.ModEntities;
-import cn.evolvefield.mods.morechickens.init.ModItemGroups;
+import cn.evolvefield.mods.morechickens.init.registry.ModEntities;
+import cn.evolvefield.mods.morechickens.init.ModTab;
 import cn.evolvefield.mods.morechickens.init.ModTooltips;
 import cn.evolvefield.mods.morechickens.init.handler.ChickenInsRegistryHandler;
 import cn.evolvefield.mods.morechickens.common.entity.core.ChickenInsUtils;
@@ -36,7 +36,7 @@ public class ChickenItem extends Item implements IColored {
     public ChickenItem() {
         super(new Properties().craftRemainder(Items.BUCKET)
                 .stacksTo(1)
-                .tab(ModItemGroups.INSTANCE)
+                .tab(ModTab.INSTANCE)
         );
         setRegistryName("chicken");
     }
